@@ -1,0 +1,129 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+provider: Reducto
+providerId: reducto
+created: '2026-06-12'
+modified: '2026-06-12'
+reconciled: true
+url: https://reducto.ai/pricing
+plans:
+  - name: Standard
+    description: >
+      Free tier with pay-as-you-go pricing after initial credits. Suitable for
+      individual developers and small projects exploring the Reducto API.
+    type: freemium
+    url: https://reducto.ai/pricing
+    entries:
+      - name: Free Credits
+        description: First 15,000 credits included at no cost
+        type: quota
+        metric: credits
+        limit: 15000
+        price: 0.00
+        unit: credits
+      - name: Pay-As-You-Go Rate
+        description: Per-credit pricing after free tier is exhausted
+        type: metered
+        metric: credits
+        price: 0.015
+        unit: per credit
+      - name: Parse Rate
+        description: Approximate cost per page parsed at standard rate
+        type: metered
+        metric: pages
+        price: 0.015
+        unit: per page
+      - name: API Rate Limit
+        description: Maximum API calls per second
+        type: quota
+        metric: requests_per_second
+        limit: 1
+        timeFrame: second
+      - name: Studio Seats
+        description: Number of Studio user seats included
+        type: quota
+        metric: seats
+        limit: 5
+  - name: Growth
+    description: >
+      High-volume plan for production AI teams with volume discounts, increased
+      throughput, zero data retention option, BAA for HIPAA compliance,
+      priority support, and data residency endpoints. Most popular plan.
+    type: paid
+    url: https://reducto.ai/pricing
+    entries:
+      - name: Volume Pricing
+        description: Custom volume-based pricing with discounts
+        type: metered
+        metric: credits
+        price: 0.00
+        unit: custom
+      - name: API Rate Limit
+        description: Maximum API calls per second
+        type: quota
+        metric: requests_per_second
+        limit: 10
+        timeFrame: second
+      - name: Active Priority Requests
+        description: Maximum concurrent priority requests
+        type: quota
+        metric: concurrent_requests
+        limit: 5
+      - name: Studio Seats
+        description: Unlimited Studio user seats
+        type: boolean
+        value: true
+      - name: Zero Data Retention
+        description: Option for zero data retention
+        type: boolean
+        value: true
+      - name: BAA
+        description: Business Associate Agreement for HIPAA compliance
+        type: boolean
+        value: true
+      - name: Priority Support
+        description: Priority customer support channel
+        type: boolean
+        value: true
+      - name: Data Residency
+        description: Regional data residency endpoint options (EU, AU)
+        type: boolean
+        value: true
+  - name: Enterprise
+    description: >
+      Enterprise tier for large-scale deployments with VPC or on-premises
+      options, custom SLA/MSA, custom pipelines, dedicated support, SSO/SAML,
+      and fully customizable throughput.
+    type: enterprise
+    url: https://reducto.ai/pricing
+    entries:
+      - name: API Rate Limit
+        description: Maximum API calls per second (fully customizable)
+        type: quota
+        metric: requests_per_second
+        limit: 100
+        timeFrame: second
+      - name: VPC Deployment
+        description: Virtual Private Cloud or on-premises deployment option
+        type: boolean
+        value: true
+      - name: Custom MSA/SLA
+        description: Custom Master Service Agreement and Service Level Agreement
+        type: boolean
+        value: true
+      - name: Custom Pipelines
+        description: Bespoke document processing pipelines
+        type: boolean
+        value: true
+      - name: Dedicated Support
+        description: Dedicated technical support team
+        type: boolean
+        value: true
+      - name: SSO/SAML
+        description: Single Sign-On and SAML authentication integration
+        type: boolean
+        value: true
+      - name: Studio Seats
+        description: Unlimited Studio user seats
+        type: boolean
+        value: true

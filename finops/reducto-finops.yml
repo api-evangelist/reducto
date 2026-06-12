@@ -1,0 +1,80 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+provider: Reducto
+providerId: reducto
+created: '2026-06-12'
+modified: '2026-06-12'
+url: https://reducto.ai/pricing
+billingModel: credits
+description: >
+  Reducto uses a credit-based billing model where each API operation consumes
+  credits proportional to the number of pages processed and the complexity of
+  the operation. Credits are purchased or included in a plan, and usage is
+  tracked per API call via the usage.credits and usage.num_pages response fields.
+focusColumns:
+  - ChargeCategory: Usage
+  - ChargeSubcategory: On-Demand
+  - ServiceName: Reducto Document API
+  - ServiceCategory: AI and Machine Learning
+  - BilledCurrency: USD
+  - PricingUnit: credit
+  - UsageUnit: pages
+meters:
+  - name: Parse Credits
+    description: Credits consumed per page when parsing documents into structured JSON
+    unit: credits_per_page
+    rate: 0.015
+    currency: USD
+    operation: parse
+    responseField: usage.credits
+  - name: Extract Credits
+    description: Credits consumed per page for schema-based field extraction
+    unit: credits_per_page
+    rate: 0.015
+    currency: USD
+    operation: extract
+    responseField: usage.credits
+  - name: Split Credits
+    description: Credits consumed per page when splitting multi-document files
+    unit: credits_per_page
+    rate: 0.015
+    currency: USD
+    operation: split
+    responseField: usage.credits
+  - name: Edit Credits
+    description: Credits consumed per page for form filling and document editing
+    unit: credits_per_page
+    rate: 0.015
+    currency: USD
+    operation: edit
+    responseField: usage.credits
+  - name: Page Count
+    description: Number of pages processed per API call (tracked in response)
+    unit: pages
+    operation: all
+    responseField: usage.num_pages
+principles:
+  - name: Visibility
+    description: >
+      Every API response includes usage.credits and usage.num_pages fields
+      enabling precise per-call cost tracking. The Studio dashboard provides
+      aggregate usage visibility across all operations.
+    practices:
+      - Monitor usage.credits in API responses for per-call cost attribution
+      - Use Studio at studio.reducto.ai for aggregate usage dashboards
+      - Tag API calls by project or team using pipeline configurations
+  - name: Optimization
+    description: >
+      Cost optimization strategies include using async batch operations to
+      maximize throughput on volume plans, selecting appropriate OCR
+      configurations to avoid unnecessary processing overhead, and leveraging
+      volume discounts on Growth and Enterprise plans.
+    practices:
+      - Use async-parse and async-extract for batch workloads to maximize
+        throughput within rate limits
+      - Configure page ranges to process only required document sections
+      - Upgrade to Growth plan for volume discounts when processing more
+        than the free 15K credits monthly
+      - Use EU or AU regional endpoints to meet data residency requirements
+        without additional cost on Growth/Enterprise plans
+      - Cache parsed document results to avoid re-processing unchanged files

@@ -1,0 +1,90 @@
+aid: reducto
+name: Reducto
+description: >
+  Reducto is an agentic document platform that provides a REST API for parsing,
+  extracting, splitting, classifying, and editing complex documents such as PDFs,
+  Word files, spreadsheets, presentations, and scanned images. The platform uses
+  layout-aware OCR and vision language models to preserve tables, figures, and
+  complex layouts with high fidelity, delivering structured JSON output optimized
+  for LLM consumption. Reducto has processed over 3 billion pages and serves
+  enterprises across finance, healthcare, legal, and insurance sectors. The
+  platform is SOC 2 and HIPAA compliant and supports 100+ languages and 30+ file
+  formats, with both synchronous and asynchronous processing modes and an MCP
+  server for AI agent integration.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Document Parsing
+  - PDF
+  - OCR
+  - Data Extraction
+  - AI
+  - Machine Learning
+  - Document Intelligence
+  - Structured Data
+url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/apis.yml
+created: '2026-06-12'
+modified: '2026-06-12'
+specificationVersion: '0.19'
+apis:
+  - aid: reducto-document-api
+    name: Reducto Document API
+    description: >
+      The Reducto Document API provides endpoints for parsing documents into
+      structured JSON, extracting schema-defined fields, splitting multi-document
+      files into labeled sections, classifying documents by type, editing fillable
+      forms and PDFs with natural language, and composing reusable processing
+      pipelines. Both synchronous and asynchronous variants are available for all
+      major operations, with async jobs supporting webhook callbacks and polling.
+    humanURL: https://docs.reducto.ai/
+    baseURL: https://api.reductoai.com
+    tags:
+      - Document Parsing
+      - PDF
+      - OCR
+      - Data Extraction
+      - AI
+      - Structured Data
+    properties:
+      - type: Documentation
+        url: https://docs.reducto.ai/
+      - type: OpenAPI
+        url: https://api.reductoai.com/openapi.json
+      - type: GitHubRepository
+        url: https://github.com/reductoai/reducto-python-sdk
+      - type: GitHubRepository
+        url: https://github.com/reductoai/reducto-node-sdk
+      - type: GitHubRepository
+        url: https://github.com/reductoai/reducto-go-sdk
+common:
+  - type: Website
+    url: https://reducto.ai/
+  - type: Documentation
+    url: https://docs.reducto.ai/
+  - type: GitHubOrganization
+    url: https://github.com/reductoai
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/reducto-ai/
+  - type: X
+    url: https://x.com/reductoai
+  - type: Blog
+    url: https://reducto.ai/blog
+  - type: Pricing
+    url: https://reducto.ai/pricing
+  - type: StatusPage
+    url: https://status.reducto.ai/
+  - type: Changelog
+    url: https://docs.reducto.ai/onprem/changelog
+  - type: Studio
+    url: https://studio.reducto.ai/
+  - type: MCPServer
+    url: https://github.com/reductoai/mcp-server-reducto
+  - type: Plans
+    url: plans/reducto-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/reducto-rate-limits.yml
+  - type: FinOps
+    url: finops/reducto-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

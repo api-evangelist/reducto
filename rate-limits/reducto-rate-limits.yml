@@ -1,0 +1,53 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+provider: Reducto
+providerId: reducto
+created: '2026-06-12'
+modified: '2026-06-12'
+url: https://reducto.ai/pricing
+retryAfter: true
+throttled:
+  - statusCode: 429
+    description: >
+      Returned when the rate limit for API calls per second is exceeded.
+      The Reducto Python and Node.js SDKs automatically retry on 429 responses
+      using exponential backoff with up to 2 retries by default.
+limits:
+  - scope: Standard Plan
+    metric: requests_per_second
+    limit: 1
+    timeFrame: second
+    description: >
+      Standard (free/pay-as-you-go) plan is limited to 1 API call per second
+      across all endpoints.
+  - scope: Growth Plan
+    metric: requests_per_second
+    limit: 10
+    timeFrame: second
+    description: >
+      Growth plan supports up to 10 API calls per second with up to 5
+      concurrent active priority requests.
+  - scope: Growth Plan
+    metric: concurrent_priority_requests
+    limit: 5
+    timeFrame: concurrent
+    description: >
+      Maximum concurrent priority requests for the Growth plan.
+  - scope: Enterprise Plan
+    metric: requests_per_second
+    limit: 100
+    timeFrame: second
+    description: >
+      Enterprise plan supports 100+ API calls per second with custom
+      concurrency limits negotiated per deployment.
+notes:
+  - >
+    Async operations (async-parse, async-extract, etc.) consume rate limit
+    quota at submission time and can be polled via job ID without additional
+    quota consumption.
+  - >
+    The Reducto Python SDK and Node.js SDK default to 2 automatic retries
+    with exponential backoff for 429 and 5xx errors.
+  - >
+    Default request timeout is 1 hour to accommodate large document processing
+    jobs.
