@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-uploadresponse.json",
+  "title": "UploadResponse",
+  "description": "Reducto UploadResponse schema",
+  "properties": {
+    "file_id": {
+      "type": "string",
+      "title": "File Id"
+    },
+    "presigned_url": {
+      "type": "string",
+      "nullable": true,
+      "title": "Presigned Url"
+    }
+  },
+  "type": "object",
+  "required": [
+    "file_id"
+  ]
+}

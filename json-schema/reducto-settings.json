@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-settings.json",
+  "title": "Settings",
+  "description": "Reducto Settings schema",
+  "properties": {
+    "ocr_system": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "legacy"
+      ],
+      "title": "Ocr System",
+      "description": "Standard is our best multilingual OCR system. Legacy only supports germanic languages and is available for backwards compatibility.",
+      "default": "standard"
+    },
+    "extraction_mode": {
+      "type": "string",
+      "enum": [
+        "ocr",
+        "hybrid"
+      ],
+      "title": "Extraction Mode",
+      "description": "The mode to use for text extraction from PDFs. OCR mode uses optical character recognition only. Hybrid mode combines OCR with embedded PDF text for best accuracy (default).",
+      "default": "hybrid"
+    },
+    "force_url_result": {
+      "type": "boolean",
+      "title": "Force Url Result",
+      "description": "Force the result to be returned in URL form.",
+      "default": false
+    },
+    "force_file_extension": {
+      "type": "string",
+      "nullable": true,
+      "title": "Force File Extension",
+      "description": "Force the URL to be downloaded as a specific file extension (e.g. `.png`)."
+    },
+    "return_ocr_data": {
+      "type": "boolean",
+      "title": "Return Ocr Data",
+      "description": "If True, return OCR data in the result. Defaults to False.",
+      "default": false
+    },
+    "return_images": {
+      "items": {
+        "type": "string",
+        "enum": [
+          "figure",
+          "table",
+          "page"
+        ]
+      },
+      "type": "array",
+      "title": "Return Images",
+      "description": "Whether to return images for the specified block types. 'page' returns full page images. By default, no images are returned.",
+      "default": []
+    },
+    "embed_pdf_metadata": {
+      "type": "boolean",
+      "title": "Embed Pdf Metadata",
+      "description": "If True, embed OCR metadata into the returned PDF. Defaults to False.",
+      "default": false
+    },
+    "embed_pdf_metadata_dpi": {
+      "type": "integer",
+      "maximum": 250,
+      "minimum": 50,
+      "title": "Embed Pdf Metadata Dpi",
+      "description": "Render DPI used when rasterizing the source PDF before embedding the OCR text layer (only applies when ``embed_pdf_metadata`` is True). Lower values produce dramatically smaller output PDFs; higher values preserve more detail when zoomed past 200%. Defaults to 100 (good for on-screen viewing); raise toward the source scan DPI for crisper output. Min 50, max 250.",
+      "default": 100
+    },
+    "persist_results": {
+      "type": "boolean",
+      "title": "Persist Results",
+      "description": "If True, persist the results indefinitely. Defaults to False.",
+      "default": false
+    },
+    "tenant_throttling": {
+      "$ref": "#/components/schemas/TenantThrottling",
+      "nullable": true,
+      "description": "Per-tenant throttling for multi-tenant applications. Tag each request with your tenant's id to bound how much of your account's concurrency a single tenant can consume. Account-level throttles still apply."
+    },
+    "timeout": {
+      "type": "number",
+      "nullable": true,
+      "title": "Timeout",
+      "description": "The timeout for the job in seconds."
+    },
+    "page_range": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/PageRange"
+        },
+        {
+          "items": {
+            "$ref": "#/components/schemas/PageRange"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "title": "Page Range",
+      "description": "The page range to process (1-indexed). By default, the entire document is processed. For spreadsheets, you can also provide a list of sheet names.",
+      "nullable": true
+    },
+    "document_password": {
+      "type": "string",
+      "nullable": true,
+      "title": "Document Password",
+      "description": "Password to decrypt password-protected documents."
+    },
+    "hybrid_vpc": {
+      "$ref": "#/components/schemas/HybridVpcSettings",
+      "description": "Hybrid VPC request-scoped settings.",
+      "default": {}
+    }
+  },
+  "type": "object"
+}

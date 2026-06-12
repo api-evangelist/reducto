@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-parsechunk.json",
+  "title": "ParseChunk",
+  "description": "Reducto ParseChunk schema",
+  "properties": {
+    "content": {
+      "type": "string",
+      "title": "Content",
+      "description": "The content of the chunk extracted from the document."
+    },
+    "embed": {
+      "type": "string",
+      "title": "Embed",
+      "description": "Chunk content optimized for embedding and retrieval."
+    },
+    "enriched": {
+      "type": "string",
+      "nullable": true,
+      "title": "Enriched",
+      "description": "The enriched content of the chunk extracted from the document."
+    },
+    "enrichment_success": {
+      "type": "boolean",
+      "title": "Enrichment Success",
+      "description": "Whether the enrichment was successful.",
+      "default": false
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/components/schemas/ParseBlock"
+      },
+      "type": "array",
+      "title": "Blocks"
+    }
+  },
+  "type": "object",
+  "required": [
+    "content",
+    "embed",
+    "enriched",
+    "blocks"
+  ]
+}

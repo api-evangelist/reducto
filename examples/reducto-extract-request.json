@@ -1,0 +1,40 @@
+{
+  "document_url": "https://example.com/invoice.pdf",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "invoice_number": {
+        "type": "string"
+      },
+      "invoice_date": {
+        "type": "string"
+      },
+      "total_amount": {
+        "type": "number"
+      },
+      "vendor_name": {
+        "type": "string"
+      },
+      "line_items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "number"
+            },
+            "unit_price": {
+              "type": "number"
+            },
+            "total": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

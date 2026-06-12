@@ -1,0 +1,143 @@
+vocabulary:
+  - term: parse
+    definition: >
+      Convert a document (PDF, Word, spreadsheet, image, etc.) into structured
+      JSON output preserving layout, tables, figures, and text with high fidelity.
+    related:
+      - chunk
+      - ocr
+      - layout
+
+  - term: extract
+    definition: >
+      Pull schema-defined fields from a document using a provided JSON Schema,
+      returning structured key-value data matched against the document contents.
+    related:
+      - schema
+      - field
+
+  - term: split
+    definition: >
+      Divide a multi-document file into labeled sections or partitions based on
+      classification rules, separating logically distinct documents within a
+      single file.
+    related:
+      - partition
+      - classify
+
+  - term: classify
+    definition: >
+      Determine the document type from a set of user-defined categories, returning
+      a category label and confidence scores for each candidate category.
+    related:
+      - category
+      - confidence
+
+  - term: edit
+    definition: >
+      Modify fillable forms and PDFs using natural language instructions, enabling
+      programmatic form-filling and document editing without manual intervention.
+    related:
+      - widget
+      - form
+
+  - term: pipeline
+    definition: >
+      A reusable, composable sequence of Reducto processing steps (parse, extract,
+      split, classify) configured once and applied to multiple documents at scale.
+    related:
+      - workflow
+      - compose
+
+  - term: chunk
+    definition: >
+      A contiguous segment of extracted document content with associated metadata
+      such as page range, section headers, and visual/non-visual classification.
+    related:
+      - parse
+      - content
+
+  - term: job
+    definition: >
+      An asynchronous processing unit identified by a job_id, representing the
+      execution of a parse, extract, split, classify, or edit operation that can
+      be polled or receive a webhook callback upon completion.
+    related:
+      - async
+      - webhook
+
+  - term: upload
+    definition: >
+      Pre-upload a file to Reducto's storage to obtain a document URL for use in
+      subsequent API calls, avoiding repeated file transfers.
+    related:
+      - document_url
+      - storage
+
+  - term: ocr
+    definition: >
+      Optical Character Recognition — the process of converting scanned or
+      image-based document content into machine-readable text, used by Reducto's
+      layout-aware parsing engine.
+    related:
+      - parse
+      - scan
+
+  - term: webhook
+    definition: >
+      An HTTP callback delivered by Reducto to a user-specified URL when an
+      asynchronous job completes, carrying the job result payload.
+    related:
+      - job
+      - async
+
+  - term: document_url
+    definition: >
+      A publicly accessible URL pointing to the document to be processed, or a
+      Reducto-hosted URL obtained via the /upload endpoint.
+    related:
+      - upload
+      - parse
+
+  - term: bounding_box
+    definition: >
+      Spatial coordinates (top, left, width, height) normalized to [0, 1]
+      identifying the position of a text block, table, or figure on a page.
+    related:
+      - layout
+      - parse_block
+
+  - term: parse_block
+    definition: >
+      A single detected element within a parsed document such as a text paragraph,
+      table, figure, or heading, with its content, type, bounding box, and page
+      number.
+    related:
+      - chunk
+      - bounding_box
+
+  - term: settings
+    definition: >
+      Global configuration options for a Reducto operation, controlling OCR
+      behavior, table formats, figure extraction, chunking strategy, and
+      performance vs. quality tradeoffs.
+    related:
+      - parse
+      - extract
+
+  - term: mcp_server
+    definition: >
+      Model Context Protocol server provided by Reducto, enabling AI agents to
+      call Reducto document processing endpoints directly within agent tool loops.
+    related:
+      - agent
+      - integration
+
+  - term: hybrid_vpc
+    definition: >
+      Reducto's deployment option allowing document processing to occur within a
+      customer's private cloud environment while maintaining API compatibility,
+      used in regulated industries (healthcare, finance, legal).
+    related:
+      - security
+      - compliance

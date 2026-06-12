@@ -1,0 +1,21 @@
+{
+  "document_url": "https://example.com/unknown-document.pdf",
+  "categories": [
+    {
+      "name": "Invoice",
+      "description": "A financial invoice from a vendor"
+    },
+    {
+      "name": "Receipt",
+      "description": "A payment receipt"
+    },
+    {
+      "name": "Contract",
+      "description": "A legal agreement between parties"
+    },
+    {
+      "name": "Other",
+      "description": "Any other document type"
+    }
+  ]
+}

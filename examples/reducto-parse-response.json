@@ -1,0 +1,27 @@
+{
+  "job_id": "job_abc123",
+  "status": "success",
+  "result": {
+    "chunks": [
+      {
+        "content": "This Agreement is entered into as of January 1, 2024...",
+        "embed": "This Agreement is entered into as of January 1, 2024...",
+        "metadata": {
+          "page_start": 1,
+          "page_end": 1,
+          "section_headers": [
+            "Agreement"
+          ],
+          "is_visual": false
+        }
+      }
+    ],
+    "usage": {
+      "pages": 10,
+      "credits": 10,
+      "num_images": 3,
+      "num_tables": 2,
+      "num_chunks": 45
+    }
+  }
+}

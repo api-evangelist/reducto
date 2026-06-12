@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-editconfig.json",
+  "title": "EditConfig",
+  "description": "Reducto EditConfig schema",
+  "properties": {
+    "document_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/components/schemas/UploadResponse"
+        }
+      ],
+      "title": "Document Url",
+      "description": "The URL of the document to be processed. You can provide one of the following:\n1. A publicly available URL\n2. A presigned S3 URL\n3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document\n"
+    },
+    "edit_instructions": {
+      "type": "string",
+      "title": "Edit Instructions",
+      "description": "The instructions for the edit."
+    },
+    "edit_options": {
+      "$ref": "#/components/schemas/EditOptions",
+      "default": {
+        "color": "#FF0000",
+        "enable_overflow_pages": false,
+        "flatten": false
+      }
+    },
+    "form_schema": {
+      "items": {
+        "$ref": "#/components/schemas/EditWidget"
+      },
+      "type": "array",
+      "nullable": true,
+      "title": "Form Schema",
+      "description": "Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes. Only works for PDFs."
+    },
+    "priority": {
+      "type": "boolean",
+      "title": "Priority",
+      "description": "If True, attempts to process the job with priority if the user has priority processing budget available; by default, sync jobs are prioritized above async jobs.",
+      "default": true
+    }
+  },
+  "type": "object",
+  "required": [
+    "document_url",
+    "edit_instructions"
+  ]
+}

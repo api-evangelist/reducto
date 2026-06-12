@@ -1,0 +1,14 @@
+{
+  "document_url": "https://example.com/multi-document.pdf",
+  "split_rules": [
+    {
+      "category_name": "Invoice",
+      "description": "A financial invoice document",
+      "partition_key": "vendor_name"
+    },
+    {
+      "category_name": "Contract",
+      "description": "A legal contract or agreement"
+    }
+  ]
+}

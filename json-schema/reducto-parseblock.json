@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-parseblock.json",
+  "title": "ParseBlock",
+  "description": "Reducto ParseBlock schema",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "Header",
+        "Footer",
+        "Title",
+        "Section Header",
+        "Page Number",
+        "List Item",
+        "Figure",
+        "Table",
+        "Key Value",
+        "Text",
+        "Comment",
+        "Signature"
+      ],
+      "title": "Type",
+      "description": "The type of block extracted from the document."
+    },
+    "bbox": {
+      "$ref": "#/components/schemas/BoundingBox",
+      "description": "The bounding box of the block extracted from the document."
+    },
+    "content": {
+      "type": "string",
+      "title": "Content",
+      "description": "The content of the block extracted from the document."
+    },
+    "image_url": {
+      "type": "string",
+      "nullable": true,
+      "title": "Image Url",
+      "description": "(Experimental) The URL of the image associated with the block."
+    },
+    "chart_data": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "nullable": true,
+      "title": "Chart Data",
+      "description": "(Experimental) The URL/link to chart data JSON for figure blocks processed by chart agent."
+    },
+    "confidence": {
+      "type": "string",
+      "nullable": true,
+      "title": "Confidence",
+      "description": "The confidence for the block. It is either low or high and takes into account factors like OCR and table structure",
+      "default": "low"
+    },
+    "granular_confidence": {
+      "$ref": "#/components/schemas/GranularConfidence",
+      "nullable": true,
+      "description": "Granular confidence scores for the block. It is a dictionary of confidence scores for the block. The confidence scores will not be None if the user has enabled numeric confidence scores."
+    },
+    "extra": {
+      "additionalProperties": true,
+      "type": "object",
+      "nullable": true,
+      "title": "Extra",
+      "description": "Extra metadata fields for the block. Fields like 'is_chart' will only appear when set to True."
+    }
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "bbox",
+    "content"
+  ]
+}

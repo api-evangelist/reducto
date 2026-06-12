@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-classifyresponse.json",
+  "title": "ClassifyResponse",
+  "description": "Response from classify job - returned when polling /job/{job_id}",
+  "properties": {
+    "response_type": {
+      "type": "string",
+      "title": "Response Type",
+      "default": "classify",
+      "enum": [
+        "classify"
+      ]
+    },
+    "job_id": {
+      "type": "string",
+      "title": "Job Id"
+    },
+    "result": {
+      "$ref": "#/components/schemas/ClassifyResponseCategory"
+    },
+    "response_confidence": {
+      "$ref": "#/components/schemas/ResponseConfidence",
+      "nullable": true
+    },
+    "usage": {
+      "$ref": "#/components/schemas/ClassifyUsage",
+      "nullable": true
+    },
+    "duration": {
+      "type": "number",
+      "nullable": true,
+      "title": "Duration",
+      "description": "The duration of the classify request in seconds."
+    }
+  },
+  "type": "object",
+  "required": [
+    "job_id",
+    "result"
+  ]
+}

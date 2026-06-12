@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-splitresponse.json",
+  "title": "SplitResponse",
+  "description": "Reducto SplitResponse schema",
+  "properties": {
+    "response_type": {
+      "type": "string",
+      "title": "Response Type",
+      "default": "split",
+      "enum": [
+        "split"
+      ]
+    },
+    "usage": {
+      "$ref": "#/components/schemas/ParseUsage"
+    },
+    "result": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SplitResult"
+        },
+        {
+          "$ref": "#/components/schemas/DeepSplitResult"
+        }
+      ],
+      "title": "Result",
+      "description": "The split result."
+    }
+  },
+  "type": "object",
+  "required": [
+    "usage",
+    "result"
+  ]
+}

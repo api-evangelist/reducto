@@ -1,0 +1,167 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "reducto": "https://reducto.ai/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "ParseResponse": "reducto:ParseResponse",
+    "ParseBlock": "reducto:ParseBlock",
+    "ParseChunk": "reducto:ParseChunk",
+    "ParseUsage": "reducto:ParseUsage",
+    "ParseOptions": "reducto:ParseOptions",
+    "SyncParseConfig": "reducto:SyncParseConfig",
+    "AsyncParseConfig": "reducto:AsyncParseConfig",
+    "AsyncParseResponse": "reducto:AsyncParseResponse",
+
+    "ExtractSettings": "reducto:ExtractSettings",
+    "SyncExtractConfig": "reducto:SyncExtractConfig",
+    "AsyncExtractConfig": "reducto:AsyncExtractConfig",
+    "ExtractResponse": "reducto:ExtractResponse",
+
+    "SplitResponse": "reducto:SplitResponse",
+    "SplitPartition": "reducto:SplitPartition",
+    "SplitCategory": "reducto:SplitCategory",
+    "SyncSplitConfig": "reducto:SyncSplitConfig",
+
+    "ClassifyConfig": "reducto:ClassifyConfig",
+    "ClassifyResponse": "reducto:ClassifyResponse",
+    "ClassificationCategory": "reducto:ClassificationCategory",
+    "CategoryConfidence": "reducto:CategoryConfidence",
+
+    "EditConfig": "reducto:EditConfig",
+    "EditOptions": "reducto:EditOptions",
+    "EditResponse": "reducto:EditResponse",
+    "EditWidget": "reducto:EditWidget",
+
+    "PipelineSettings": "reducto:PipelineSettings",
+    "PipelineResponse": "reducto:PipelineResponse",
+    "PipelineResult": "reducto:PipelineResult",
+
+    "Settings": "reducto:Settings",
+    "Chunking": "reducto:Chunking",
+    "Formatting": "reducto:Formatting",
+    "BoundingBox": "reducto:BoundingBox",
+    "UploadResponse": "reducto:UploadResponse",
+    "AsyncJobResponse": "reducto:AsyncJobResponse",
+    "SingleJob": "reducto:SingleJob",
+    "JobsResponse": "reducto:JobsResponse",
+    "WebhookConfigNew": "reducto:WebhookConfigNew",
+
+    "job_id": {
+      "@id": "reducto:jobId",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "reducto:status",
+      "@type": "xsd:string"
+    },
+    "result": {
+      "@id": "reducto:result"
+    },
+    "chunks": {
+      "@id": "reducto:chunks",
+      "@container": "@list"
+    },
+    "content": {
+      "@id": "reducto:content",
+      "@type": "xsd:string"
+    },
+    "embed": {
+      "@id": "reducto:embed",
+      "@type": "xsd:string"
+    },
+    "metadata": {
+      "@id": "reducto:metadata"
+    },
+    "page_start": {
+      "@id": "reducto:pageStart",
+      "@type": "xsd:integer"
+    },
+    "page_end": {
+      "@id": "reducto:pageEnd",
+      "@type": "xsd:integer"
+    },
+    "section_headers": {
+      "@id": "reducto:sectionHeaders",
+      "@container": "@list"
+    },
+    "is_visual": {
+      "@id": "reducto:isVisual",
+      "@type": "xsd:boolean"
+    },
+    "document_url": {
+      "@id": "reducto:documentUrl",
+      "@type": "@id"
+    },
+    "usage": {
+      "@id": "reducto:usage"
+    },
+    "pages": {
+      "@id": "reducto:pages",
+      "@type": "xsd:integer"
+    },
+    "credits": {
+      "@id": "reducto:credits",
+      "@type": "xsd:number"
+    },
+    "blocks": {
+      "@id": "reducto:blocks",
+      "@container": "@list"
+    },
+    "bbox": {
+      "@id": "reducto:boundingBox"
+    },
+    "top": {
+      "@id": "reducto:top",
+      "@type": "xsd:number"
+    },
+    "left": {
+      "@id": "reducto:left",
+      "@type": "xsd:number"
+    },
+    "width": {
+      "@id": "reducto:width",
+      "@type": "xsd:number"
+    },
+    "height": {
+      "@id": "reducto:height",
+      "@type": "xsd:number"
+    },
+    "type": {
+      "@id": "reducto:type",
+      "@type": "xsd:string"
+    },
+    "categories": {
+      "@id": "reducto:categories",
+      "@container": "@list"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "confidence": {
+      "@id": "reducto:confidence",
+      "@type": "xsd:number"
+    },
+    "webhook_url": {
+      "@id": "reducto:webhookUrl",
+      "@type": "@id"
+    },
+    "schema": {
+      "@id": "reducto:schema"
+    },
+    "partitions": {
+      "@id": "reducto:partitions",
+      "@container": "@list"
+    },
+    "file_url": {
+      "@id": "reducto:fileUrl",
+      "@type": "@id"
+    }
+  }
+}

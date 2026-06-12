@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-parseresponse.json",
+  "title": "ParseResponse",
+  "description": "Reducto ParseResponse schema",
+  "properties": {
+    "response_type": {
+      "type": "string",
+      "title": "Response Type",
+      "default": "parse",
+      "enum": [
+        "parse"
+      ]
+    },
+    "job_id": {
+      "type": "string",
+      "title": "Job Id"
+    },
+    "duration": {
+      "type": "number",
+      "title": "Duration",
+      "description": "The duration of the parse request in seconds."
+    },
+    "pdf_url": {
+      "type": "string",
+      "nullable": true,
+      "title": "Pdf Url",
+      "description": "The storage URL of the converted PDF file."
+    },
+    "studio_link": {
+      "type": "string",
+      "nullable": true,
+      "title": "Studio Link",
+      "description": "The link to the studio pipeline for the document."
+    },
+    "usage": {
+      "$ref": "#/components/schemas/ParseUsage"
+    },
+    "result": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/FullResult"
+        },
+        {
+          "$ref": "#/components/schemas/UrlResult"
+        }
+      ],
+      "title": "Result",
+      "description": "The response from the document processing service. Note that there can be two types of responses, Full Result and URL Result. This is due to limitations on the max return size on HTTPS. If the response is too large, it will be returned as a presigned URL in the URL response. You should handle this in your application."
+    },
+    "parse_mode": {
+      "type": "string",
+      "enum": [
+        "base",
+        "lite"
+      ],
+      "nullable": true,
+      "title": "Parse Mode",
+      "description": "Which pipeline produced this response. ``lite`` means Reducto Flash Lite served the request; ``base`` is the standard pipeline. Optional / nullable for forward compatibility \u2014 older API instances or persisted responses written before this field existed will leave it ``None``; treat ``None`` as ``base``."
+    }
+  },
+  "type": "object",
+  "required": [
+    "job_id",
+    "duration",
+    "usage",
+    "result"
+  ]
+}

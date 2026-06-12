@@ -50,6 +50,52 @@ apis:
         url: https://docs.reducto.ai/
       - type: OpenAPI
         url: https://api.reductoai.com/openapi.json
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/openapi/reducto-document-api-openapi.yml
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-parseresponse.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-syncparseconfig.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-asyncparseconfig.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-extractsettings.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-syncextractconfig.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-asyncextractconfig.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-splitresponse.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-syncsplitconfig.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-classifyconfig.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-classifyresponse.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-editconfig.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-settings.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-parseblock.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-parsechunk.json
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-uploadresponse.json
+      - type: Example
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-parse-request.json
+      - type: Example
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-parse-response.json
+      - type: Example
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-extract-request.json
+      - type: Example
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-split-request.json
+      - type: Example
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-classify-request.json
+      - type: Vocabulary
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/vocabulary/reducto-vocabulary.yml
+      - type: JSONLDContext
+        url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-ld/reducto-context.jsonld
       - type: GitHubRepository
         url: https://github.com/reductoai/reducto-python-sdk
       - type: GitHubRepository

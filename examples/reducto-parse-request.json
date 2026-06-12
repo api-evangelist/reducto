@@ -1,0 +1,13 @@
+{
+  "document_url": "https://example.com/contract.pdf",
+  "options": {
+    "chunking": {
+      "chunk_mode": "variable",
+      "chunk_size": 512
+    },
+    "figures": {
+      "figure_mode": "description"
+    },
+    "table_output_format": "md"
+  }
+}

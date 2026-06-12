@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-classifyconfig.json",
+  "title": "ClassifyConfig",
+  "description": "Reducto ClassifyConfig schema",
+  "properties": {
+    "persist_results": {
+      "type": "boolean",
+      "title": "Persist Results",
+      "description": "If True, persist the results indefinitely. Defaults to False.",
+      "default": false
+    },
+    "input": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "$ref": "#/components/schemas/UploadResponse"
+        }
+      ],
+      "title": "Input",
+      "description": "For parse/split/extract pipelines, the URL of the document to be processed. You can provide one of the following:\n            1. A publicly available URL\n            2. A presigned S3 URL\n            3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document\n            4. A jobid:// prefixed URL obtained from a previous /parse invocation\n            5. A list of URLs (for multi-document pipelines, V3 API only)\n\n            For edit pipelines, this should be a string containing the edit instructions "
+    },
+    "classification_schema": {
+      "items": {
+        "$ref": "#/components/schemas/ClassificationCategory"
+      },
+      "type": "array",
+      "title": "Classification Schema",
+      "description": "A list of classification categories and their matching criteria.",
+      "default": []
+    },
+    "page_range": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/PageRange"
+        },
+        {
+          "items": {
+            "$ref": "#/components/schemas/PageRange"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        }
+      ],
+      "title": "Page Range",
+      "description": "The page range to process (1-indexed). By default, the first 5 pages are used. If more than 25 pages are selected, only the first 25 (after sorting) are used. Only applies to PDFs; ignored for other document types.",
+      "nullable": true
+    },
+    "document_metadata": {
+      "type": "string",
+      "nullable": true,
+      "title": "Document Metadata",
+      "description": "Optional document-level metadata to include in classification prompts."
+    }
+  },
+  "type": "object",
+  "required": [
+    "input"
+  ]
+}
