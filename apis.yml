@@ -12,7 +12,7 @@ description: >
   formats, with both synchronous and asynchronous processing modes and an MCP
   server for AI agent integration.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Document Parsing
   - PDF
