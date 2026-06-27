@@ -82,15 +82,15 @@ apis:
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-parsechunk.json
       - type: JSONSchema
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/json-schema/reducto-uploadresponse.json
-      - type: Example
+      - type: Examples
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-parse-request.json
-      - type: Example
+      - type: Examples
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-parse-response.json
-      - type: Example
+      - type: Examples
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-extract-request.json
-      - type: Example
+      - type: Examples
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-split-request.json
-      - type: Example
+      - type: Examples
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/examples/reducto-classify-request.json
       - type: Vocabulary
         url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/vocabulary/reducto-vocabulary.yml
@@ -119,7 +119,7 @@ common:
     url: https://reducto.ai/pricing
   - type: StatusPage
     url: https://status.reducto.ai/
-  - type: Changelog
+  - type: ChangeLog
     url: https://docs.reducto.ai/onprem/changelog
   - type: Studio
     url: https://studio.reducto.ai/
