@@ -103,6 +103,8 @@ apis:
       - type: GitHubRepository
         url: https://github.com/reductoai/reducto-go-sdk
 common:
+  - type: AgenticAccess
+    url: agentic-access/reducto-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/reducto-vulnerability-disclosure.yml
   - type: DomainSecurity
