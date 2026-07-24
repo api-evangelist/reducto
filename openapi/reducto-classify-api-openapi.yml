@@ -1,0 +1,278 @@
+openapi: 3.0.3
+info:
+  title: Reducto Cancel Classify API
+  description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
+  version: v1.11.80-78-gc5c4ff11c
+  contact:
+    url: https://reducto.ai/
+    email: support@reducto.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://platform.reducto.ai
+security:
+- BearerAuth: []
+tags:
+- name: Classify
+paths:
+  /classify:
+    post:
+      summary: Classify
+      operationId: classify_classify_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassifyConfig'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassifyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Classify
+components:
+  schemas:
+    CriteriaConfidence:
+      properties:
+        criterion:
+          type: string
+          title: Criterion
+        confidence:
+          type: string
+          enum:
+          - high
+          - low
+          title: Confidence
+      type: object
+      required:
+      - criterion
+      - confidence
+      title: CriteriaConfidence
+      description: Confidence result for a single criterion.
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type: string
+          nullable: true
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    ClassifyResponseCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+      type: object
+      required:
+      - category
+      title: ClassifyResponseCategory
+    ResponseConfidence:
+      properties:
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryConfidence'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - categories
+      title: ResponseConfidence
+      description: Overall confidence breakdown for classification response.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ClassifyResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: classify
+          enum:
+          - classify
+        job_id:
+          type: string
+          title: Job Id
+        result:
+          $ref: '#/components/schemas/ClassifyResponseCategory'
+        response_confidence:
+          $ref: '#/components/schemas/ResponseConfidence'
+          nullable: true
+        usage:
+          $ref: '#/components/schemas/ClassifyUsage'
+          nullable: true
+        duration:
+          type: number
+          nullable: true
+          title: Duration
+          description: The duration of the classify request in seconds.
+      type: object
+      required:
+      - job_id
+      - result
+      title: ClassifyResponse
+      description: Response from classify job - returned when polling /job/{job_id}
+    ClassifyConfig:
+      properties:
+        persist_results:
+          type: boolean
+          title: Persist Results
+          description: If True, persist the results indefinitely. Defaults to False.
+          default: false
+        input:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          - $ref: '#/components/schemas/UploadResponse'
+          title: Input
+          description: "For parse/split/extract pipelines, the URL of the document to be processed. You can provide one of the following:\n            1. A publicly available URL\n            2. A presigned S3 URL\n            3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document\n            4. A jobid:// prefixed URL obtained from a previous /parse invocation\n            5. A list of URLs (for multi-document pipelines, V3 API only)\n\n            For edit pipelines, this should be a string containing the edit instructions "
+        classification_schema:
+          items:
+            $ref: '#/components/schemas/ClassificationCategory'
+          type: array
+          title: Classification Schema
+          description: A list of classification categories and their matching criteria.
+          default: []
+        page_range:
+          anyOf:
+          - $ref: '#/components/schemas/PageRange'
+          - items:
+              $ref: '#/components/schemas/PageRange'
+            type: array
+          - items:
+              type: integer
+            type: array
+          title: Page Range
+          description: The page range to process (1-indexed). By default, the first 5 pages are used. If more than 25 pages are selected, only the first 25 (after sorting) are used. Only applies to PDFs; ignored for other document types.
+          nullable: true
+        document_metadata:
+          type: string
+          nullable: true
+          title: Document Metadata
+          description: Optional document-level metadata to include in classification prompts.
+      type: object
+      required:
+      - input
+      title: ClassifyConfig
+    ClassificationCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+          description: The category name/label that documents will be classified into (e.g., 'invoice', 'contract', 'receipt').
+        criteria:
+          items:
+            type: string
+          type: array
+          title: Criteria
+          description: A list of criteria, keywords, or descriptions that define what characteristics a document must have to be classified into this category (e.g., ['contains billing information', 'has itemized charges']).
+      type: object
+      required:
+      - category
+      - criteria
+      title: ClassificationCategory
+      description: A single classification category with its matching criteria.
+    PageRange:
+      properties:
+        start:
+          type: integer
+          nullable: true
+          title: Start
+          description: The page number to start processing from (1-indexed).
+        end:
+          type: integer
+          nullable: true
+          title: End
+          description: The page number to stop processing at (1-indexed).
+      type: object
+      title: PageRange
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ClassifyUsage:
+      properties:
+        num_pages:
+          type: integer
+          title: Num Pages
+        num_categories:
+          type: integer
+          title: Num Categories
+        credits:
+          type: number
+          nullable: true
+          title: Credits
+      type: object
+      required:
+      - num_pages
+      - num_categories
+      title: ClassifyUsage
+    CategoryConfidence:
+      properties:
+        category:
+          type: string
+          title: Category
+        confidence:
+          type: number
+          title: Confidence
+        criteria_confidence:
+          items:
+            $ref: '#/components/schemas/CriteriaConfidence'
+          type: array
+          title: Criteria Confidence
+      type: object
+      required:
+      - category
+      - confidence
+      - criteria_confidence
+      title: CategoryConfidence
+      description: Confidence result for a category.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

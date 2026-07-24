@@ -1,0 +1,195 @@
+openapi: 3.0.3
+info:
+  title: Reducto Cancel Pipeline Async API
+  description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
+  version: v1.11.80-78-gc5c4ff11c
+  contact:
+    url: https://reducto.ai/
+    email: support@reducto.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://platform.reducto.ai
+security:
+- BearerAuth: []
+tags:
+- name: Pipeline Async
+paths:
+  /pipeline_async:
+    post:
+      summary: Pipeline Async
+      operationId: pipeline_async_pipeline_async_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/V3AsyncPipelineConfig'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncPipelineResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Pipeline Async
+components:
+  schemas:
+    AsyncPipelineResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+      type: object
+      required:
+      - job_id
+      title: AsyncPipelineResponse
+    DirectWebhookConfig:
+      properties:
+        mode:
+          type: string
+          title: Mode
+          default: direct
+          enum:
+          - direct
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: DirectWebhookConfig
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type: string
+          nullable: true
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    PipelineSettings:
+      properties:
+        document_password:
+          type: string
+          nullable: true
+          title: Document Password
+          description: Password to decrypt password-protected documents.
+      additionalProperties: false
+      type: object
+      title: PipelineSettings
+      description: Settings for pipeline execution that override pipeline defaults.
+    V3AsyncPipelineConfig:
+      properties:
+        async:
+          $ref: '#/components/schemas/config__v3__AsyncConfig'
+          description: The configuration options for asynchronous processing (default synchronous).
+          default:
+            priority: false
+        input:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          - $ref: '#/components/schemas/UploadResponse'
+          title: Input
+          description: "For parse/split/extract pipelines, the URL of the document to be processed. You can provide one of the following:\n            1. A publicly available URL\n            2. A presigned S3 URL\n            3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document\n            4. A jobid:// prefixed URL obtained from a previous /parse invocation\n            5. A list of URLs (for multi-document pipelines, V3 API only)\n\n            For edit pipelines, this should be a string containing the edit instructions "
+        pipeline_id:
+          type: string
+          title: Pipeline Id
+          description: The ID of the pipeline to use for the document.
+        settings:
+          $ref: '#/components/schemas/PipelineSettings'
+          default: {}
+      type: object
+      required:
+      - input
+      - pipeline_id
+      title: V3AsyncPipelineConfig
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SvixWebhookConfig:
+      properties:
+        mode:
+          type: string
+          title: Mode
+          default: svix
+          enum:
+          - svix
+        channels:
+          items:
+            type: string
+          type: array
+          title: Channels
+          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
+      type: object
+      title: SvixWebhookConfig
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    config__v3__AsyncConfig:
+      properties:
+        metadata:
+          title: Metadata
+          description: JSON metadata included in webhook request body. Defaults to None.
+        priority:
+          type: boolean
+          title: Priority
+          description: If True, attempts to process the job with priority if the user has priority processing budget available; by default, sync jobs are prioritized above async jobs.
+          default: false
+        webhook:
+          anyOf:
+          - $ref: '#/components/schemas/SvixWebhookConfig'
+          - $ref: '#/components/schemas/DirectWebhookConfig'
+          title: Webhook
+          description: The webhook configuration for the asynchronous processing.
+          nullable: true
+      type: object
+      title: AsyncConfig
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

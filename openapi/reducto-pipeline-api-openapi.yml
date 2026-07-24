@@ -1,0 +1,806 @@
+openapi: 3.0.3
+info:
+  title: Reducto Cancel Pipeline API
+  description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
+  version: v1.11.80-78-gc5c4ff11c
+  contact:
+    url: https://reducto.ai/
+    email: support@reducto.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://platform.reducto.ai
+security:
+- BearerAuth: []
+tags:
+- name: Pipeline
+paths:
+  /pipeline:
+    post:
+      summary: Pipeline
+      operationId: pipeline_pipeline_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/V3PipelineConfig'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Pipeline
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PipelineResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: pipeline
+          enum:
+          - pipeline
+        job_id:
+          type: string
+          title: Job Id
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+        result:
+          $ref: '#/components/schemas/PipelineResult'
+      type: object
+      required:
+      - job_id
+      - usage
+      - result
+      title: PipelineResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ParseUsage:
+      properties:
+        num_pages:
+          type: integer
+          title: Num Pages
+        credits:
+          type: number
+          nullable: true
+          title: Credits
+        credit_breakdown:
+          additionalProperties:
+            type: number
+          propertyNames:
+            enum:
+            - page
+            - html_page
+            - docx_native_page
+            - chart_agent
+            - spreadsheet_cells
+            - billable_spreadsheet_pages
+            - agentic
+            - complex
+            - enrich_table
+            - figure_summary
+            - table_summary
+            - key_value
+            - agentic_text
+            - promptable_agentic_text
+            - reducto_lite_page
+          type: object
+          nullable: true
+          title: Credit Breakdown
+        page_billing_breakdown:
+          additionalProperties:
+            items:
+              type: string
+              enum:
+              - page
+              - html_page
+              - docx_native_page
+              - agentic
+              - complex
+              - chart_agent
+              - spreadsheet_cells
+              - billable_spreadsheet_pages
+              - enrich_table
+              - figure_summary
+              - table_summary
+              - key_value
+              - agentic_text
+              - promptable_agentic_text
+              - reducto_lite_page
+            type: array
+          type: object
+          nullable: true
+          title: Page Billing Breakdown
+          description: Per-page breakdown of features used. Maps 1-indexed page numbers (as strings) to the list of billing features applied on that page (e.g. 'page', 'complex', 'chart_agent').
+        non_empty_cell_count:
+          type: integer
+          nullable: true
+          title: Non Empty Cell Count
+          description: Total non-empty cells across all sheets. Only set for spreadsheet inputs.
+      type: object
+      required:
+      - num_pages
+      title: ParseUsage
+    ParseBlock:
+      properties:
+        type:
+          type: string
+          enum:
+          - Header
+          - Footer
+          - Title
+          - Section Header
+          - Page Number
+          - List Item
+          - Figure
+          - Table
+          - Key Value
+          - Text
+          - Comment
+          - Signature
+          title: Type
+          description: The type of block extracted from the document.
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: The bounding box of the block extracted from the document.
+        content:
+          type: string
+          title: Content
+          description: The content of the block extracted from the document.
+        image_url:
+          type: string
+          nullable: true
+          title: Image Url
+          description: (Experimental) The URL of the image associated with the block.
+        chart_data:
+          items:
+            type: string
+          type: array
+          nullable: true
+          title: Chart Data
+          description: (Experimental) The URL/link to chart data JSON for figure blocks processed by chart agent.
+        confidence:
+          type: string
+          nullable: true
+          title: Confidence
+          description: The confidence for the block. It is either low or high and takes into account factors like OCR and table structure
+          default: low
+        granular_confidence:
+          $ref: '#/components/schemas/GranularConfidence'
+          nullable: true
+          description: Granular confidence scores for the block. It is a dictionary of confidence scores for the block. The confidence scores will not be None if the user has enabled numeric confidence scores.
+        extra:
+          additionalProperties: true
+          type: object
+          nullable: true
+          title: Extra
+          description: Extra metadata fields for the block. Fields like 'is_chart' will only appear when set to True.
+      type: object
+      required:
+      - type
+      - bbox
+      - content
+      title: ParseBlock
+    OCRResult:
+      properties:
+        words:
+          items:
+            $ref: '#/components/schemas/OCRWord'
+          type: array
+          title: Words
+        lines:
+          items:
+            $ref: '#/components/schemas/OCRLine'
+          type: array
+          title: Lines
+      type: object
+      required:
+      - words
+      - lines
+      title: OCRResult
+    UrlResult:
+      properties:
+        type:
+          type: string
+          title: Type
+          description: type = 'url'
+          enum:
+          - url
+        url:
+          type: string
+          title: Url
+        result_id:
+          type: string
+          title: Result Id
+      type: object
+      required:
+      - type
+      - url
+      - result_id
+      title: UrlResult
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type: string
+          nullable: true
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    ParseResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: parse
+          enum:
+          - parse
+        job_id:
+          type: string
+          title: Job Id
+        duration:
+          type: number
+          title: Duration
+          description: The duration of the parse request in seconds.
+        pdf_url:
+          type: string
+          nullable: true
+          title: Pdf Url
+          description: The storage URL of the converted PDF file.
+        studio_link:
+          type: string
+          nullable: true
+          title: Studio Link
+          description: The link to the studio pipeline for the document.
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+        result:
+          anyOf:
+          - $ref: '#/components/schemas/FullResult'
+          - $ref: '#/components/schemas/UrlResult'
+          title: Result
+          description: The response from the document processing service. Note that there can be two types of responses, Full Result and URL Result. This is due to limitations on the max return size on HTTPS. If the response is too large, it will be returned as a presigned URL in the URL response. You should handle this in your application.
+        parse_mode:
+          type: string
+          enum:
+          - base
+          - lite
+          nullable: true
+          title: Parse Mode
+          description: Which pipeline produced this response. ``lite`` means Reducto Flash Lite served the request; ``base`` is the standard pipeline. Optional / nullable for forward compatibility — older API instances or persisted responses written before this field existed will leave it ``None``; treat ``None`` as ``base``.
+      type: object
+      required:
+      - job_id
+      - duration
+      - usage
+      - result
+      title: ParseResponse
+    EditResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: edit
+          enum:
+          - edit
+        document_url:
+          type: string
+          title: Document Url
+          description: Presigned URL to download the edited document.
+        form_schema:
+          items:
+            $ref: '#/components/schemas/EditWidget'
+          type: array
+          nullable: true
+          title: Form Schema
+          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes.
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+          nullable: true
+          description: Usage information for the edit operation, including number of pages and credits charged.
+      type: object
+      required:
+      - document_url
+      title: EditResponse
+    ParseChunk:
+      properties:
+        content:
+          type: string
+          title: Content
+          description: The content of the chunk extracted from the document.
+        embed:
+          type: string
+          title: Embed
+          description: Chunk content optimized for embedding and retrieval.
+        enriched:
+          type: string
+          nullable: true
+          title: Enriched
+          description: The enriched content of the chunk extracted from the document.
+        enrichment_success:
+          type: boolean
+          title: Enrichment Success
+          description: Whether the enrichment was successful.
+          default: false
+        blocks:
+          items:
+            $ref: '#/components/schemas/ParseBlock'
+          type: array
+          title: Blocks
+      type: object
+      required:
+      - content
+      - embed
+      - enriched
+      - blocks
+      title: ParseChunk
+    DeepSplitPartition:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            $ref: '#/components/schemas/DeepSplitPageEvidence'
+          type: array
+          title: Pages
+      type: object
+      required:
+      - name
+      - pages
+      title: DeepSplitPartition
+    SplitPartition:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            type: integer
+          type: array
+          title: Pages
+        conf:
+          type: string
+          enum:
+          - high
+          - low
+          title: Conf
+          default: low
+      type: object
+      required:
+      - name
+      - pages
+      title: SplitPartition
+    BoundingBox:
+      properties:
+        left:
+          type: number
+          title: Left
+        top:
+          type: number
+          title: Top
+        width:
+          type: number
+          title: Width
+        height:
+          type: number
+          title: Height
+        page:
+          type: integer
+          title: Page
+          description: The page number of the bounding box (1-indexed).
+        original_page:
+          type: integer
+          title: Original Page
+          description: The page number in the original document of the bounding box (1-indexed).
+      type: object
+      required:
+      - left
+      - top
+      - width
+      - height
+      - page
+      title: BoundingBox
+    ExtractResponse:
+      additionalProperties: true
+      type: object
+    EditWidget:
+      properties:
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: Bounding box coordinates of the widget
+        description:
+          type: string
+          title: Description
+          description: Description of the widget extracted from the document
+        type:
+          type: string
+          enum:
+          - text
+          - checkbox
+          - radio
+          - dropdown
+          - barcode
+          title: Type
+          description: Type of the form widget
+        fill:
+          type: boolean
+          title: Fill
+          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
+          default: true
+        value:
+          type: string
+          nullable: true
+          title: Value
+          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
+        font_size:
+          type: number
+          maximum: 72
+          minimum: 1
+          nullable: true
+          title: Font Size
+          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+      type: object
+      required:
+      - bbox
+      - description
+      - type
+      title: EditWidget
+    SplitResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: split
+          enum:
+          - split
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+        result:
+          anyOf:
+          - $ref: '#/components/schemas/SplitResult'
+          - $ref: '#/components/schemas/DeepSplitResult'
+          title: Result
+          description: The split result.
+      type: object
+      required:
+      - usage
+      - result
+      title: SplitResponse
+    ExtractSplitResponse:
+      properties:
+        split_name:
+          type: string
+          title: Split Name
+        page_range:
+          items:
+            type: integer
+          type: array
+          title: Page Range
+        partition:
+          type: string
+          nullable: true
+          title: Partition
+        result:
+          anyOf:
+          - $ref: '#/components/schemas/ExtractResponse'
+          - $ref: '#/components/schemas/V3ExtractResponse'
+          title: Result
+      type: object
+      required:
+      - split_name
+      - page_range
+      - result
+      title: ExtractSplitResponse
+      description: This is the response format for Extract -> Split Pipelines
+    V3PipelineConfig:
+      properties:
+        input:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          - $ref: '#/components/schemas/UploadResponse'
+          title: Input
+          description: "For parse/split/extract pipelines, the URL of the document to be processed. You can provide one of the following:\n            1. A publicly available URL\n            2. A presigned S3 URL\n            3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document\n            4. A jobid:// prefixed URL obtained from a previous /parse invocation\n            5. A list of URLs (for multi-document pipelines, V3 API only)\n\n            For edit pipelines, this should be a string containing the edit instructions "
+        pipeline_id:
+          type: string
+          title: Pipeline Id
+          description: The ID of the pipeline to use for the document.
+        settings:
+          $ref: '#/components/schemas/PipelineSettings'
+          default: {}
+      type: object
+      required:
+      - input
+      - pipeline_id
+      title: V3PipelineConfig
+    OCRWord:
+      properties:
+        text:
+          type: string
+          title: Text
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+        confidence:
+          type: number
+          nullable: true
+          title: Confidence
+          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
+        chunk_index:
+          type: integer
+          nullable: true
+          title: Chunk Index
+          description: The index of the chunk that the word belongs to.
+        rotation:
+          type: integer
+          nullable: true
+          title: Rotation
+          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
+      type: object
+      required:
+      - text
+      - bbox
+      title: OCRWord
+    DeepSplit:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            $ref: '#/components/schemas/DeepSplitPageEvidence'
+          type: array
+          title: Pages
+        partitions:
+          items:
+            $ref: '#/components/schemas/DeepSplitPartition'
+          type: array
+          nullable: true
+          title: Partitions
+      type: object
+      required:
+      - name
+      - pages
+      title: DeepSplit
+    PipelineResult:
+      properties:
+        parse:
+          anyOf:
+          - $ref: '#/components/schemas/ParseResponse'
+          - items:
+              $ref: '#/components/schemas/ParseResponse'
+            type: array
+          title: Parse
+          nullable: true
+        extract:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ExtractSplitResponse'
+            type: array
+          - $ref: '#/components/schemas/ExtractResponse'
+          - $ref: '#/components/schemas/V3ExtractResponse'
+          title: Extract
+          nullable: true
+        split:
+          $ref: '#/components/schemas/SplitResponse'
+          nullable: true
+        edit:
+          $ref: '#/components/schemas/EditResponse'
+          nullable: true
+      type: object
+      required:
+      - parse
+      - extract
+      - split
+      title: PipelineResult
+    DeepSplitResult:
+      properties:
+        splits:
+          items:
+            $ref: '#/components/schemas/DeepSplit'
+          type: array
+          title: Splits
+      type: object
+      required:
+      - splits
+      title: DeepSplitResult
+    Split:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            type: integer
+          type: array
+          title: Pages
+        conf:
+          type: string
+          enum:
+          - high
+          - low
+          title: Conf
+          default: low
+        partitions:
+          items:
+            $ref: '#/components/schemas/SplitPartition'
+          type: array
+          nullable: true
+          title: Partitions
+      type: object
+      required:
+      - name
+      - pages
+      title: Split
+    GranularConfidence:
+      properties:
+        extract_confidence:
+          type: number
+          nullable: true
+          title: Extract Confidence
+        parse_confidence:
+          type: number
+          nullable: true
+          title: Parse Confidence
+      type: object
+      title: GranularConfidence
+    PipelineSettings:
+      properties:
+        document_password:
+          type: string
+          nullable: true
+          title: Document Password
+          description: Password to decrypt password-protected documents.
+      additionalProperties: false
+      type: object
+      title: PipelineSettings
+      description: Settings for pipeline execution that override pipeline defaults.
+    DeepSplitPageEvidence:
+      properties:
+        page_number:
+          type: integer
+          title: Page Number
+        evidence:
+          type: string
+          title: Evidence
+        confidence:
+          type: string
+          enum:
+          - high
+          - medium
+          - low
+          nullable: true
+          title: Confidence
+      type: object
+      required:
+      - page_number
+      - evidence
+      title: DeepSplitPageEvidence
+    OCRLine:
+      properties:
+        text:
+          type: string
+          title: Text
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+        confidence:
+          type: number
+          nullable: true
+          title: Confidence
+          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
+        chunk_index:
+          type: integer
+          nullable: true
+          title: Chunk Index
+          description: The index of the chunk that the line belongs to.
+        rotation:
+          type: integer
+          nullable: true
+          title: Rotation
+          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
+      type: object
+      required:
+      - text
+      - bbox
+      title: OCRLine
+    SplitResult:
+      properties:
+        section_mapping:
+          additionalProperties:
+            items:
+              type: integer
+            type: array
+          type: object
+          nullable: true
+          title: Section Mapping
+        splits:
+          items:
+            $ref: '#/components/schemas/Split'
+          type: array
+          title: Splits
+      type: object
+      required:
+      - section_mapping
+      - splits
+      title: SplitResult
+    FullResult:
+      properties:
+        type:
+          type: string
+          title: Type
+          description: type = 'full'
+          enum:
+          - full
+        chunks:
+          items:
+            $ref: '#/components/schemas/ParseChunk'
+          type: array
+          title: Chunks
+        ocr:
+          $ref: '#/components/schemas/OCRResult'
+          nullable: true
+        custom:
+          nullable: true
+          title: Custom
+      type: object
+      required:
+      - type
+      - chunks
+      title: FullResult
+    V3ExtractResponse:
+      additionalProperties: true
+      type: object
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

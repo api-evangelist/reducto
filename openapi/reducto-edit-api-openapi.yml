@@ -1,0 +1,341 @@
+openapi: 3.0.3
+info:
+  title: Reducto Cancel Edit API
+  description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
+  version: v1.11.80-78-gc5c4ff11c
+  contact:
+    url: https://reducto.ai/
+    email: support@reducto.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://platform.reducto.ai
+security:
+- BearerAuth: []
+tags:
+- name: Edit
+paths:
+  /edit:
+    post:
+      summary: Edit
+      operationId: edit_edit_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditConfig'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Edit
+components:
+  schemas:
+    EditWidget:
+      properties:
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: Bounding box coordinates of the widget
+        description:
+          type: string
+          title: Description
+          description: Description of the widget extracted from the document
+        type:
+          type: string
+          enum:
+          - text
+          - checkbox
+          - radio
+          - dropdown
+          - barcode
+          title: Type
+          description: Type of the form widget
+        fill:
+          type: boolean
+          title: Fill
+          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
+          default: true
+        value:
+          type: string
+          nullable: true
+          title: Value
+          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
+        font_size:
+          type: number
+          maximum: 72
+          minimum: 1
+          nullable: true
+          title: Font Size
+          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+      type: object
+      required:
+      - bbox
+      - description
+      - type
+      title: EditWidget
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type: string
+          nullable: true
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EditConfig:
+      properties:
+        document_url:
+          anyOf:
+          - type: string
+          - $ref: '#/components/schemas/UploadResponse'
+          title: Document Url
+          description: 'The URL of the document to be processed. You can provide one of the following:
+
+            1. A publicly available URL
+
+            2. A presigned S3 URL
+
+            3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document
+
+            '
+        edit_instructions:
+          type: string
+          title: Edit Instructions
+          description: The instructions for the edit.
+        edit_options:
+          $ref: '#/components/schemas/EditOptions'
+          default:
+            color: '#FF0000'
+            enable_overflow_pages: false
+            flatten: false
+        form_schema:
+          items:
+            $ref: '#/components/schemas/EditWidget'
+          type: array
+          nullable: true
+          title: Form Schema
+          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes. Only works for PDFs.
+        priority:
+          type: boolean
+          title: Priority
+          description: If True, attempts to process the job with priority if the user has priority processing budget available; by default, sync jobs are prioritized above async jobs.
+          default: true
+      type: object
+      required:
+      - document_url
+      - edit_instructions
+      title: EditConfig
+    EditResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: edit
+          enum:
+          - edit
+        document_url:
+          type: string
+          title: Document Url
+          description: Presigned URL to download the edited document.
+        form_schema:
+          items:
+            $ref: '#/components/schemas/EditWidget'
+          type: array
+          nullable: true
+          title: Form Schema
+          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes.
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+          nullable: true
+          description: Usage information for the edit operation, including number of pages and credits charged.
+      type: object
+      required:
+      - document_url
+      title: EditResponse
+    EditOptions:
+      properties:
+        color:
+          type: string
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Color
+          description: The color to use for edits, in hex format.
+          default: '#FF0000'
+        font_size:
+          type: number
+          maximum: 72
+          minimum: 1
+          nullable: true
+          title: Font Size
+          description: The font size (in points) to use for filled text fields. If not specified, font size is automatically calculated based on field dimensions.
+        llm_provider_preference:
+          type: string
+          enum:
+          - openai
+          - anthropic
+          - google
+          nullable: true
+          title: Llm Provider Preference
+          description: The LLM provider to use for edit processing. If not specified, defaults to 'google'
+        enable_overflow_pages:
+          type: boolean
+          title: Enable Overflow Pages
+          description: If True, creates overflow pages for text that doesn't fit in form fields. Defaults to False.
+          default: false
+        flatten:
+          type: boolean
+          title: Flatten
+          description: If True, flattens form fields after filling, converting them to static content. Defaults to False.
+          default: false
+      type: object
+      title: EditOptions
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ParseUsage:
+      properties:
+        num_pages:
+          type: integer
+          title: Num Pages
+        credits:
+          type: number
+          nullable: true
+          title: Credits
+        credit_breakdown:
+          additionalProperties:
+            type: number
+          propertyNames:
+            enum:
+            - page
+            - html_page
+            - docx_native_page
+            - chart_agent
+            - spreadsheet_cells
+            - billable_spreadsheet_pages
+            - agentic
+            - complex
+            - enrich_table
+            - figure_summary
+            - table_summary
+            - key_value
+            - agentic_text
+            - promptable_agentic_text
+            - reducto_lite_page
+          type: object
+          nullable: true
+          title: Credit Breakdown
+        page_billing_breakdown:
+          additionalProperties:
+            items:
+              type: string
+              enum:
+              - page
+              - html_page
+              - docx_native_page
+              - agentic
+              - complex
+              - chart_agent
+              - spreadsheet_cells
+              - billable_spreadsheet_pages
+              - enrich_table
+              - figure_summary
+              - table_summary
+              - key_value
+              - agentic_text
+              - promptable_agentic_text
+              - reducto_lite_page
+            type: array
+          type: object
+          nullable: true
+          title: Page Billing Breakdown
+          description: Per-page breakdown of features used. Maps 1-indexed page numbers (as strings) to the list of billing features applied on that page (e.g. 'page', 'complex', 'chart_agent').
+        non_empty_cell_count:
+          type: integer
+          nullable: true
+          title: Non Empty Cell Count
+          description: Total non-empty cells across all sheets. Only set for spreadsheet inputs.
+      type: object
+      required:
+      - num_pages
+      title: ParseUsage
+    BoundingBox:
+      properties:
+        left:
+          type: number
+          title: Left
+        top:
+          type: number
+          title: Top
+        width:
+          type: number
+          title: Width
+        height:
+          type: number
+          title: Height
+        page:
+          type: integer
+          title: Page
+          description: The page number of the bounding box (1-indexed).
+        original_page:
+          type: integer
+          title: Original Page
+          description: The page number in the original document of the bounding box (1-indexed).
+      type: object
+      required:
+      - left
+      - top
+      - width
+      - height
+      - page
+      title: BoundingBox
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: Reducto Cancel Upload API
+  description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
+  version: v1.11.80-78-gc5c4ff11c
+  contact:
+    url: https://reducto.ai/
+    email: support@reducto.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://platform.reducto.ai
+security:
+- BearerAuth: []
+tags:
+- name: Upload
+paths:
+  /upload:
+    post:
+      summary: Upload
+      operationId: upload_upload_post
+      parameters:
+      - name: extension
+        in: query
+        required: false
+        schema:
+          type: string
+          nullable: true
+          title: Extension
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_upload_post'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_upload_upload_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Upload
+components:
+  schemas:
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type: string
+          nullable: true
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_upload_upload_post:
+      properties:
+        file:
+          anyOf:
+          - type: string
+            format: binary
+          - type: string
+          title: File
+          nullable: true
+      type: object
+      title: Body_upload_upload_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.
