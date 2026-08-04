@@ -1,0 +1,183 @@
+{
+  "info": {
+    "_postman_id": "19e78b14-0cd5-478a-af6d-89edbf6bdd52",
+    "name": "Reducto Cancel API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:43:41.000Z",
+    "updatedAt": "2026-07-28T02:43:41.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-19e78b14-0cd5-478a-af6d-89edbf6bdd52"
+  },
+  "item": [
+    {
+      "name": "cancel",
+      "item": [
+        {
+          "name": "{job_id}",
+          "item": [
+            {
+              "name": "Cancel Job",
+              "id": "5c4cd359-853b-4267-8904-4a7d998dd89e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cancel/:job_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cancel",
+                    ":job_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "2a30ed47-32de-4ae8-a4f3-a1b3fc53fc06",
+                      "key": "job_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "id": "f25b990a-37c3-4591-9b37-11eb05b40ad4",
+                  "name": "Successful Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/cancel/:job_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "cancel",
+                        ":job_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "job_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{}",
+                  "createdAt": "2026-07-28T02:43:42.000Z",
+                  "updatedAt": "2026-07-28T02:43:42.000Z",
+                  "uid": "35240-f25b990a-37c3-4591-9b37-11eb05b40ad4"
+                },
+                {
+                  "id": "e896ebcd-4da6-4647-9bd1-db214d932bd0",
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/cancel/:job_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "cancel",
+                        ":job_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "job_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T02:43:42.000Z",
+                  "updatedAt": "2026-07-28T02:43:42.000Z",
+                  "uid": "35240-e896ebcd-4da6-4647-9bd1-db214d932bd0"
+                }
+              ],
+              "createdAt": "2026-07-28T02:43:42.000Z",
+              "updatedAt": "2026-07-28T02:43:42.000Z",
+              "uid": "35240-5c4cd359-853b-4267-8904-4a7d998dd89e"
+            }
+          ],
+          "id": "1ea9cd07-3b0a-4b1e-96e5-72d7ebf9a9b4",
+          "createdAt": "2026-07-28T02:43:42.000Z",
+          "updatedAt": "2026-07-28T02:43:42.000Z",
+          "uid": "35240-1ea9cd07-3b0a-4b1e-96e5-72d7ebf9a9b4"
+        }
+      ],
+      "id": "bc661a5a-ad2b-4c7b-b718-48d45d2ffb71",
+      "createdAt": "2026-07-28T02:43:42.000Z",
+      "updatedAt": "2026-07-28T02:43:42.000Z",
+      "uid": "35240-bc661a5a-ad2b-4c7b-b718-48d45d2ffb71"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

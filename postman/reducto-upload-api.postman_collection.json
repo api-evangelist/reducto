@@ -1,0 +1,211 @@
+{
+  "info": {
+    "_postman_id": "7db807a0-b41b-48d1-b2c3-4d6278d4b167",
+    "name": "Reducto Cancel Upload API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:44:05.000Z",
+    "updatedAt": "2026-07-28T02:44:05.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-7db807a0-b41b-48d1-b2c3-4d6278d4b167"
+  },
+  "item": [
+    {
+      "name": "upload",
+      "item": [
+        {
+          "name": "Upload",
+          "id": "e4682fe4-d166-44df-a337-f446df6fa957",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload?extension=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "upload"
+              ],
+              "query": [
+                {
+                  "key": "extension",
+                  "value": "<string>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ac3469dd-0b9e-4af3-bd20-1cec55338844",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/upload?extension=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "upload"
+                  ],
+                  "query": [
+                    {
+                      "key": "extension",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"file_id\": \"<string>\",\n  \"presigned_url\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T02:44:05.000Z",
+              "updatedAt": "2026-07-28T02:44:05.000Z",
+              "uid": "35240-ac3469dd-0b9e-4af3-bd20-1cec55338844"
+            },
+            {
+              "id": "ff1fb249-3818-4353-a513-f697d35527c3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/upload?extension=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "upload"
+                  ],
+                  "query": [
+                    {
+                      "key": "extension",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:44:05.000Z",
+              "updatedAt": "2026-07-28T02:44:05.000Z",
+              "uid": "35240-ff1fb249-3818-4353-a513-f697d35527c3"
+            }
+          ],
+          "createdAt": "2026-07-28T02:44:05.000Z",
+          "updatedAt": "2026-07-28T02:44:05.000Z",
+          "uid": "35240-e4682fe4-d166-44df-a337-f446df6fa957"
+        }
+      ],
+      "id": "d8a3397a-ccff-4eac-ba70-a2d38336250f",
+      "createdAt": "2026-07-28T02:44:05.000Z",
+      "updatedAt": "2026-07-28T02:44:05.000Z",
+      "uid": "35240-d8a3397a-ccff-4eac-ba70-a2d38336250f"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "info": {
+    "_postman_id": "c394b0c2-dc24-48be-881c-d8e9fa888f2d",
+    "name": "Reducto Cancel Configure Webhook API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:43:43.000Z",
+    "updatedAt": "2026-07-28T02:43:43.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c394b0c2-dc24-48be-881c-d8e9fa888f2d"
+  },
+  "item": [
+    {
+      "name": "configure_webhook",
+      "item": [
+        {
+          "name": "Webhook Portal",
+          "id": "70e8384b-2160-4bd6-893c-23d53b7a5ac7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/configure_webhook",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "configure_webhook"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "573c68a5-46fc-4732-9e51-d1e62c6e19c5",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/configure_webhook",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "configure_webhook"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "<string>",
+              "createdAt": "2026-07-28T02:43:43.000Z",
+              "updatedAt": "2026-07-28T02:43:43.000Z",
+              "uid": "35240-573c68a5-46fc-4732-9e51-d1e62c6e19c5"
+            },
+            {
+              "id": "c9b81adc-5b25-45c0-b564-88870aeff9d6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/configure_webhook",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "configure_webhook"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:43:43.000Z",
+              "updatedAt": "2026-07-28T02:43:43.000Z",
+              "uid": "35240-c9b81adc-5b25-45c0-b564-88870aeff9d6"
+            }
+          ],
+          "createdAt": "2026-07-28T02:43:43.000Z",
+          "updatedAt": "2026-07-28T02:43:43.000Z",
+          "uid": "35240-70e8384b-2160-4bd6-893c-23d53b7a5ac7"
+        }
+      ],
+      "id": "995b1e4d-957b-48c5-94ae-4a4f4cc7400a",
+      "createdAt": "2026-07-28T02:43:43.000Z",
+      "updatedAt": "2026-07-28T02:43:43.000Z",
+      "uid": "35240-995b1e4d-957b-48c5-94ae-4a4f4cc7400a"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

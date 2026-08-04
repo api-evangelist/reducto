@@ -1,0 +1,195 @@
+{
+  "info": {
+    "_postman_id": "29db8d12-3a03-4634-b11d-e17800bbe438",
+    "name": "Reducto Cancel Pipeline Async API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:44:01.000Z",
+    "updatedAt": "2026-07-28T02:44:01.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-29db8d12-3a03-4634-b11d-e17800bbe438"
+  },
+  "item": [
+    {
+      "name": "pipeline_async",
+      "item": [
+        {
+          "name": "Pipeline Async",
+          "id": "335a6edb-f274-493d-aadc-533d8c129f89",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"async\": {\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body. Defaults to None.\"\n    },\n    \"priority\": false,\n    \"webhook\": {\n      \"mode\": \"svix\",\n      \"channels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pipeline_async",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pipeline_async"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "41968498-5299-4430-a6a9-f8f76f57484e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"async\": {\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body. Defaults to None.\"\n    },\n    \"priority\": false,\n    \"webhook\": {\n      \"mode\": \"svix\",\n      \"channels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/pipeline_async",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pipeline_async"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"job_id\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T02:44:02.000Z",
+              "updatedAt": "2026-07-28T02:44:02.000Z",
+              "uid": "35240-41968498-5299-4430-a6a9-f8f76f57484e"
+            },
+            {
+              "id": "c2b80769-e326-4f55-930f-3ec88eb80a29",
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"async\": {\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body. Defaults to None.\"\n    },\n    \"priority\": false,\n    \"webhook\": {\n      \"mode\": \"svix\",\n      \"channels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/pipeline_async",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pipeline_async"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:44:02.000Z",
+              "updatedAt": "2026-07-28T02:44:02.000Z",
+              "uid": "35240-c2b80769-e326-4f55-930f-3ec88eb80a29"
+            }
+          ],
+          "createdAt": "2026-07-28T02:44:02.000Z",
+          "updatedAt": "2026-07-28T02:44:02.000Z",
+          "uid": "35240-335a6edb-f274-493d-aadc-533d8c129f89"
+        }
+      ],
+      "id": "23f842c0-e6e7-4ab2-b21d-bac2d10695c5",
+      "createdAt": "2026-07-28T02:44:01.000Z",
+      "updatedAt": "2026-07-28T02:44:01.000Z",
+      "uid": "35240-23f842c0-e6e7-4ab2-b21d-bac2d10695c5"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

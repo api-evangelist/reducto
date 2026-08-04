@@ -1,0 +1,195 @@
+{
+  "info": {
+    "_postman_id": "c171a136-b978-4325-b6d8-943d817c2ceb",
+    "name": "Reducto Cancel Pipeline API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:44:00.000Z",
+    "updatedAt": "2026-07-28T02:44:00.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c171a136-b978-4325-b6d8-943d817c2ceb"
+  },
+  "item": [
+    {
+      "name": "pipeline",
+      "item": [
+        {
+          "name": "Pipeline",
+          "id": "62e68f1b-784a-4574-9878-1bc6891d20dd",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pipeline",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pipeline"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7bb2f1f9-337e-441c-b5d6-5bfbacbac989",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/pipeline",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pipeline"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"job_id\": \"<string>\",\n  \"usage\": {\n    \"num_pages\": \"<integer>\",\n    \"credits\": \"<number>\",\n    \"credit_breakdown\": {\n      \"qui_2\": \"<number>\",\n      \"pariatur8f9\": \"<number>\",\n      \"id62\": \"<number>\"\n    },\n    \"page_billing_breakdown\": {\n      \"ut_dc4\": [\n        \"spreadsheet_cells\",\n        \"page\"\n      ]\n    },\n    \"non_empty_cell_count\": \"<integer>\"\n  },\n  \"result\": {\n    \"parse\": {\n      \"job_id\": \"<string>\",\n      \"duration\": \"<number>\",\n      \"usage\": {\n        \"num_pages\": \"<integer>\",\n        \"credits\": \"<number>\",\n        \"credit_breakdown\": {\n          \"culpa63\": \"<number>\",\n          \"Lorem4bd\": \"<number>\",\n          \"ute\": \"<number>\"\n        },\n        \"page_billing_breakdown\": {\n          \"inc9d\": [\n            \"figure_summary\",\n            \"complex\"\n          ]\n        },\n        \"non_empty_cell_count\": \"<integer>\"\n      },\n      \"result\": {\n        \"type\": \"full\",\n        \"chunks\": [\n          {\n            \"content\": \"<string>\",\n            \"embed\": \"<string>\",\n            \"enriched\": \"<string>\",\n            \"blocks\": [\n              {\n                \"type\": \"List Item\",\n                \"bbox\": {\n                  \"left\": \"<number>\",\n                  \"top\": \"<number>\",\n                  \"width\": \"<number>\",\n                  \"height\": \"<number>\",\n                  \"page\": \"<integer>\",\n                  \"original_page\": \"<integer>\"\n                },\n                \"content\": \"<string>\",\n                \"image_url\": \"<string>\",\n                \"chart_data\": [\n                  \"<string>\",\n                  \"<string>\"\n                ],\n                \"confidence\": \"low\",\n                \"granular_confidence\": {\n                  \"extract_confidence\": \"<number>\",\n                  \"parse_confidence\": \"<number>\"\n                },\n                \"extra\": {\n                  \"in723\": -10303758.949859977\n                }\n              },\n              {\n                \"type\": \"Comment\",\n                \"bbox\": {\n                  \"left\": \"<number>\",\n                  \"top\": \"<number>\",\n                  \"width\": \"<number>\",\n                  \"height\": \"<number>\",\n                  \"page\": \"<integer>\",\n                  \"original_page\": \"<integer>\"\n                },\n                \"content\": \"<string>\",\n                \"image_url\": \"<string>\",\n                \"chart_data\": [\n                  \"<string>\",\n                  \"<string>\"\n                ],\n                \"confidence\": \"low\",\n                \"granular_confidence\": {\n                  \"extract_confidence\": \"<number>\",\n                  \"parse_confidence\": \"<number>\"\n                },\n                \"extra\": {\n                  \"dolor6a\": true\n                }\n              }\n            ],\n            \"enrichment_success\": false\n          },\n          {\n            \"content\": \"<string>\",\n            \"embed\": \"<string>\",\n            \"enriched\": \"<string>\",\n            \"blocks\": [\n              {\n                \"type\": \"Table\",\n                \"bbox\": {\n                  \"left\": \"<number>\",\n                  \"top\": \"<number>\",\n                  \"width\": \"<number>\",\n                  \"height\": \"<number>\",\n                  \"page\": \"<integer>\",\n                  \"original_page\": \"<integer>\"\n                },\n                \"content\": \"<string>\",\n                \"image_url\": \"<string>\",\n                \"chart_data\": [\n                  \"<string>\",\n                  \"<string>\"\n                ],\n                \"confidence\": \"low\",\n                \"granular_confidence\": {\n                  \"extract_confidence\": \"<number>\",\n                  \"parse_confidence\": \"<number>\"\n                },\n                \"extra\": {\n                  \"dolorcc6\": \"ad id i\",\n                  \"velit55d\": \"et incididunt ut\"\n                }\n              },\n              {\n                \"type\": \"Figure\",\n                \"bbox\": {\n                  \"left\": \"<number>\",\n                  \"top\": \"<number>\",\n                  \"width\": \"<number>\",\n                  \"height\": \"<number>\",\n                  \"page\": \"<integer>\",\n                  \"original_page\": \"<integer>\"\n                },\n                \"content\": \"<string>\",\n                \"image_url\": \"<string>\",\n                \"chart_data\": [\n                  \"<string>\",\n                  \"<string>\"\n                ],\n                \"confidence\": \"low\",\n                \"granular_confidence\": {\n                  \"extract_confidence\": \"<number>\",\n                  \"parse_confidence\": \"<number>\"\n                },\n                \"extra\": {\n                  \"ullamco64\": \"Lorem adipisicing\",\n                  \"deserunt_b38\": 92192419\n                }\n              }\n            ],\n            \"enrichment_success\": false\n          }\n        ],\n        \"ocr\": {\n          \"words\": [\n            {\n              \"text\": \"<string>\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"confidence\": \"<number>\",\n              \"chunk_index\": \"<integer>\",\n              \"rotation\": \"<integer>\"\n            },\n            {\n              \"text\": \"<string>\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"confidence\": \"<number>\",\n              \"chunk_index\": \"<integer>\",\n              \"rotation\": \"<integer>\"\n            }\n          ],\n          \"lines\": [\n            {\n              \"text\": \"<string>\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"confidence\": \"<number>\",\n              \"chunk_index\": \"<integer>\",\n              \"rotation\": \"<integer>\"\n            },\n            {\n              \"text\": \"<string>\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"confidence\": \"<number>\",\n              \"chunk_index\": \"<integer>\",\n              \"rotation\": \"<integer>\"\n            }\n          ]\n        },\n        \"custom\": {\n          \"nullable\": true,\n          \"title\": \"Custom\"\n        }\n      },\n      \"response_type\": \"parse\",\n      \"pdf_url\": \"<string>\",\n      \"studio_link\": \"<string>\",\n      \"parse_mode\": \"base\"\n    },\n    \"extract\": [\n      {\n        \"split_name\": \"<string>\",\n        \"page_range\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"result\": {\n          \"ea_e9\": -39337783,\n          \"do_f\": \"ut\"\n        },\n        \"partition\": \"<string>\"\n      },\n      {\n        \"split_name\": \"<string>\",\n        \"page_range\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"result\": {\n          \"commodo_c9\": -40726464.870860465,\n          \"inc68\": \"dol\",\n          \"ad_52\": 57264919.5738745\n        },\n        \"partition\": \"<string>\"\n      }\n    ],\n    \"split\": {\n      \"usage\": {\n        \"num_pages\": \"<integer>\",\n        \"credits\": \"<number>\",\n        \"credit_breakdown\": {\n          \"laborumd1\": \"<number>\",\n          \"dolor_c9\": \"<number>\",\n          \"incididunt_e\": \"<number>\"\n        },\n        \"page_billing_breakdown\": {\n          \"eiusmod_c56\": [\n            \"agentic_text\",\n            \"page\"\n          ]\n        },\n        \"non_empty_cell_count\": \"<integer>\"\n      },\n      \"result\": {\n        \"section_mapping\": {\n          \"commodo04\": [\n            \"<integer>\",\n            \"<integer>\"\n          ],\n          \"anim_b6b\": [\n            \"<integer>\",\n            \"<integer>\"\n          ]\n        },\n        \"splits\": [\n          {\n            \"name\": \"<string>\",\n            \"pages\": [\n              \"<integer>\",\n              \"<integer>\"\n            ],\n            \"conf\": \"low\",\n            \"partitions\": [\n              {\n                \"name\": \"<string>\",\n                \"pages\": [\n                  \"<integer>\",\n                  \"<integer>\"\n                ],\n                \"conf\": \"low\"\n              },\n              {\n                \"name\": \"<string>\",\n                \"pages\": [\n                  \"<integer>\",\n                  \"<integer>\"\n                ],\n                \"conf\": \"low\"\n              }\n            ]\n          },\n          {\n            \"name\": \"<string>\",\n            \"pages\": [\n              \"<integer>\",\n              \"<integer>\"\n            ],\n            \"conf\": \"low\",\n            \"partitions\": [\n              {\n                \"name\": \"<string>\",\n                \"pages\": [\n                  \"<integer>\",\n                  \"<integer>\"\n                ],\n                \"conf\": \"low\"\n              },\n              {\n                \"name\": \"<string>\",\n                \"pages\": [\n                  \"<integer>\",\n                  \"<integer>\"\n                ],\n                \"conf\": \"low\"\n              }\n            ]\n          }\n        ]\n      },\n      \"response_type\": \"split\"\n    },\n    \"edit\": {\n      \"document_url\": \"<string>\",\n      \"response_type\": \"edit\",\n      \"form_schema\": [\n        {\n          \"bbox\": {\n            \"left\": \"<number>\",\n            \"top\": \"<number>\",\n            \"width\": \"<number>\",\n            \"height\": \"<number>\",\n            \"page\": \"<integer>\",\n            \"original_page\": \"<integer>\"\n          },\n          \"description\": \"<string>\",\n          \"type\": \"checkbox\",\n          \"fill\": true,\n          \"value\": \"<string>\",\n          \"font_size\": \"<number>\"\n        },\n        {\n          \"bbox\": {\n            \"left\": \"<number>\",\n            \"top\": \"<number>\",\n            \"width\": \"<number>\",\n            \"height\": \"<number>\",\n            \"page\": \"<integer>\",\n            \"original_page\": \"<integer>\"\n          },\n          \"description\": \"<string>\",\n          \"type\": \"dropdown\",\n          \"fill\": true,\n          \"value\": \"<string>\",\n          \"font_size\": \"<number>\"\n        }\n      ],\n      \"usage\": {\n        \"num_pages\": \"<integer>\",\n        \"credits\": \"<number>\",\n        \"credit_breakdown\": {\n          \"tempor9\": \"<number>\",\n          \"aliquip_5\": \"<number>\",\n          \"amet23\": \"<number>\",\n          \"dolor1a5\": \"<number>\"\n        },\n        \"page_billing_breakdown\": {\n          \"in4d5\": [\n            \"reducto_lite_page\",\n            \"chart_agent\"\n          ],\n          \"enimeec\": [\n            \"chart_agent\",\n            \"table_summary\"\n          ],\n          \"consequat_53\": [\n            \"chart_agent\",\n            \"table_summary\"\n          ]\n        },\n        \"non_empty_cell_count\": \"<integer>\"\n      }\n    }\n  },\n  \"response_type\": \"pipeline\"\n}",
+              "createdAt": "2026-07-28T02:44:01.000Z",
+              "updatedAt": "2026-07-28T02:44:01.000Z",
+              "uid": "35240-7bb2f1f9-337e-441c-b5d6-5bfbacbac989"
+            },
+            {
+              "id": "6c2304d2-7518-479d-b3e4-2b4748f7529d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/pipeline",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pipeline"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:44:01.000Z",
+              "updatedAt": "2026-07-28T02:44:01.000Z",
+              "uid": "35240-6c2304d2-7518-479d-b3e4-2b4748f7529d"
+            }
+          ],
+          "createdAt": "2026-07-28T02:44:01.000Z",
+          "updatedAt": "2026-07-28T02:44:01.000Z",
+          "uid": "35240-62e68f1b-784a-4574-9878-1bc6891d20dd"
+        }
+      ],
+      "id": "ff11b224-2d4a-4881-86f4-00b6507e5ed8",
+      "createdAt": "2026-07-28T02:44:01.000Z",
+      "updatedAt": "2026-07-28T02:44:01.000Z",
+      "uid": "35240-ff11b224-2d4a-4881-86f4-00b6507e5ed8"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

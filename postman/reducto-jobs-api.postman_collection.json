@@ -1,0 +1,204 @@
+{
+  "info": {
+    "_postman_id": "030a800b-2b46-410d-a75f-665445da88f8",
+    "name": "Reducto Cancel Jobs API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:43:52.000Z",
+    "updatedAt": "2026-07-28T02:43:52.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-030a800b-2b46-410d-a75f-665445da88f8"
+  },
+  "item": [
+    {
+      "name": "jobs",
+      "item": [
+        {
+          "name": "Get Jobs",
+          "id": "222fa045-b800-4cae-a276-a0881b9f78ef",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?exclude_configs=false&cursor=<string>&limit=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ],
+              "query": [
+                {
+                  "description": "Exclude raw_config from response to reduce size",
+                  "key": "exclude_configs",
+                  "value": "false"
+                },
+                {
+                  "description": "Cursor for pagination. Use the next_cursor from the previous response to fetch the next page.",
+                  "key": "cursor",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Maximum number of jobs to return per page. Defaults to 100, max 500.",
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "15ed7968-20d1-4109-813d-d119714910ca",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/jobs?exclude_configs=false&cursor=<string>&limit=100",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "jobs"
+                  ],
+                  "query": [
+                    {
+                      "description": "Exclude raw_config from response to reduce size",
+                      "key": "exclude_configs",
+                      "value": "false"
+                    },
+                    {
+                      "description": "Cursor for pagination. Use the next_cursor from the previous response to fetch the next page.",
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Maximum number of jobs to return per page. Defaults to 100, max 500.",
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jobs\": [\n    {\n      \"job_id\": \"<string>\",\n      \"status\": \"Idle\",\n      \"type\": \"Classify\",\n      \"raw_config\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"num_pages\": \"<integer>\",\n      \"total_pages\": \"<integer>\",\n      \"duration\": \"<number>\",\n      \"source\": {\n        \"nullable\": true,\n        \"title\": \"Source\"\n      },\n      \"bucket\": {\n        \"nullable\": true,\n        \"title\": \"Bucket\"\n      }\n    },\n    {\n      \"job_id\": \"<string>\",\n      \"status\": \"InProgress\",\n      \"type\": \"Extract\",\n      \"raw_config\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"num_pages\": \"<integer>\",\n      \"total_pages\": \"<integer>\",\n      \"duration\": \"<number>\",\n      \"source\": {\n        \"nullable\": true,\n        \"title\": \"Source\"\n      },\n      \"bucket\": {\n        \"nullable\": true,\n        \"title\": \"Bucket\"\n      }\n    }\n  ],\n  \"next_cursor\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T02:43:53.000Z",
+              "updatedAt": "2026-07-28T02:43:53.000Z",
+              "uid": "35240-15ed7968-20d1-4109-813d-d119714910ca"
+            },
+            {
+              "id": "632c5696-b49b-4bde-8e83-a4cbd55786d4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/jobs?exclude_configs=false&cursor=<string>&limit=100",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "jobs"
+                  ],
+                  "query": [
+                    {
+                      "description": "Exclude raw_config from response to reduce size",
+                      "key": "exclude_configs",
+                      "value": "false"
+                    },
+                    {
+                      "description": "Cursor for pagination. Use the next_cursor from the previous response to fetch the next page.",
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Maximum number of jobs to return per page. Defaults to 100, max 500.",
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:43:53.000Z",
+              "updatedAt": "2026-07-28T02:43:53.000Z",
+              "uid": "35240-632c5696-b49b-4bde-8e83-a4cbd55786d4"
+            }
+          ],
+          "createdAt": "2026-07-28T02:43:53.000Z",
+          "updatedAt": "2026-07-28T02:43:53.000Z",
+          "uid": "35240-222fa045-b800-4cae-a276-a0881b9f78ef"
+        }
+      ],
+      "id": "2782d55c-1512-4c2d-b4cd-7839e89b7abc",
+      "createdAt": "2026-07-28T02:43:53.000Z",
+      "updatedAt": "2026-07-28T02:43:53.000Z",
+      "uid": "35240-2782d55c-1512-4c2d-b4cd-7839e89b7abc"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "info": {
+    "_postman_id": "8030b71b-c55e-42c0-9a86-ed1704721042",
+    "name": "Reducto Cancel Edit Async API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:43:45.000Z",
+    "updatedAt": "2026-07-28T02:43:45.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8030b71b-c55e-42c0-9a86-ed1704721042"
+  },
+  "item": [
+    {
+      "name": "edit_async",
+      "item": [
+        {
+          "name": "Edit Async",
+          "id": "eacd20f0-ffd1-4216-94a0-2cedddcb7a88",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document_url\": \"<string>\",\n  \"edit_instructions\": \"<string>\",\n  \"edit_options\": {\n    \"color\": \"#FF0000\",\n    \"font_size\": \"<number>\",\n    \"llm_provider_preference\": \"google\",\n    \"enable_overflow_pages\": false,\n    \"flatten\": false\n  },\n  \"form_schema\": [\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"dropdown\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    },\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"checkbox\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    }\n  ],\n  \"priority\": false,\n  \"webhook\": {\n    \"mode\": \"disabled\",\n    \"url\": \"<string>\",\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body\"\n    },\n    \"channels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/edit_async",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "edit_async"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d0c67b00-b683-4df3-af30-ab7a7714e216",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"document_url\": \"<string>\",\n  \"edit_instructions\": \"<string>\",\n  \"edit_options\": {\n    \"color\": \"#FF0000\",\n    \"font_size\": \"<number>\",\n    \"llm_provider_preference\": \"google\",\n    \"enable_overflow_pages\": false,\n    \"flatten\": false\n  },\n  \"form_schema\": [\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"dropdown\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    },\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"checkbox\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    }\n  ],\n  \"priority\": false,\n  \"webhook\": {\n    \"mode\": \"disabled\",\n    \"url\": \"<string>\",\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body\"\n    },\n    \"channels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/edit_async",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "edit_async"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"job_id\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T02:43:45.000Z",
+              "updatedAt": "2026-07-28T02:43:45.000Z",
+              "uid": "35240-d0c67b00-b683-4df3-af30-ab7a7714e216"
+            },
+            {
+              "id": "98092d17-7dcf-448d-a348-2d5f45ba852a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"document_url\": \"<string>\",\n  \"edit_instructions\": \"<string>\",\n  \"edit_options\": {\n    \"color\": \"#FF0000\",\n    \"font_size\": \"<number>\",\n    \"llm_provider_preference\": \"google\",\n    \"enable_overflow_pages\": false,\n    \"flatten\": false\n  },\n  \"form_schema\": [\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"dropdown\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    },\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"checkbox\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    }\n  ],\n  \"priority\": false,\n  \"webhook\": {\n    \"mode\": \"disabled\",\n    \"url\": \"<string>\",\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body\"\n    },\n    \"channels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/edit_async",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "edit_async"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:43:45.000Z",
+              "updatedAt": "2026-07-28T02:43:45.000Z",
+              "uid": "35240-98092d17-7dcf-448d-a348-2d5f45ba852a"
+            }
+          ],
+          "createdAt": "2026-07-28T02:43:45.000Z",
+          "updatedAt": "2026-07-28T02:43:45.000Z",
+          "uid": "35240-eacd20f0-ffd1-4216-94a0-2cedddcb7a88"
+        }
+      ],
+      "id": "415b5b01-6f41-4791-add0-37238429cdc4",
+      "createdAt": "2026-07-28T02:43:45.000Z",
+      "updatedAt": "2026-07-28T02:43:45.000Z",
+      "uid": "35240-415b5b01-6f41-4791-add0-37238429cdc4"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

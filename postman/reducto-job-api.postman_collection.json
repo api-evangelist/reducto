@@ -1,0 +1,183 @@
+{
+  "info": {
+    "_postman_id": "c02f2348-2c7e-40bc-8632-31a31ee43a28",
+    "name": "Reducto Cancel Job API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:43:51.000Z",
+    "updatedAt": "2026-07-28T02:43:51.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c02f2348-2c7e-40bc-8632-31a31ee43a28"
+  },
+  "item": [
+    {
+      "name": "job",
+      "item": [
+        {
+          "name": "{job_id}",
+          "item": [
+            {
+              "name": "Retrieve Parse",
+              "id": "96570d1c-112a-46e1-bffb-ad1592e3bc40",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/job/:job_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "job",
+                    ":job_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "6bd1f9a1-725e-4915-84bf-484bc3cf0555",
+                      "key": "job_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "id": "ebf7714f-4bc0-41da-91b7-c9c8eb2e3922",
+                  "name": "Successful Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/job/:job_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "job",
+                        ":job_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "job_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"Pending\",\n  \"result\": {\n    \"job_id\": \"<string>\",\n    \"duration\": \"<number>\",\n    \"usage\": {\n      \"num_pages\": \"<integer>\",\n      \"credits\": \"<number>\",\n      \"credit_breakdown\": {\n        \"voluptate_c\": \"<number>\",\n        \"quis_82\": \"<number>\",\n        \"qui0_d\": \"<number>\"\n      },\n      \"page_billing_breakdown\": {\n        \"nisif\": [\n          \"agentic\",\n          \"complex\"\n        ],\n        \"in_5_\": [\n          \"agentic_text\",\n          \"agentic\"\n        ]\n      },\n      \"non_empty_cell_count\": \"<integer>\"\n    },\n    \"result\": {\n      \"type\": \"full\",\n      \"chunks\": [\n        {\n          \"content\": \"<string>\",\n          \"embed\": \"<string>\",\n          \"enriched\": \"<string>\",\n          \"blocks\": [\n            {\n              \"type\": \"Signature\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"content\": \"<string>\",\n              \"image_url\": \"<string>\",\n              \"chart_data\": [\n                \"<string>\",\n                \"<string>\"\n              ],\n              \"confidence\": \"low\",\n              \"granular_confidence\": {\n                \"extract_confidence\": \"<number>\",\n                \"parse_confidence\": \"<number>\"\n              },\n              \"extra\": {\n                \"veniamb6\": 99419513.59467512,\n                \"eu_6\": 95964977.37303466\n              }\n            },\n            {\n              \"type\": \"Text\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"content\": \"<string>\",\n              \"image_url\": \"<string>\",\n              \"chart_data\": [\n                \"<string>\",\n                \"<string>\"\n              ],\n              \"confidence\": \"low\",\n              \"granular_confidence\": {\n                \"extract_confidence\": \"<number>\",\n                \"parse_confidence\": \"<number>\"\n              },\n              \"extra\": {\n                \"in90\": true,\n                \"qui1\": -33747404.90306345,\n                \"Utb\": true\n              }\n            }\n          ],\n          \"enrichment_success\": false\n        },\n        {\n          \"content\": \"<string>\",\n          \"embed\": \"<string>\",\n          \"enriched\": \"<string>\",\n          \"blocks\": [\n            {\n              \"type\": \"Section Header\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"content\": \"<string>\",\n              \"image_url\": \"<string>\",\n              \"chart_data\": [\n                \"<string>\",\n                \"<string>\"\n              ],\n              \"confidence\": \"low\",\n              \"granular_confidence\": {\n                \"extract_confidence\": \"<number>\",\n                \"parse_confidence\": \"<number>\"\n              },\n              \"extra\": {\n                \"proident_461\": 46664980,\n                \"dolor_0\": -30189518,\n                \"consectetur_ef9\": \"dolor sunt\"\n              }\n            },\n            {\n              \"type\": \"Key Value\",\n              \"bbox\": {\n                \"left\": \"<number>\",\n                \"top\": \"<number>\",\n                \"width\": \"<number>\",\n                \"height\": \"<number>\",\n                \"page\": \"<integer>\",\n                \"original_page\": \"<integer>\"\n              },\n              \"content\": \"<string>\",\n              \"image_url\": \"<string>\",\n              \"chart_data\": [\n                \"<string>\",\n                \"<string>\"\n              ],\n              \"confidence\": \"low\",\n              \"granular_confidence\": {\n                \"extract_confidence\": \"<number>\",\n                \"parse_confidence\": \"<number>\"\n              },\n              \"extra\": {\n                \"dolor74\": -93240735,\n                \"adipisicing_77e\": -83524797.79599467,\n                \"quise\": -85985422\n              }\n            }\n          ],\n          \"enrichment_success\": false\n        }\n      ],\n      \"ocr\": {\n        \"words\": [\n          {\n            \"text\": \"<string>\",\n            \"bbox\": {\n              \"left\": \"<number>\",\n              \"top\": \"<number>\",\n              \"width\": \"<number>\",\n              \"height\": \"<number>\",\n              \"page\": \"<integer>\",\n              \"original_page\": \"<integer>\"\n            },\n            \"confidence\": \"<number>\",\n            \"chunk_index\": \"<integer>\",\n            \"rotation\": \"<integer>\"\n          },\n          {\n            \"text\": \"<string>\",\n            \"bbox\": {\n              \"left\": \"<number>\",\n              \"top\": \"<number>\",\n              \"width\": \"<number>\",\n              \"height\": \"<number>\",\n              \"page\": \"<integer>\",\n              \"original_page\": \"<integer>\"\n            },\n            \"confidence\": \"<number>\",\n            \"chunk_index\": \"<integer>\",\n            \"rotation\": \"<integer>\"\n          }\n        ],\n        \"lines\": [\n          {\n            \"text\": \"<string>\",\n            \"bbox\": {\n              \"left\": \"<number>\",\n              \"top\": \"<number>\",\n              \"width\": \"<number>\",\n              \"height\": \"<number>\",\n              \"page\": \"<integer>\",\n              \"original_page\": \"<integer>\"\n            },\n            \"confidence\": \"<number>\",\n            \"chunk_index\": \"<integer>\",\n            \"rotation\": \"<integer>\"\n          },\n          {\n            \"text\": \"<string>\",\n            \"bbox\": {\n              \"left\": \"<number>\",\n              \"top\": \"<number>\",\n              \"width\": \"<number>\",\n              \"height\": \"<number>\",\n              \"page\": \"<integer>\",\n              \"original_page\": \"<integer>\"\n            },\n            \"confidence\": \"<number>\",\n            \"chunk_index\": \"<integer>\",\n            \"rotation\": \"<integer>\"\n          }\n        ]\n      },\n      \"custom\": {\n        \"nullable\": true,\n        \"title\": \"Custom\"\n      }\n    },\n    \"response_type\": \"parse\",\n    \"pdf_url\": \"<string>\",\n    \"studio_link\": \"<string>\",\n    \"parse_mode\": \"lite\"\n  },\n  \"progress\": \"<number>\",\n  \"reason\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:43:52.000Z",
+                  "updatedAt": "2026-07-28T02:43:52.000Z",
+                  "uid": "35240-ebf7714f-4bc0-41da-91b7-c9c8eb2e3922"
+                },
+                {
+                  "id": "ac61fc3f-496f-48ee-92d3-780e1f81e800",
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/job/:job_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "job",
+                        ":job_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "job_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T02:43:52.000Z",
+                  "updatedAt": "2026-07-28T02:43:52.000Z",
+                  "uid": "35240-ac61fc3f-496f-48ee-92d3-780e1f81e800"
+                }
+              ],
+              "createdAt": "2026-07-28T02:43:52.000Z",
+              "updatedAt": "2026-07-28T02:43:52.000Z",
+              "uid": "35240-96570d1c-112a-46e1-bffb-ad1592e3bc40"
+            }
+          ],
+          "id": "2724328c-1977-4657-be79-971e1d26d03d",
+          "createdAt": "2026-07-28T02:43:52.000Z",
+          "updatedAt": "2026-07-28T02:43:52.000Z",
+          "uid": "35240-2724328c-1977-4657-be79-971e1d26d03d"
+        }
+      ],
+      "id": "c9ac9757-4c21-485c-ba62-cc58b5e8adff",
+      "createdAt": "2026-07-28T02:43:52.000Z",
+      "updatedAt": "2026-07-28T02:43:52.000Z",
+      "uid": "35240-c9ac9757-4c21-485c-ba62-cc58b5e8adff"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}

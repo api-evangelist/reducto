@@ -1,0 +1,195 @@
+{
+  "info": {
+    "_postman_id": "18f699dc-8766-416e-8d75-9609dac32657",
+    "name": "Reducto Cancel Extract Async API",
+    "description": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:43:47.000Z",
+    "updatedAt": "2026-07-28T02:43:47.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-18f699dc-8766-416e-8d75-9609dac32657"
+  },
+  "item": [
+    {
+      "name": "extract_async",
+      "item": [
+        {
+          "name": "Extract Async",
+          "id": "0189fa46-2b97-4937-9602-3a91d8babe5c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"async\": {\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body. Defaults to None.\"\n    },\n    \"priority\": false,\n    \"webhook\": {\n      \"mode\": \"svix\",\n      \"channels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"parsing\": {\n    \"enhance\": {\n      \"summarize_figures\": true,\n      \"intelligent_ordering\": false\n    },\n    \"retrieval\": {\n      \"chunking\": {\n        \"chunk_mode\": \"disabled\",\n        \"chunk_size\": \"<integer>\",\n        \"chunk_overlap\": 0\n      },\n      \"embedding_optimized\": false\n    },\n    \"formatting\": {\n      \"add_page_markers\": false,\n      \"table_output_format\": \"dynamic\",\n      \"merge_tables\": false\n    },\n    \"spreadsheet\": {\n      \"split_large_tables\": {\n        \"enabled\": true,\n        \"size\": \"<integer>\"\n      },\n      \"clustering\": \"accurate\",\n      \"max_cell_count\": \"<integer>\"\n    },\n    \"settings\": {\n      \"ocr_system\": \"standard\",\n      \"extraction_mode\": \"hybrid\",\n      \"force_url_result\": false,\n      \"force_file_extension\": \"<string>\",\n      \"return_ocr_data\": false,\n      \"embed_pdf_metadata\": false,\n      \"embed_pdf_metadata_dpi\": 100,\n      \"persist_results\": false,\n      \"tenant_throttling\": {\n        \"tenant_id\": \"<string>\",\n        \"max_share\": 0.5\n      },\n      \"timeout\": \"<number>\",\n      \"page_range\": {\n        \"start\": \"<integer>\",\n        \"end\": \"<integer>\"\n      },\n      \"document_password\": \"<string>\",\n      \"hybrid_vpc\": {\n        \"environment\": \"<string>\"\n      }\n    }\n  },\n  \"instructions\": {\n    \"schema\": {},\n    \"system_prompt\": \"Be precise and thorough.\"\n  },\n  \"settings\": {\n    \"include_images\": false,\n    \"optimize_for_latency\": false,\n    \"array_extract\": false,\n    \"deep_extract\": false,\n    \"citations\": {\n      \"enabled\": false,\n      \"numerical_confidence\": true\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/extract_async",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "extract_async"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "267f8bd2-7c8e-4eaa-a713-3940d609a9bb",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"async\": {\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body. Defaults to None.\"\n    },\n    \"priority\": false,\n    \"webhook\": {\n      \"mode\": \"svix\",\n      \"channels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"parsing\": {\n    \"enhance\": {\n      \"summarize_figures\": true,\n      \"intelligent_ordering\": false\n    },\n    \"retrieval\": {\n      \"chunking\": {\n        \"chunk_mode\": \"disabled\",\n        \"chunk_size\": \"<integer>\",\n        \"chunk_overlap\": 0\n      },\n      \"embedding_optimized\": false\n    },\n    \"formatting\": {\n      \"add_page_markers\": false,\n      \"table_output_format\": \"dynamic\",\n      \"merge_tables\": false\n    },\n    \"spreadsheet\": {\n      \"split_large_tables\": {\n        \"enabled\": true,\n        \"size\": \"<integer>\"\n      },\n      \"clustering\": \"accurate\",\n      \"max_cell_count\": \"<integer>\"\n    },\n    \"settings\": {\n      \"ocr_system\": \"standard\",\n      \"extraction_mode\": \"hybrid\",\n      \"force_url_result\": false,\n      \"force_file_extension\": \"<string>\",\n      \"return_ocr_data\": false,\n      \"embed_pdf_metadata\": false,\n      \"embed_pdf_metadata_dpi\": 100,\n      \"persist_results\": false,\n      \"tenant_throttling\": {\n        \"tenant_id\": \"<string>\",\n        \"max_share\": 0.5\n      },\n      \"timeout\": \"<number>\",\n      \"page_range\": {\n        \"start\": \"<integer>\",\n        \"end\": \"<integer>\"\n      },\n      \"document_password\": \"<string>\",\n      \"hybrid_vpc\": {\n        \"environment\": \"<string>\"\n      }\n    }\n  },\n  \"instructions\": {\n    \"schema\": {},\n    \"system_prompt\": \"Be precise and thorough.\"\n  },\n  \"settings\": {\n    \"include_images\": false,\n    \"optimize_for_latency\": false,\n    \"array_extract\": false,\n    \"deep_extract\": false,\n    \"citations\": {\n      \"enabled\": false,\n      \"numerical_confidence\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/extract_async",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "extract_async"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"job_id\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T02:43:48.000Z",
+              "updatedAt": "2026-07-28T02:43:48.000Z",
+              "uid": "35240-267f8bd2-7c8e-4eaa-a713-3940d609a9bb"
+            },
+            {
+              "id": "257f28c8-1ab5-4a32-9c53-defed392523b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"async\": {\n    \"metadata\": {\n      \"title\": \"Metadata\",\n      \"description\": \"JSON metadata included in webhook request body. Defaults to None.\"\n    },\n    \"priority\": false,\n    \"webhook\": {\n      \"mode\": \"svix\",\n      \"channels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"parsing\": {\n    \"enhance\": {\n      \"summarize_figures\": true,\n      \"intelligent_ordering\": false\n    },\n    \"retrieval\": {\n      \"chunking\": {\n        \"chunk_mode\": \"disabled\",\n        \"chunk_size\": \"<integer>\",\n        \"chunk_overlap\": 0\n      },\n      \"embedding_optimized\": false\n    },\n    \"formatting\": {\n      \"add_page_markers\": false,\n      \"table_output_format\": \"dynamic\",\n      \"merge_tables\": false\n    },\n    \"spreadsheet\": {\n      \"split_large_tables\": {\n        \"enabled\": true,\n        \"size\": \"<integer>\"\n      },\n      \"clustering\": \"accurate\",\n      \"max_cell_count\": \"<integer>\"\n    },\n    \"settings\": {\n      \"ocr_system\": \"standard\",\n      \"extraction_mode\": \"hybrid\",\n      \"force_url_result\": false,\n      \"force_file_extension\": \"<string>\",\n      \"return_ocr_data\": false,\n      \"embed_pdf_metadata\": false,\n      \"embed_pdf_metadata_dpi\": 100,\n      \"persist_results\": false,\n      \"tenant_throttling\": {\n        \"tenant_id\": \"<string>\",\n        \"max_share\": 0.5\n      },\n      \"timeout\": \"<number>\",\n      \"page_range\": {\n        \"start\": \"<integer>\",\n        \"end\": \"<integer>\"\n      },\n      \"document_password\": \"<string>\",\n      \"hybrid_vpc\": {\n        \"environment\": \"<string>\"\n      }\n    }\n  },\n  \"instructions\": {\n    \"schema\": {},\n    \"system_prompt\": \"Be precise and thorough.\"\n  },\n  \"settings\": {\n    \"include_images\": false,\n    \"optimize_for_latency\": false,\n    \"array_extract\": false,\n    \"deep_extract\": false,\n    \"citations\": {\n      \"enabled\": false,\n      \"numerical_confidence\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/extract_async",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "extract_async"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\",\n      \"input\": {\n        \"title\": \"Input\"\n      },\n      \"ctx\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:43:48.000Z",
+              "updatedAt": "2026-07-28T02:43:48.000Z",
+              "uid": "35240-257f28c8-1ab5-4a32-9c53-defed392523b"
+            }
+          ],
+          "createdAt": "2026-07-28T02:43:47.000Z",
+          "updatedAt": "2026-07-28T02:43:47.000Z",
+          "uid": "35240-0189fa46-2b97-4937-9602-3a91d8babe5c"
+        }
+      ],
+      "id": "95f81277-6853-453a-baaf-8f8d3addcc12",
+      "createdAt": "2026-07-28T02:43:47.000Z",
+      "updatedAt": "2026-07-28T02:43:47.000Z",
+      "uid": "35240-95f81277-6853-453a-baaf-8f8d3addcc12"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://platform.reducto.ai"
+    }
+  ]
+}
