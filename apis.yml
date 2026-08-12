@@ -1469,6 +1469,9 @@ apis:
   - type: GitHubRepository
     url: https://github.com/reductoai/reducto-go-sdk
 common:
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/reductoai/reducto-python-sdk/blob/main/LICENSE
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/reducto/overview
   - type: AgenticAccess
