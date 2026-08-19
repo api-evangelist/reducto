@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reducto Cancel Jobs API",
+    "version": "v1.11.80-78-gc5c4ff11c"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.reducto.ai/jobs",
+            "params": [
+              {
+                "name": "exclude_configs",
+                "value": "",
+                "type": "query",
+                "description": "Exclude raw_config from response to reduce size"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. Use the next_cursor from the previous response to fetch the next page."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of jobs to return per page. Defaults to 100, max 500."
+              }
+            ]
+          },
+          "docs": "Get Jobs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

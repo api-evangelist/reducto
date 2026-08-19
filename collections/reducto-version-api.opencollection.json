@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reducto Cancel Version API",
+    "version": "v1.11.80-78-gc5c4ff11c"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Version",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.reducto.ai/version"
+          },
+          "docs": "Get Version"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

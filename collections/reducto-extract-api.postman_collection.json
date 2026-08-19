@@ -1,0 +1,188 @@
+{
+  "item": [
+    {
+      "id": "bdeed464-fce9-4e15-875b-0de9b849f73e",
+      "name": "Extract",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5489eb5d-354c-4d62-ab7b-f42305c3c435",
+          "name": "Extract",
+          "request": {
+            "name": "Extract",
+            "description": {},
+            "url": {
+              "path": [
+                "extract"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"parsing\": {\n    \"enhance\": {\n      \"summarize_figures\": true,\n      \"intelligent_ordering\": false\n    },\n    \"retrieval\": {\n      \"chunking\": {\n        \"chunk_mode\": \"disabled\",\n        \"chunk_size\": \"<integer>\",\n        \"chunk_overlap\": 0\n      },\n      \"embedding_optimized\": false\n    },\n    \"formatting\": {\n      \"add_page_markers\": false,\n      \"table_output_format\": \"dynamic\",\n      \"merge_tables\": false\n    },\n    \"spreadsheet\": {\n      \"split_large_tables\": {\n        \"enabled\": true,\n        \"size\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"clustering\": \"accurate\",\n      \"max_cell_count\": \"<integer>\"\n    },\n    \"settings\": {\n      \"ocr_system\": \"standard\",\n      \"extraction_mode\": \"hybrid\",\n      \"force_url_result\": false,\n      \"force_file_extension\": \"<string>\",\n      \"return_ocr_data\": false,\n      \"embed_pdf_metadata\": false,\n      \"embed_pdf_metadata_dpi\": 100,\n      \"persist_results\": false,\n      \"tenant_throttling\": {\n        \"tenant_id\": \"<string>\",\n        \"max_share\": 0.5\n      },\n      \"timeout\": \"<number>\",\n      \"page_range\": {\n        \"start\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"end\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"document_password\": \"<string>\",\n      \"hybrid_vpc\": {\n        \"environment\": \"<string>\"\n      }\n    }\n  },\n  \"instructions\": {\n    \"schema\": {},\n    \"system_prompt\": \"Be precise and thorough.\"\n  },\n  \"settings\": {\n    \"include_images\": false,\n    \"optimize_for_latency\": false,\n    \"array_extract\": false,\n    \"deep_extract\": false,\n    \"citations\": {\n      \"enabled\": false,\n      \"numerical_confidence\": true\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ee4fec82-605c-4f4b-b9f9-20fbc48d9348",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "extract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"parsing\": {\n    \"enhance\": {\n      \"summarize_figures\": true,\n      \"intelligent_ordering\": false\n    },\n    \"retrieval\": {\n      \"chunking\": {\n        \"chunk_mode\": \"disabled\",\n        \"chunk_size\": \"<integer>\",\n        \"chunk_overlap\": 0\n      },\n      \"embedding_optimized\": false\n    },\n    \"formatting\": {\n      \"add_page_markers\": false,\n      \"table_output_format\": \"dynamic\",\n      \"merge_tables\": false\n    },\n    \"spreadsheet\": {\n      \"split_large_tables\": {\n        \"enabled\": true,\n        \"size\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"clustering\": \"accurate\",\n      \"max_cell_count\": \"<integer>\"\n    },\n    \"settings\": {\n      \"ocr_system\": \"standard\",\n      \"extraction_mode\": \"hybrid\",\n      \"force_url_result\": false,\n      \"force_file_extension\": \"<string>\",\n      \"return_ocr_data\": false,\n      \"embed_pdf_metadata\": false,\n      \"embed_pdf_metadata_dpi\": 100,\n      \"persist_results\": false,\n      \"tenant_throttling\": {\n        \"tenant_id\": \"<string>\",\n        \"max_share\": 0.5\n      },\n      \"timeout\": \"<number>\",\n      \"page_range\": {\n        \"start\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"end\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"document_password\": \"<string>\",\n      \"hybrid_vpc\": {\n        \"environment\": \"<string>\"\n      }\n    }\n  },\n  \"instructions\": {\n    \"schema\": {},\n    \"system_prompt\": \"Be precise and thorough.\"\n  },\n  \"settings\": {\n    \"include_images\": false,\n    \"optimize_for_latency\": false,\n    \"array_extract\": false,\n    \"deep_extract\": false,\n    \"citations\": {\n      \"enabled\": false,\n      \"numerical_confidence\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\",\n  \"key_1\": false,\n  \"key_2\": 7476,\n  \"key_3\": 2807.740604690322\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "495a9bd2-1cd0-48ea-b8d2-07ea53ee9ef7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "extract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"parsing\": {\n    \"enhance\": {\n      \"summarize_figures\": true,\n      \"intelligent_ordering\": false\n    },\n    \"retrieval\": {\n      \"chunking\": {\n        \"chunk_mode\": \"disabled\",\n        \"chunk_size\": \"<integer>\",\n        \"chunk_overlap\": 0\n      },\n      \"embedding_optimized\": false\n    },\n    \"formatting\": {\n      \"add_page_markers\": false,\n      \"table_output_format\": \"dynamic\",\n      \"merge_tables\": false\n    },\n    \"spreadsheet\": {\n      \"split_large_tables\": {\n        \"enabled\": true,\n        \"size\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"clustering\": \"accurate\",\n      \"max_cell_count\": \"<integer>\"\n    },\n    \"settings\": {\n      \"ocr_system\": \"standard\",\n      \"extraction_mode\": \"hybrid\",\n      \"force_url_result\": false,\n      \"force_file_extension\": \"<string>\",\n      \"return_ocr_data\": false,\n      \"embed_pdf_metadata\": false,\n      \"embed_pdf_metadata_dpi\": 100,\n      \"persist_results\": false,\n      \"tenant_throttling\": {\n        \"tenant_id\": \"<string>\",\n        \"max_share\": 0.5\n      },\n      \"timeout\": \"<number>\",\n      \"page_range\": {\n        \"start\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"end\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"document_password\": \"<string>\",\n      \"hybrid_vpc\": {\n        \"environment\": \"<string>\"\n      }\n    }\n  },\n  \"instructions\": {\n    \"schema\": {},\n    \"system_prompt\": \"Be precise and thorough.\"\n  },\n  \"settings\": {\n    \"include_images\": false,\n    \"optimize_for_latency\": false,\n    \"array_extract\": false,\n    \"deep_extract\": false,\n    \"citations\": {\n      \"enabled\": false,\n      \"numerical_confidence\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.reducto.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7b03b74f-d35c-45b3-b532-5cd6ac1d827a",
+    "name": "Reducto Cancel Extract API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+      "type": "text/plain"
+    }
+  }
+}

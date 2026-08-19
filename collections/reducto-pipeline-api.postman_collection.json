@@ -1,0 +1,188 @@
+{
+  "item": [
+    {
+      "id": "69f4c570-a4bf-4ed9-991c-5fb15f917958",
+      "name": "Pipeline",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "83ad4e90-5f1e-4ebf-9df9-35dc12a59751",
+          "name": "Pipeline",
+          "request": {
+            "name": "Pipeline",
+            "description": {},
+            "url": {
+              "path": [
+                "pipeline"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dde7cff7-2b71-44e6-a550-c803d867b953",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pipeline"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"job_id\": \"string\",\n  \"usage\": {\n    \"num_pages\": 7147,\n    \"credits\": 4001.468196378093,\n    \"credit_breakdown\": {\n      \"key_0\": 9660.435126753748,\n      \"key_1\": 5449.785457082681\n    },\n    \"page_billing_breakdown\": {\n      \"key_0\": [\n        \"spreadsheet_cells\",\n        \"agentic_text\"\n      ],\n      \"key_1\": [\n        \"page\",\n        \"key_value\"\n      ]\n    },\n    \"non_empty_cell_count\": 9040\n  },\n  \"result\": {\n    \"parse\": {\n      \"job_id\": \"string\",\n      \"duration\": 5903.00500553556,\n      \"usage\": {\n        \"num_pages\": 4257,\n        \"credits\": 1484.7750889285549,\n        \"credit_breakdown\": {\n          \"key_0\": 6180.513403649075\n        },\n        \"page_billing_breakdown\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"key_1\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"non_empty_cell_count\": 8428\n      },\n      \"result\": {\n        \"type\": \"full\",\n        \"chunks\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"ocr\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"custom\": {}\n      },\n      \"response_type\": \"parse\",\n      \"pdf_url\": \"string\",\n      \"studio_link\": \"string\",\n      \"parse_mode\": \"lite\"\n    },\n    \"extract\": [\n      {\n        \"split_name\": \"string\",\n        \"page_range\": [\n          637,\n          3392\n        ],\n        \"result\": {\n          \"key_0\": 5359,\n          \"key_1\": 3253\n        },\n        \"partition\": \"string\"\n      },\n      {\n        \"split_name\": \"string\",\n        \"page_range\": [\n          1985,\n          8988\n        ],\n        \"result\": {\n          \"key_0\": \"string\"\n        },\n        \"partition\": \"string\"\n      }\n    ],\n    \"split\": {\n      \"usage\": {\n        \"num_pages\": 3626,\n        \"credits\": 6343.832142771558,\n        \"credit_breakdown\": {\n          \"key_0\": 657.9894939442277,\n          \"key_1\": 1935.3053044484036\n        },\n        \"page_billing_breakdown\": {\n          \"key_0\": [\n            \"enrich_table\",\n            \"promptable_agentic_text\"\n          ]\n        },\n        \"non_empty_cell_count\": 3536\n      },\n      \"result\": {\n        \"section_mapping\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"key_1\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"key_2\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"key_3\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"splits\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"response_type\": \"split\"\n    },\n    \"edit\": {\n      \"document_url\": \"string\",\n      \"response_type\": \"edit\",\n      \"form_schema\": [\n        {\n          \"bbox\": {\n            \"left\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"top\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"width\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"height\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"original_page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"description\": \"string\",\n          \"type\": \"dropdown\",\n          \"fill\": true,\n          \"value\": \"string\",\n          \"font_size\": 54.03059566476977\n        },\n        {\n          \"bbox\": {\n            \"left\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"top\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"width\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"height\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"original_page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"description\": \"string\",\n          \"type\": \"dropdown\",\n          \"fill\": true,\n          \"value\": \"string\",\n          \"font_size\": 65.15419476425015\n        }\n      ],\n      \"usage\": {\n        \"num_pages\": 2890,\n        \"credits\": 4141.492969516573,\n        \"credit_breakdown\": {\n          \"key_0\": 4948.409914176618\n        },\n        \"page_billing_breakdown\": {\n          \"key_0\": [\n            \"enrich_table\",\n            \"promptable_agentic_text\"\n          ]\n        },\n        \"non_empty_cell_count\": 4049\n      }\n    }\n  },\n  \"response_type\": \"pipeline\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fd1bbb6-b655-4724-a82d-757b79c811b0",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pipeline"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"pipeline_id\": \"<string>\",\n  \"settings\": {\n    \"document_password\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.reducto.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f15f8045-3035-44a1-ab30-b9b6f27acd97",
+    "name": "Reducto Cancel Pipeline API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+      "type": "text/plain"
+    }
+  }
+}

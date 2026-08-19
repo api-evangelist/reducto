@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reducto Cancel Parse Async API",
+    "version": "v1.11.80-78-gc5c4ff11c"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Parse Async",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Async Parse",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.reducto.ai/parse_async",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Async Parse"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

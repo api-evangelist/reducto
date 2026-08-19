@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reducto Cancel API",
+    "version": "v1.11.80-78-gc5c4ff11c"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cancel",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Cancel Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.reducto.ai/cancel/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel Job"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

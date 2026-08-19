@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reducto Cancel Extract API",
+    "version": "v1.11.80-78-gc5c4ff11c"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Extract",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Extract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.reducto.ai/extract",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Extract"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

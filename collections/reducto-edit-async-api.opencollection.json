@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reducto Cancel Edit Async API",
+    "version": "v1.11.80-78-gc5c4ff11c"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Edit Async",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Edit Async",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.reducto.ai/edit_async",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit Async"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

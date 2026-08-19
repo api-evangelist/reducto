@@ -1,0 +1,188 @@
+{
+  "item": [
+    {
+      "id": "582adfab-9bbd-4d72-97c3-db88b1bec3dd",
+      "name": "Edit",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "43eb3c1b-4b2a-4cb9-8589-c11ec9151547",
+          "name": "Edit",
+          "request": {
+            "name": "Edit",
+            "description": {},
+            "url": {
+              "path": [
+                "edit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document_url\": \"<string>\",\n  \"edit_instructions\": \"<string>\",\n  \"edit_options\": {\n    \"color\": \"#FF0000\",\n    \"font_size\": \"<number>\",\n    \"llm_provider_preference\": \"<string>\",\n    \"enable_overflow_pages\": false,\n    \"flatten\": false\n  },\n  \"form_schema\": [\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    },\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    }\n  ],\n  \"priority\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "50c877ff-08bb-47b4-9299-3640d76c14ee",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "edit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"document_url\": \"<string>\",\n  \"edit_instructions\": \"<string>\",\n  \"edit_options\": {\n    \"color\": \"#FF0000\",\n    \"font_size\": \"<number>\",\n    \"llm_provider_preference\": \"<string>\",\n    \"enable_overflow_pages\": false,\n    \"flatten\": false\n  },\n  \"form_schema\": [\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    },\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    }\n  ],\n  \"priority\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"document_url\": \"string\",\n  \"response_type\": \"edit\",\n  \"form_schema\": [\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    },\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    }\n  ],\n  \"usage\": {\n    \"num_pages\": 6412,\n    \"credits\": 7064.350039213655,\n    \"credit_breakdown\": {\n      \"key_0\": 3670.531517767012\n    },\n    \"page_billing_breakdown\": {\n      \"key_0\": [\n        \"docx_native_page\",\n        \"agentic_text\"\n      ]\n    },\n    \"non_empty_cell_count\": 9915\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f800dff3-ca49-419e-9c8c-203b810d403f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "edit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"document_url\": \"<string>\",\n  \"edit_instructions\": \"<string>\",\n  \"edit_options\": {\n    \"color\": \"#FF0000\",\n    \"font_size\": \"<number>\",\n    \"llm_provider_preference\": \"<string>\",\n    \"enable_overflow_pages\": false,\n    \"flatten\": false\n  },\n  \"form_schema\": [\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    },\n    {\n      \"bbox\": {\n        \"left\": \"<number>\",\n        \"top\": \"<number>\",\n        \"width\": \"<number>\",\n        \"height\": \"<number>\",\n        \"page\": \"<integer>\",\n        \"original_page\": \"<integer>\"\n      },\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"fill\": true,\n      \"value\": \"<string>\",\n      \"font_size\": \"<number>\"\n    }\n  ],\n  \"priority\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.reducto.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8609f665-0795-4e62-887a-97e480b42c3b",
+    "name": "Reducto Cancel Edit API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.\n\nContact Support:\n Email: support@reducto.ai",
+      "type": "text/plain"
+    }
+  }
+}
