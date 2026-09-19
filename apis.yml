@@ -996,6 +996,8 @@ apis:
   humanURL: https://docs.reducto.ai/
   baseURL: https://api.reductoai.com
   tags:
+  - Pipelines
+  tags_raw:
   - Pipeline
   properties:
   - type: OpenAPI
