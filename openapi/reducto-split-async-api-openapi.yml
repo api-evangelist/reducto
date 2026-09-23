@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Reducto Cancel Split Async API
+  title: Reducto Split Async API
   description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
   version: v1.11.80-78-gc5c4ff11c
   contact:
@@ -42,49 +42,6 @@ paths:
       - Split Async
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SplitCategory:
-      properties:
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        partition_key:
-          type: string
-          nullable: true
-          title: Partition Key
-      type: object
-      required:
-      - name
-      - description
-      title: SplitCategory
     Chunking:
       properties:
         chunk_mode:
@@ -100,8 +57,9 @@ components:
           description: Choose how to partition chunks. Variable mode chunks by character length and visual context. Section mode chunks by section headers. Page mode chunks according to pages. Page sections mode chunks first by page, then by sections within each page. Disabled returns one single chunk.
           default: disabled
         chunk_size:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           title: Chunk Size
           description: The approximate size of chunks (in characters) that the document will be split into. Defaults to null, in which case the chunk size is variable between 250 - 1500 characters.
         chunk_overlap:
@@ -186,35 +144,6 @@ components:
       - input
       - split_description
       title: AsyncSplitConfig
-    TenantThrottling:
-      properties:
-        tenant_id:
-          type: string
-          maxLength: 256
-          minLength: 1
-          title: Tenant Id
-          description: Your identifier for the tenant (customer, workspace, organization) this request belongs to. Used only for noisy-neighbor throttling inside your account.
-        max_share:
-          type: number
-          maximum: 1
-          title: Max Share
-          description: Maximum fraction of your account's concurrency ceiling this tenant may use, between 0 (exclusive) and 1. Defaults to 0.5.
-          default: 0.5
-          minimum: 0
-          exclusiveMinimum: true
-      type: object
-      required:
-      - tenant_id
-      title: TenantThrottling
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     Formatting:
       properties:
         add_page_markers:
@@ -261,38 +190,14 @@ components:
           type: string
           title: File Id
         presigned_url:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           title: Presigned Url
       type: object
       required:
       - file_id
       title: UploadResponse
-    AsyncSplitResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-      type: object
-      required:
-      - job_id
-      title: AsyncSplitResponse
-    SplitLargeTables:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-          description: If True, split large tables into smaller tables. Defaults to True.
-          default: true
-        size:
-          anyOf:
-          - type: integer
-          - $ref: '#/components/schemas/SplitLargeTableSizes'
-          title: Size
-          description: The size of the tables to split into. Defaults to 50. Use 'row' and 'column' to independently specify the number of rows and columns to include when splitting. If you only want to split by rows or columns, set the other value to None.
-          default: 50
-      type: object
-      title: SplitLargeTables
     Enhance:
       properties:
         agentic:
@@ -317,37 +222,12 @@ components:
           default: false
       type: object
       title: Enhance
-    FigureAgentic:
-      properties:
-        scope:
-          type: string
-          title: Scope
-          enum:
-          - figure
-        prompt:
-          type: string
-          nullable: true
-          title: Prompt
-          description: Custom prompt for figure agentic.
-        advanced_chart_agent:
-          type: boolean
-          title: Advanced Chart Agent
-          description: If True, use the advanced chart agent. Defaults to False.
-          default: false
-        return_overlays:
-          type: boolean
-          title: Return Overlays
-          description: If True, return overlays for the figure. This is so you can use the overlays to double check the quality of the extraction
-          default: false
-      type: object
-      required:
-      - scope
-      title: FigureAgentic
     HybridVpcSettings:
       properties:
         environment:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           title: Environment
           description: Named Hybrid VPC environment to use for this request. Only applies when your organization has Hybrid VPC environments configured.
       type: object
@@ -355,81 +235,19 @@ components:
     SplitLargeTableSizes:
       properties:
         row:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           title: Row
           description: The number of rows to include in each chunk when splitting large tables. Does not chunk rows if set to None.
         column:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           title: Column
           description: The number of columns to include in each chunk when splitting large tables. Does not chunk columns if set to None.
       type: object
       title: SplitLargeTableSizes
-    TextAgentic:
-      properties:
-        scope:
-          type: string
-          title: Scope
-          enum:
-          - text
-        prompt:
-          type: string
-          nullable: true
-          title: Prompt
-          description: 'Custom instructions for agentic text. Note: This only applies to form regions (key-value).'
-      type: object
-      required:
-      - scope
-      title: TextAgentic
-    Retrieval:
-      properties:
-        chunking:
-          $ref: '#/components/schemas/Chunking'
-          default:
-            chunk_mode: disabled
-            chunk_overlap: 0
-        filter_blocks:
-          items:
-            type: string
-            enum:
-            - Header
-            - Footer
-            - Title
-            - Section Header
-            - Page Number
-            - List Item
-            - Figure
-            - Table
-            - Key Value
-            - Text
-            - Comment
-            - Signature
-          type: array
-          title: Filter Blocks
-          description: A list of block types to filter out from 'content' and 'embed' fields. By default, no blocks are filtered.
-          default: []
-        embedding_optimized:
-          type: boolean
-          title: Embedding Optimized
-          description: If True, use embedding optimized mode. Defaults to False.
-          default: false
-      type: object
-      title: Retrieval
-    PageRange:
-      properties:
-        start:
-          type: integer
-          nullable: true
-          title: Start
-          description: The page number to start processing from (1-indexed).
-        end:
-          type: integer
-          nullable: true
-          title: End
-          description: The page number to stop processing at (1-indexed).
-      type: object
-      title: PageRange
     config__v3__AsyncConfig:
       properties:
         metadata:
@@ -446,231 +264,8 @@ components:
           - $ref: '#/components/schemas/DirectWebhookConfig'
           title: Webhook
           description: The webhook configuration for the asynchronous processing.
-          nullable: true
       type: object
       title: AsyncConfig
-    Settings:
-      properties:
-        ocr_system:
-          type: string
-          enum:
-          - standard
-          - legacy
-          title: Ocr System
-          description: Standard is our best multilingual OCR system. Legacy only supports germanic languages and is available for backwards compatibility.
-          default: standard
-        extraction_mode:
-          type: string
-          enum:
-          - ocr
-          - hybrid
-          title: Extraction Mode
-          description: The mode to use for text extraction from PDFs. OCR mode uses optical character recognition only. Hybrid mode combines OCR with embedded PDF text for best accuracy (default).
-          default: hybrid
-        force_url_result:
-          type: boolean
-          title: Force Url Result
-          description: Force the result to be returned in URL form.
-          default: false
-        force_file_extension:
-          type: string
-          nullable: true
-          title: Force File Extension
-          description: Force the URL to be downloaded as a specific file extension (e.g. `.png`).
-        return_ocr_data:
-          type: boolean
-          title: Return Ocr Data
-          description: If True, return OCR data in the result. Defaults to False.
-          default: false
-        return_images:
-          items:
-            type: string
-            enum:
-            - figure
-            - table
-            - page
-          type: array
-          title: Return Images
-          description: Whether to return images for the specified block types. 'page' returns full page images. By default, no images are returned.
-          default: []
-        embed_pdf_metadata:
-          type: boolean
-          title: Embed Pdf Metadata
-          description: If True, embed OCR metadata into the returned PDF. Defaults to False.
-          default: false
-        embed_pdf_metadata_dpi:
-          type: integer
-          maximum: 250
-          minimum: 50
-          title: Embed Pdf Metadata Dpi
-          description: Render DPI used when rasterizing the source PDF before embedding the OCR text layer (only applies when ``embed_pdf_metadata`` is True). Lower values produce dramatically smaller output PDFs; higher values preserve more detail when zoomed past 200%. Defaults to 100 (good for on-screen viewing); raise toward the source scan DPI for crisper output. Min 50, max 250.
-          default: 100
-        persist_results:
-          type: boolean
-          title: Persist Results
-          description: If True, persist the results indefinitely. Defaults to False.
-          default: false
-        tenant_throttling:
-          $ref: '#/components/schemas/TenantThrottling'
-          nullable: true
-          description: Per-tenant throttling for multi-tenant applications. Tag each request with your tenant's id to bound how much of your account's concurrency a single tenant can consume. Account-level throttles still apply.
-        timeout:
-          type: number
-          nullable: true
-          title: Timeout
-          description: The timeout for the job in seconds.
-        page_range:
-          anyOf:
-          - $ref: '#/components/schemas/PageRange'
-          - items:
-              $ref: '#/components/schemas/PageRange'
-            type: array
-          - items:
-              type: integer
-            type: array
-          - items:
-              type: string
-            type: array
-          title: Page Range
-          description: The page range to process (1-indexed). By default, the entire document is processed. For spreadsheets, you can also provide a list of sheet names.
-          nullable: true
-        document_password:
-          type: string
-          nullable: true
-          title: Document Password
-          description: Password to decrypt password-protected documents.
-        hybrid_vpc:
-          $ref: '#/components/schemas/HybridVpcSettings'
-          description: Hybrid VPC request-scoped settings.
-          default: {}
-      type: object
-      title: Settings
-    DirectWebhookConfig:
-      properties:
-        mode:
-          type: string
-          title: Mode
-          default: direct
-          enum:
-          - direct
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - url
-      title: DirectWebhookConfig
-    SplitSettings:
-      properties:
-        table_cutoff:
-          type: string
-          enum:
-          - truncate
-          - preserve
-          title: Table Cutoff
-          description: If tables should be truncated to the first few rows or if all content should be preserved. truncate improves latency, preserve is recommended for cases where partition_key is being used and the partition_key may be included within the table. Defaults to truncate
-          default: truncate
-        allow_page_overlap:
-          type: boolean
-          title: Allow Page Overlap
-          description: If True, a page can belong to multiple categories/partitions. If False, each page must belong to exactly one category. Defaults to True.
-          default: true
-        deep_split:
-          type: boolean
-          title: Deep Split
-          description: If True, uses the deep split agent for higher-quality document splitting. Off by default.
-          default: false
-      type: object
-      title: SplitSettings
-    TableAgentic:
-      properties:
-        scope:
-          type: string
-          title: Scope
-          enum:
-          - table
-        prompt:
-          type: string
-          nullable: true
-          title: Prompt
-          description: Custom prompt for table agentic.
-        mode:
-          type: string
-          enum:
-          - default
-          - auto
-          - max
-          title: Mode
-          description: 'Mode for table agentic: ''default'' selectively applies enrichment only to tables likely to benefit, and ''max'' runs enrichment on all tables.'
-          default: default
-      type: object
-      required:
-      - scope
-      title: TableAgentic
-    Spreadsheet:
-      properties:
-        split_large_tables:
-          $ref: '#/components/schemas/SplitLargeTables'
-          default:
-            enabled: true
-            size: 50
-        include:
-          items:
-            type: string
-            enum:
-            - cell_colors
-            - formula
-            - dropdowns
-          type: array
-          title: Include
-          description: Whether to include cell color, formula, and dropdown information in the output.
-          default: []
-        clustering:
-          type: string
-          enum:
-          - accurate
-          - fast
-          - disabled
-          title: Clustering
-          description: In a spreadsheet with different tables inside, we enable splitting up the tables by default. Accurate mode applies more powerful models for superior accuracy, at 5× the default per-cell rate. Disabling will register as one large table.
-          default: accurate
-        exclude:
-          items:
-            type: string
-            enum:
-            - hidden_sheets
-            - hidden_rows
-            - hidden_cols
-            - styling
-            - spreadsheet_images
-          type: array
-          title: Exclude
-          description: Whether to exclude hidden sheets, rows, or columns in the output.
-          default: []
-        max_cell_count:
-          type: integer
-          minimum: 1
-          nullable: true
-          title: Max Cell Count
-          description: Maximum total non-empty cells allowed across all sheets. If exceeded, the request is rejected with a 422 error. Set to null to disable the limit. Defaults to null.
-      type: object
-      title: Spreadsheet
-    SvixWebhookConfig:
-      properties:
-        mode:
-          type: string
-          title: Mode
-          default: svix
-          enum:
-          - svix
-        channels:
-          items:
-            type: string
-          type: array
-          title: Channels
-          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
-      type: object
-      title: SvixWebhookConfig
     ParseOptions:
       properties:
         enhance:
@@ -717,6 +312,422 @@ components:
             hybrid_vpc: {}
       type: object
       title: ParseOptions
+    TableAgentic:
+      properties:
+        scope:
+          type: string
+          title: Scope
+          enum:
+          - table
+        prompt:
+          type:
+          - string
+          - 'null'
+          title: Prompt
+          description: Custom prompt for table agentic.
+        mode:
+          type: string
+          enum:
+          - default
+          - auto
+          - max
+          title: Mode
+          description: 'Mode for table agentic: ''default'' selectively applies enrichment only to tables likely to benefit, and ''max'' runs enrichment on all tables.'
+          default: default
+      type: object
+      required:
+      - scope
+      title: TableAgentic
+    TextAgentic:
+      properties:
+        scope:
+          type: string
+          title: Scope
+          enum:
+          - text
+        prompt:
+          type:
+          - string
+          - 'null'
+          title: Prompt
+          description: 'Custom instructions for agentic text. Note: This only applies to form regions (key-value).'
+      type: object
+      required:
+      - scope
+      title: TextAgentic
+    SvixWebhookConfig:
+      properties:
+        mode:
+          type: string
+          title: Mode
+          default: svix
+          enum:
+          - svix
+        channels:
+          items:
+            type: string
+          type: array
+          title: Channels
+          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
+      type: object
+      title: SvixWebhookConfig
+    DirectWebhookConfig:
+      properties:
+        mode:
+          type: string
+          title: Mode
+          default: direct
+          enum:
+          - direct
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: DirectWebhookConfig
+    Retrieval:
+      properties:
+        chunking:
+          $ref: '#/components/schemas/Chunking'
+          default:
+            chunk_mode: disabled
+            chunk_overlap: 0
+        filter_blocks:
+          items:
+            type: string
+            enum:
+            - Header
+            - Footer
+            - Title
+            - Section Header
+            - Page Number
+            - List Item
+            - Figure
+            - Table
+            - Key Value
+            - Text
+            - Comment
+            - Signature
+          type: array
+          title: Filter Blocks
+          description: A list of block types to filter out from 'content' and 'embed' fields. By default, no blocks are filtered.
+          default: []
+        embedding_optimized:
+          type: boolean
+          title: Embedding Optimized
+          description: If True, use embedding optimized mode. Defaults to False.
+          default: false
+      type: object
+      title: Retrieval
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PageRange:
+      properties:
+        start:
+          type:
+          - integer
+          - 'null'
+          title: Start
+          description: The page number to start processing from (1-indexed).
+        end:
+          type:
+          - integer
+          - 'null'
+          title: End
+          description: The page number to stop processing at (1-indexed).
+      type: object
+      title: PageRange
+    SplitLargeTables:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+          description: If True, split large tables into smaller tables. Defaults to True.
+          default: true
+        size:
+          anyOf:
+          - type: integer
+          - $ref: '#/components/schemas/SplitLargeTableSizes'
+          title: Size
+          description: The size of the tables to split into. Defaults to 50. Use 'row' and 'column' to independently specify the number of rows and columns to include when splitting. If you only want to split by rows or columns, set the other value to None.
+          default: 50
+      type: object
+      title: SplitLargeTables
+    Settings:
+      properties:
+        ocr_system:
+          type: string
+          enum:
+          - standard
+          - legacy
+          title: Ocr System
+          description: Standard is our best multilingual OCR system. Legacy only supports germanic languages and is available for backwards compatibility.
+          default: standard
+        extraction_mode:
+          type: string
+          enum:
+          - ocr
+          - hybrid
+          title: Extraction Mode
+          description: The mode to use for text extraction from PDFs. OCR mode uses optical character recognition only. Hybrid mode combines OCR with embedded PDF text for best accuracy (default).
+          default: hybrid
+        force_url_result:
+          type: boolean
+          title: Force Url Result
+          description: Force the result to be returned in URL form.
+          default: false
+        force_file_extension:
+          type:
+          - string
+          - 'null'
+          title: Force File Extension
+          description: Force the URL to be downloaded as a specific file extension (e.g. `.png`).
+        return_ocr_data:
+          type: boolean
+          title: Return Ocr Data
+          description: If True, return OCR data in the result. Defaults to False.
+          default: false
+        return_images:
+          items:
+            type: string
+            enum:
+            - figure
+            - table
+            - page
+          type: array
+          title: Return Images
+          description: Whether to return images for the specified block types. 'page' returns full page images. By default, no images are returned.
+          default: []
+        embed_pdf_metadata:
+          type: boolean
+          title: Embed Pdf Metadata
+          description: If True, embed OCR metadata into the returned PDF. Defaults to False.
+          default: false
+        embed_pdf_metadata_dpi:
+          type: integer
+          maximum: 250
+          minimum: 50
+          title: Embed Pdf Metadata Dpi
+          description: Render DPI used when rasterizing the source PDF before embedding the OCR text layer (only applies when ``embed_pdf_metadata`` is True). Lower values produce dramatically smaller output PDFs; higher values preserve more detail when zoomed past 200%. Defaults to 100 (good for on-screen viewing); raise toward the source scan DPI for crisper output. Min 50, max 250.
+          default: 100
+        persist_results:
+          type: boolean
+          title: Persist Results
+          description: If True, persist the results indefinitely. Defaults to False.
+          default: false
+        tenant_throttling:
+          $ref: '#/components/schemas/TenantThrottling'
+          description: Per-tenant throttling for multi-tenant applications. Tag each request with your tenant's id to bound how much of your account's concurrency a single tenant can consume. Account-level throttles still apply.
+        timeout:
+          type:
+          - number
+          - 'null'
+          title: Timeout
+          description: The timeout for the job in seconds.
+        page_range:
+          anyOf:
+          - $ref: '#/components/schemas/PageRange'
+          - items:
+              $ref: '#/components/schemas/PageRange'
+            type: array
+          - items:
+              type: integer
+            type: array
+          - items:
+              type: string
+            type: array
+          title: Page Range
+          description: The page range to process (1-indexed). By default, the entire document is processed. For spreadsheets, you can also provide a list of sheet names.
+        document_password:
+          type:
+          - string
+          - 'null'
+          title: Document Password
+          description: Password to decrypt password-protected documents.
+        hybrid_vpc:
+          $ref: '#/components/schemas/HybridVpcSettings'
+          description: Hybrid VPC request-scoped settings.
+          default: {}
+      type: object
+      title: Settings
+    TenantThrottling:
+      properties:
+        tenant_id:
+          type: string
+          maxLength: 256
+          minLength: 1
+          title: Tenant Id
+          description: Your identifier for the tenant (customer, workspace, organization) this request belongs to. Used only for noisy-neighbor throttling inside your account.
+        max_share:
+          type: number
+          maximum: 1
+          title: Max Share
+          description: Maximum fraction of your account's concurrency ceiling this tenant may use, between 0 (exclusive) and 1. Defaults to 0.5.
+          default: 0.5
+          exclusiveMinimum: 0
+      type: object
+      required:
+      - tenant_id
+      title: TenantThrottling
+    AsyncSplitResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+      type: object
+      required:
+      - job_id
+      title: AsyncSplitResponse
+    SplitSettings:
+      properties:
+        table_cutoff:
+          type: string
+          enum:
+          - truncate
+          - preserve
+          title: Table Cutoff
+          description: If tables should be truncated to the first few rows or if all content should be preserved. truncate improves latency, preserve is recommended for cases where partition_key is being used and the partition_key may be included within the table. Defaults to truncate
+          default: truncate
+        allow_page_overlap:
+          type: boolean
+          title: Allow Page Overlap
+          description: If True, a page can belong to multiple categories/partitions. If False, each page must belong to exactly one category. Defaults to True.
+          default: true
+        deep_split:
+          type: boolean
+          title: Deep Split
+          description: If True, uses the deep split agent for higher-quality document splitting. Off by default.
+          default: false
+      type: object
+      title: SplitSettings
+    Spreadsheet:
+      properties:
+        split_large_tables:
+          $ref: '#/components/schemas/SplitLargeTables'
+          default:
+            enabled: true
+            size: 50
+        include:
+          items:
+            type: string
+            enum:
+            - cell_colors
+            - formula
+            - dropdowns
+          type: array
+          title: Include
+          description: Whether to include cell color, formula, and dropdown information in the output.
+          default: []
+        clustering:
+          type: string
+          enum:
+          - accurate
+          - fast
+          - disabled
+          title: Clustering
+          description: In a spreadsheet with different tables inside, we enable splitting up the tables by default. Accurate mode applies more powerful models for superior accuracy, at 5× the default per-cell rate. Disabling will register as one large table.
+          default: accurate
+        exclude:
+          items:
+            type: string
+            enum:
+            - hidden_sheets
+            - hidden_rows
+            - hidden_cols
+            - styling
+            - spreadsheet_images
+          type: array
+          title: Exclude
+          description: Whether to exclude hidden sheets, rows, or columns in the output.
+          default: []
+        max_cell_count:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+          title: Max Cell Count
+          description: Maximum total non-empty cells allowed across all sheets. If exceeded, the request is rejected with a 422 error. Set to null to disable the limit. Defaults to null.
+      type: object
+      title: Spreadsheet
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FigureAgentic:
+      properties:
+        scope:
+          type: string
+          title: Scope
+          enum:
+          - figure
+        prompt:
+          type:
+          - string
+          - 'null'
+          title: Prompt
+          description: Custom prompt for figure agentic.
+        advanced_chart_agent:
+          type: boolean
+          title: Advanced Chart Agent
+          description: If True, use the advanced chart agent. Defaults to False.
+          default: false
+        return_overlays:
+          type: boolean
+          title: Return Overlays
+          description: If True, return overlays for the figure. This is so you can use the overlays to double check the quality of the extraction
+          default: false
+      type: object
+      required:
+      - scope
+      title: FigureAgentic
+    SplitCategory:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        partition_key:
+          type:
+          - string
+          - 'null'
+          title: Partition Key
+      type: object
+      required:
+      - name
+      - description
+      title: SplitCategory
   securitySchemes:
     BearerAuth:
       type: http

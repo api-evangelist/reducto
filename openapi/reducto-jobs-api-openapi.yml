@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Reducto Cancel Jobs API
+  title: Reducto Jobs API
   description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
   version: v1.11.80-78-gc5c4ff11c
   contact:
@@ -33,8 +33,9 @@ paths:
         in: query
         required: false
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Cursor for pagination. Use the next_cursor from the previous response to fetch the next page.
           title: Cursor
         description: Cursor for pagination. Use the next_cursor from the previous response to fetch the next page.
@@ -66,32 +67,6 @@ paths:
       - Jobs
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     SingleJob:
       properties:
         job_id:
@@ -126,22 +101,23 @@ components:
           format: date-time
           title: Created At
         source:
-          nullable: true
           title: Source
         num_pages:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           title: Num Pages
         total_pages:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           title: Total Pages
         duration:
-          type: number
-          nullable: true
+          type:
+          - number
+          - 'null'
           title: Duration
         bucket:
-          nullable: true
           title: Bucket
       type: object
       required:
@@ -154,23 +130,6 @@ components:
       - total_pages
       - duration
       title: SingleJob
-    JobsResponse:
-      properties:
-        jobs:
-          items:
-            $ref: '#/components/schemas/SingleJob'
-          type: array
-          title: Jobs
-          description: List of jobs with their job_id, status, type, raw_config, created_at, num_pages and duration
-        next_cursor:
-          type: string
-          nullable: true
-          title: Next Cursor
-          description: Cursor to fetch the next page of results. If null, there are no more results.
-      type: object
-      required:
-      - jobs
-      title: JobsResponse
     HTTPValidationError:
       properties:
         detail:
@@ -180,6 +139,50 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    JobsResponse:
+      properties:
+        jobs:
+          items:
+            $ref: '#/components/schemas/SingleJob'
+          type: array
+          title: Jobs
+          description: List of jobs with their job_id, status, type, raw_config, created_at, num_pages and duration
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          title: Next Cursor
+          description: Cursor to fetch the next page of results. If null, there are no more results.
+      type: object
+      required:
+      - jobs
+      title: JobsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     BearerAuth:
       type: http

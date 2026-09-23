@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Reducto Cancel Classify API
+  title: Reducto Classify API
   description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
   version: v1.11.80-78-gc5c4ff11c
   contact:
@@ -42,6 +42,94 @@ paths:
       - Classify
 components:
   schemas:
+    ClassifyResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: classify
+          enum:
+          - classify
+        job_id:
+          type: string
+          title: Job Id
+        result:
+          $ref: '#/components/schemas/ClassifyResponseCategory'
+        response_confidence:
+          $ref: '#/components/schemas/ResponseConfidence'
+        usage:
+          $ref: '#/components/schemas/ClassifyUsage'
+        duration:
+          type:
+          - number
+          - 'null'
+          title: Duration
+          description: The duration of the classify request in seconds.
+      type: object
+      required:
+      - job_id
+      - result
+      title: ClassifyResponse
+      description: Response from classify job - returned when polling /job/{job_id}
+    ClassificationCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+          description: The category name/label that documents will be classified into (e.g., 'invoice', 'contract', 'receipt').
+        criteria:
+          items:
+            type: string
+          type: array
+          title: Criteria
+          description: A list of criteria, keywords, or descriptions that define what characteristics a document must have to be classified into this category (e.g., ['contains billing information', 'has itemized charges']).
+      type: object
+      required:
+      - category
+      - criteria
+      title: ClassificationCategory
+      description: A single classification category with its matching criteria.
+    CategoryConfidence:
+      properties:
+        category:
+          type: string
+          title: Category
+        confidence:
+          type: number
+          title: Confidence
+        criteria_confidence:
+          items:
+            $ref: '#/components/schemas/CriteriaConfidence'
+          type: array
+          title: Criteria Confidence
+      type: object
+      required:
+      - category
+      - confidence
+      - criteria_confidence
+      title: CategoryConfidence
+      description: Confidence result for a category.
+    ResponseConfidence:
+      properties:
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryConfidence'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - categories
+      title: ResponseConfidence
+      description: Overall confidence breakdown for classification response.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     CriteriaConfidence:
       properties:
         criterion:
@@ -59,40 +147,6 @@ components:
       - confidence
       title: CriteriaConfidence
       description: Confidence result for a single criterion.
-    UploadResponse:
-      properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type: string
-          nullable: true
-          title: Presigned Url
-      type: object
-      required:
-      - file_id
-      title: UploadResponse
-    ClassifyResponseCategory:
-      properties:
-        category:
-          type: string
-          title: Category
-      type: object
-      required:
-      - category
-      title: ClassifyResponseCategory
-    ResponseConfidence:
-      properties:
-        categories:
-          items:
-            $ref: '#/components/schemas/CategoryConfidence'
-          type: array
-          title: Categories
-      type: object
-      required:
-      - categories
-      title: ResponseConfidence
-      description: Overall confidence breakdown for classification response.
     ValidationError:
       properties:
         loc:
@@ -119,36 +173,63 @@ components:
       - msg
       - type
       title: ValidationError
-    ClassifyResponse:
+    PageRange:
       properties:
-        response_type:
+        start:
+          type:
+          - integer
+          - 'null'
+          title: Start
+          description: The page number to start processing from (1-indexed).
+        end:
+          type:
+          - integer
+          - 'null'
+          title: End
+          description: The page number to stop processing at (1-indexed).
+      type: object
+      title: PageRange
+    UploadResponse:
+      properties:
+        file_id:
           type: string
-          title: Response Type
-          default: classify
-          enum:
-          - classify
-        job_id:
-          type: string
-          title: Job Id
-        result:
-          $ref: '#/components/schemas/ClassifyResponseCategory'
-        response_confidence:
-          $ref: '#/components/schemas/ResponseConfidence'
-          nullable: true
-        usage:
-          $ref: '#/components/schemas/ClassifyUsage'
-          nullable: true
-        duration:
-          type: number
-          nullable: true
-          title: Duration
-          description: The duration of the classify request in seconds.
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
       type: object
       required:
-      - job_id
-      - result
-      title: ClassifyResponse
-      description: Response from classify job - returned when polling /job/{job_id}
+      - file_id
+      title: UploadResponse
+    ClassifyUsage:
+      properties:
+        num_pages:
+          type: integer
+          title: Num Pages
+        num_categories:
+          type: integer
+          title: Num Categories
+        credits:
+          type:
+          - number
+          - 'null'
+          title: Credits
+      type: object
+      required:
+      - num_pages
+      - num_categories
+      title: ClassifyUsage
+    ClassifyResponseCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+      type: object
+      required:
+      - category
+      title: ClassifyResponseCategory
     ClassifyConfig:
       properties:
         persist_results:
@@ -183,94 +264,16 @@ components:
             type: array
           title: Page Range
           description: The page range to process (1-indexed). By default, the first 5 pages are used. If more than 25 pages are selected, only the first 25 (after sorting) are used. Only applies to PDFs; ignored for other document types.
-          nullable: true
         document_metadata:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           title: Document Metadata
           description: Optional document-level metadata to include in classification prompts.
       type: object
       required:
       - input
       title: ClassifyConfig
-    ClassificationCategory:
-      properties:
-        category:
-          type: string
-          title: Category
-          description: The category name/label that documents will be classified into (e.g., 'invoice', 'contract', 'receipt').
-        criteria:
-          items:
-            type: string
-          type: array
-          title: Criteria
-          description: A list of criteria, keywords, or descriptions that define what characteristics a document must have to be classified into this category (e.g., ['contains billing information', 'has itemized charges']).
-      type: object
-      required:
-      - category
-      - criteria
-      title: ClassificationCategory
-      description: A single classification category with its matching criteria.
-    PageRange:
-      properties:
-        start:
-          type: integer
-          nullable: true
-          title: Start
-          description: The page number to start processing from (1-indexed).
-        end:
-          type: integer
-          nullable: true
-          title: End
-          description: The page number to stop processing at (1-indexed).
-      type: object
-      title: PageRange
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ClassifyUsage:
-      properties:
-        num_pages:
-          type: integer
-          title: Num Pages
-        num_categories:
-          type: integer
-          title: Num Categories
-        credits:
-          type: number
-          nullable: true
-          title: Credits
-      type: object
-      required:
-      - num_pages
-      - num_categories
-      title: ClassifyUsage
-    CategoryConfidence:
-      properties:
-        category:
-          type: string
-          title: Category
-        confidence:
-          type: number
-          title: Confidence
-        criteria_confidence:
-          items:
-            $ref: '#/components/schemas/CriteriaConfidence'
-          type: array
-          title: Criteria Confidence
-      type: object
-      required:
-      - category
-      - confidence
-      - criteria_confidence
-      title: CategoryConfidence
-      description: Confidence result for a category.
   securitySchemes:
     BearerAuth:
       type: http

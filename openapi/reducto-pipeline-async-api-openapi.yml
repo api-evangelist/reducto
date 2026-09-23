@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Reducto Cancel Pipeline Async API
+  title: Reducto Pipeline Async API
   description: REST API for parsing, extracting, splitting, classifying, and editing complex documents. Supports PDFs, Word files, spreadsheets, presentations, and scanned images using layout-aware OCR and vision language models.
   version: v1.11.80-78-gc5c4ff11c
   contact:
@@ -42,15 +42,6 @@ paths:
       - Pipeline Async
 components:
   schemas:
-    AsyncPipelineResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-      type: object
-      required:
-      - job_id
-      title: AsyncPipelineResponse
     DirectWebhookConfig:
       properties:
         mode:
@@ -66,30 +57,15 @@ components:
       required:
       - url
       title: DirectWebhookConfig
-    UploadResponse:
+    AsyncPipelineResponse:
       properties:
-        file_id:
+        job_id:
           type: string
-          title: File Id
-        presigned_url:
-          type: string
-          nullable: true
-          title: Presigned Url
+          title: Job Id
       type: object
       required:
-      - file_id
-      title: UploadResponse
-    PipelineSettings:
-      properties:
-        document_password:
-          type: string
-          nullable: true
-          title: Document Password
-          description: Password to decrypt password-protected documents.
-      additionalProperties: false
-      type: object
-      title: PipelineSettings
-      description: Settings for pipeline execution that override pipeline defaults.
+      - job_id
+      title: AsyncPipelineResponse
     V3AsyncPipelineConfig:
       properties:
         async:
@@ -118,6 +94,15 @@ components:
       - input
       - pipeline_id
       title: V3AsyncPipelineConfig
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -144,6 +129,32 @@ components:
       - msg
       - type
       title: ValidationError
+    PipelineSettings:
+      properties:
+        document_password:
+          type:
+          - string
+          - 'null'
+          title: Document Password
+          description: Password to decrypt password-protected documents.
+      additionalProperties: false
+      type: object
+      title: PipelineSettings
+      description: Settings for pipeline execution that override pipeline defaults.
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
     SvixWebhookConfig:
       properties:
         mode:
@@ -160,15 +171,6 @@ components:
           description: A list of Svix channels the message will be delivered down, omit to send to all channels.
       type: object
       title: SvixWebhookConfig
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     config__v3__AsyncConfig:
       properties:
         metadata:
@@ -185,7 +187,6 @@ components:
           - $ref: '#/components/schemas/DirectWebhookConfig'
           title: Webhook
           description: The webhook configuration for the asynchronous processing.
-          nullable: true
       type: object
       title: AsyncConfig
   securitySchemes:
