@@ -42,94 +42,6 @@ paths:
       - Classify
 components:
   schemas:
-    ClassifyResponse:
-      properties:
-        response_type:
-          type: string
-          title: Response Type
-          default: classify
-          enum:
-          - classify
-        job_id:
-          type: string
-          title: Job Id
-        result:
-          $ref: '#/components/schemas/ClassifyResponseCategory'
-        response_confidence:
-          $ref: '#/components/schemas/ResponseConfidence'
-        usage:
-          $ref: '#/components/schemas/ClassifyUsage'
-        duration:
-          type:
-          - number
-          - 'null'
-          title: Duration
-          description: The duration of the classify request in seconds.
-      type: object
-      required:
-      - job_id
-      - result
-      title: ClassifyResponse
-      description: Response from classify job - returned when polling /job/{job_id}
-    ClassificationCategory:
-      properties:
-        category:
-          type: string
-          title: Category
-          description: The category name/label that documents will be classified into (e.g., 'invoice', 'contract', 'receipt').
-        criteria:
-          items:
-            type: string
-          type: array
-          title: Criteria
-          description: A list of criteria, keywords, or descriptions that define what characteristics a document must have to be classified into this category (e.g., ['contains billing information', 'has itemized charges']).
-      type: object
-      required:
-      - category
-      - criteria
-      title: ClassificationCategory
-      description: A single classification category with its matching criteria.
-    CategoryConfidence:
-      properties:
-        category:
-          type: string
-          title: Category
-        confidence:
-          type: number
-          title: Confidence
-        criteria_confidence:
-          items:
-            $ref: '#/components/schemas/CriteriaConfidence'
-          type: array
-          title: Criteria Confidence
-      type: object
-      required:
-      - category
-      - confidence
-      - criteria_confidence
-      title: CategoryConfidence
-      description: Confidence result for a category.
-    ResponseConfidence:
-      properties:
-        categories:
-          items:
-            $ref: '#/components/schemas/CategoryConfidence'
-          type: array
-          title: Categories
-      type: object
-      required:
-      - categories
-      title: ResponseConfidence
-      description: Overall confidence breakdown for classification response.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     CriteriaConfidence:
       properties:
         criterion:
@@ -147,6 +59,40 @@ components:
       - confidence
       title: CriteriaConfidence
       description: Confidence result for a single criterion.
+    ClassifyResponseCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+      type: object
+      required:
+      - category
+      title: ClassifyResponseCategory
+    PageRange:
+      properties:
+        start:
+          type:
+          - integer
+          - 'null'
+          title: Start
+          description: The page number to start processing from (1-indexed).
+        end:
+          type:
+          - integer
+          - 'null'
+          title: End
+          description: The page number to stop processing at (1-indexed).
+      type: object
+      title: PageRange
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -173,36 +119,36 @@ components:
       - msg
       - type
       title: ValidationError
-    PageRange:
+    ResponseConfidence:
       properties:
-        start:
-          type:
-          - integer
-          - 'null'
-          title: Start
-          description: The page number to start processing from (1-indexed).
-        end:
-          type:
-          - integer
-          - 'null'
-          title: End
-          description: The page number to stop processing at (1-indexed).
-      type: object
-      title: PageRange
-    UploadResponse:
-      properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryConfidence'
+          type: array
+          title: Categories
       type: object
       required:
-      - file_id
-      title: UploadResponse
+      - categories
+      title: ResponseConfidence
+      description: Overall confidence breakdown for classification response.
+    ClassificationCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+          description: The category name/label that documents will be classified into (e.g., 'invoice', 'contract', 'receipt').
+        criteria:
+          items:
+            type: string
+          type: array
+          title: Criteria
+          description: A list of criteria, keywords, or descriptions that define what characteristics a document must have to be classified into this category (e.g., ['contains billing information', 'has itemized charges']).
+      type: object
+      required:
+      - category
+      - criteria
+      title: ClassificationCategory
+      description: A single classification category with its matching criteria.
     ClassifyUsage:
       properties:
         num_pages:
@@ -221,15 +167,26 @@ components:
       - num_pages
       - num_categories
       title: ClassifyUsage
-    ClassifyResponseCategory:
+    CategoryConfidence:
       properties:
         category:
           type: string
           title: Category
+        confidence:
+          type: number
+          title: Confidence
+        criteria_confidence:
+          items:
+            $ref: '#/components/schemas/CriteriaConfidence'
+          type: array
+          title: Criteria Confidence
       type: object
       required:
       - category
-      title: ClassifyResponseCategory
+      - confidence
+      - criteria_confidence
+      title: CategoryConfidence
+      description: Confidence result for a category.
     ClassifyConfig:
       properties:
         persist_results:
@@ -274,6 +231,49 @@ components:
       required:
       - input
       title: ClassifyConfig
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    ClassifyResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: classify
+          enum:
+          - classify
+        job_id:
+          type: string
+          title: Job Id
+        result:
+          $ref: '#/components/schemas/ClassifyResponseCategory'
+        response_confidence:
+          $ref: '#/components/schemas/ResponseConfidence'
+        usage:
+          $ref: '#/components/schemas/ClassifyUsage'
+        duration:
+          type:
+          - number
+          - 'null'
+          title: Duration
+          description: The duration of the classify request in seconds.
+      type: object
+      required:
+      - job_id
+      - result
+      title: ClassifyResponse
+      description: Response from classify job - returned when polling /job/{job_id}
   securitySchemes:
     BearerAuth:
       type: http

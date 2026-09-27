@@ -67,6 +67,50 @@ paths:
       - Jobs
 components:
   schemas:
+    JobsResponse:
+      properties:
+        jobs:
+          items:
+            $ref: '#/components/schemas/SingleJob'
+          type: array
+          title: Jobs
+          description: List of jobs with their job_id, status, type, raw_config, created_at, num_pages and duration
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          title: Next Cursor
+          description: Cursor to fetch the next page of results. If null, there are no more results.
+      type: object
+      required:
+      - jobs
+      title: JobsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     SingleJob:
       properties:
         job_id:
@@ -139,50 +183,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    JobsResponse:
-      properties:
-        jobs:
-          items:
-            $ref: '#/components/schemas/SingleJob'
-          type: array
-          title: Jobs
-          description: List of jobs with their job_id, status, type, raw_config, created_at, num_pages and duration
-        next_cursor:
-          type:
-          - string
-          - 'null'
-          title: Next Cursor
-          description: Cursor to fetch the next page of results. If null, there are no more results.
-      type: object
-      required:
-      - jobs
-      title: JobsResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     BearerAuth:
       type: http

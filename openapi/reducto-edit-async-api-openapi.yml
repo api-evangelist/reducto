@@ -42,6 +42,70 @@ paths:
       - Edit Async
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EditOptions:
+      properties:
+        color:
+          type: string
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Color
+          description: The color to use for edits, in hex format.
+          default: '#FF0000'
+        font_size:
+          type:
+          - number
+          - 'null'
+          maximum: 72
+          minimum: 1
+          title: Font Size
+          description: The font size (in points) to use for filled text fields. If not specified, font size is automatically calculated based on field dimensions.
+        llm_provider_preference:
+          type:
+          - string
+          - 'null'
+          enum:
+          - openai
+          - anthropic
+          - google
+          title: Llm Provider Preference
+          description: The LLM provider to use for edit processing. If not specified, defaults to 'google'
+        enable_overflow_pages:
+          type: boolean
+          title: Enable Overflow Pages
+          description: If True, creates overflow pages for text that doesn't fit in form fields. Defaults to False.
+          default: false
+        flatten:
+          type: boolean
+          title: Flatten
+          description: If True, flattens form fields after filling, converting them to static content. Defaults to False.
+          default: false
+      type: object
+      title: EditOptions
     AsyncEditConfig:
       properties:
         document_url:
@@ -121,6 +185,46 @@ components:
       - height
       - page
       title: BoundingBox
+    WebhookConfigNew:
+      properties:
+        mode:
+          type: string
+          enum:
+          - disabled
+          - svix
+          - direct
+          title: Mode
+          description: The mode to use for webhook delivery. Defaults to 'disabled'. We recommend using 'svix' for production environments.
+          default: disabled
+        url:
+          type: string
+          title: Url
+          description: The URL to send the webhook to (if using direct webhoook).
+        metadata:
+          title: Metadata
+          description: JSON metadata included in webhook request body
+        channels:
+          items:
+            type: string
+          type: array
+          title: Channels
+          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
+      type: object
+      title: WebhookConfigNew
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
     HTTPValidationError:
       properties:
         detail:
@@ -139,70 +243,6 @@ components:
       required:
       - job_id
       title: AsyncEditResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    EditOptions:
-      properties:
-        color:
-          type: string
-          pattern: ^#[0-9A-Fa-f]{6}$
-          title: Color
-          description: The color to use for edits, in hex format.
-          default: '#FF0000'
-        font_size:
-          type:
-          - number
-          - 'null'
-          maximum: 72
-          minimum: 1
-          title: Font Size
-          description: The font size (in points) to use for filled text fields. If not specified, font size is automatically calculated based on field dimensions.
-        llm_provider_preference:
-          type:
-          - string
-          - 'null'
-          enum:
-          - openai
-          - anthropic
-          - google
-          title: Llm Provider Preference
-          description: The LLM provider to use for edit processing. If not specified, defaults to 'google'
-        enable_overflow_pages:
-          type: boolean
-          title: Enable Overflow Pages
-          description: If True, creates overflow pages for text that doesn't fit in form fields. Defaults to False.
-          default: false
-        flatten:
-          type: boolean
-          title: Flatten
-          description: If True, flattens form fields after filling, converting them to static content. Defaults to False.
-          default: false
-      type: object
-      title: EditOptions
     EditWidget:
       properties:
         bbox:
@@ -247,46 +287,6 @@ components:
       - description
       - type
       title: EditWidget
-    UploadResponse:
-      properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
-      type: object
-      required:
-      - file_id
-      title: UploadResponse
-    WebhookConfigNew:
-      properties:
-        mode:
-          type: string
-          enum:
-          - disabled
-          - svix
-          - direct
-          title: Mode
-          description: The mode to use for webhook delivery. Defaults to 'disabled'. We recommend using 'svix' for production environments.
-          default: disabled
-        url:
-          type: string
-          title: Url
-          description: The URL to send the webhook to (if using direct webhoook).
-        metadata:
-          title: Metadata
-          description: JSON metadata included in webhook request body
-        channels:
-          items:
-            type: string
-          type: array
-          title: Channels
-          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
-      type: object
-      title: WebhookConfigNew
   securitySchemes:
     BearerAuth:
       type: http

@@ -47,7 +47,7 @@ tags:
   - OCR
   - Data Extraction
   - Artificial Intelligence
-  - Machine-Learning
+  - Machine Learning
   - Document Intelligence
   - Structured Data
 tags_raw:
@@ -59,6 +59,7 @@ tags_raw:
   - Machine Learning
   - Document Intelligence
   - Structured Data
+  - Machine-Learning
 url: https://raw.githubusercontent.com/api-evangelist/reducto/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'

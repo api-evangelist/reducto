@@ -42,30 +42,32 @@ paths:
       - Pipeline Async
 components:
   schemas:
-    DirectWebhookConfig:
+    ValidationError:
       properties:
-        mode:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Mode
-          default: direct
-          enum:
-          - direct
-        url:
+          title: Message
+        type:
           type: string
-          title: Url
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - url
-      title: DirectWebhookConfig
-    AsyncPipelineResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-      type: object
-      required:
-      - job_id
-      title: AsyncPipelineResponse
+      - loc
+      - msg
+      - type
+      title: ValidationError
     V3AsyncPipelineConfig:
       properties:
         async:
@@ -94,41 +96,6 @@ components:
       - input
       - pipeline_id
       title: V3AsyncPipelineConfig
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     PipelineSettings:
       properties:
         document_password:
@@ -141,20 +108,21 @@ components:
       type: object
       title: PipelineSettings
       description: Settings for pipeline execution that override pipeline defaults.
-    UploadResponse:
+    DirectWebhookConfig:
       properties:
-        file_id:
+        mode:
           type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
+          title: Mode
+          default: direct
+          enum:
+          - direct
+        url:
+          type: string
+          title: Url
       type: object
       required:
-      - file_id
-      title: UploadResponse
+      - url
+      title: DirectWebhookConfig
     SvixWebhookConfig:
       properties:
         mode:
@@ -189,6 +157,38 @@ components:
           description: The webhook configuration for the asynchronous processing.
       type: object
       title: AsyncConfig
+    AsyncPipelineResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+      type: object
+      required:
+      - job_id
+      title: AsyncPipelineResponse
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     BearerAuth:
       type: http

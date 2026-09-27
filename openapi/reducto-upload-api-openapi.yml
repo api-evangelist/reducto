@@ -53,25 +53,6 @@ paths:
       - Upload
 components:
   schemas:
-    Body_upload_upload_post:
-      properties:
-        file:
-          anyOf:
-          - type: string
-            format: binary
-          - type: string
-          title: File
-      type: object
-      title: Body_upload_upload_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     UploadResponse:
       properties:
         file_id:
@@ -112,6 +93,25 @@ components:
       - msg
       - type
       title: ValidationError
+    Body_upload_upload_post:
+      properties:
+        file:
+          anyOf:
+          - type: string
+            format: binary
+          - type: string
+          title: File
+      type: object
+      title: Body_upload_upload_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     BearerAuth:
       type: http
