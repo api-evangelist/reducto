@@ -42,6 +42,15 @@ paths:
       - Pipeline Async
 components:
   schemas:
+    AsyncPipelineResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+      type: object
+      required:
+      - job_id
+      title: AsyncPipelineResponse
     ValidationError:
       properties:
         loc:
@@ -68,6 +77,31 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SvixWebhookConfig:
+      properties:
+        mode:
+          type: string
+          title: Mode
+          default: svix
+          enum:
+          - svix
+        channels:
+          items:
+            type: string
+          type: array
+          title: Channels
+          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
+      type: object
+      title: SvixWebhookConfig
     V3AsyncPipelineConfig:
       properties:
         async:
@@ -108,6 +142,20 @@ components:
       type: object
       title: PipelineSettings
       description: Settings for pipeline execution that override pipeline defaults.
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
     DirectWebhookConfig:
       properties:
         mode:
@@ -123,22 +171,6 @@ components:
       required:
       - url
       title: DirectWebhookConfig
-    SvixWebhookConfig:
-      properties:
-        mode:
-          type: string
-          title: Mode
-          default: svix
-          enum:
-          - svix
-        channels:
-          items:
-            type: string
-          type: array
-          title: Channels
-          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
-      type: object
-      title: SvixWebhookConfig
     config__v3__AsyncConfig:
       properties:
         metadata:
@@ -157,38 +189,6 @@ components:
           description: The webhook configuration for the asynchronous processing.
       type: object
       title: AsyncConfig
-    AsyncPipelineResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-      type: object
-      required:
-      - job_id
-      title: AsyncPipelineResponse
-    UploadResponse:
-      properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
-      type: object
-      required:
-      - file_id
-      title: UploadResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     BearerAuth:
       type: http

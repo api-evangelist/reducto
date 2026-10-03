@@ -68,6 +68,36 @@ components:
       - msg
       - type
       title: ValidationError
+    BoundingBox:
+      properties:
+        left:
+          type: number
+          title: Left
+        top:
+          type: number
+          title: Top
+        width:
+          type: number
+          title: Width
+        height:
+          type: number
+          title: Height
+        page:
+          type: integer
+          title: Page
+          description: The page number of the bounding box (1-indexed).
+        original_page:
+          type: integer
+          title: Original Page
+          description: The page number in the original document of the bounding box (1-indexed).
+      type: object
+      required:
+      - left
+      - top
+      - width
+      - height
+      - page
+      title: BoundingBox
     EditOptions:
       properties:
         color:
@@ -106,6 +136,99 @@ components:
           default: false
       type: object
       title: EditOptions
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    WebhookConfigNew:
+      properties:
+        mode:
+          type: string
+          enum:
+          - disabled
+          - svix
+          - direct
+          title: Mode
+          description: The mode to use for webhook delivery. Defaults to 'disabled'. We recommend using 'svix' for production environments.
+          default: disabled
+        url:
+          type: string
+          title: Url
+          description: The URL to send the webhook to (if using direct webhoook).
+        metadata:
+          title: Metadata
+          description: JSON metadata included in webhook request body
+        channels:
+          items:
+            type: string
+          type: array
+          title: Channels
+          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
+      type: object
+      title: WebhookConfigNew
+    EditWidget:
+      properties:
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: Bounding box coordinates of the widget
+        description:
+          type: string
+          title: Description
+          description: Description of the widget extracted from the document
+        type:
+          type: string
+          enum:
+          - text
+          - checkbox
+          - radio
+          - dropdown
+          - barcode
+          title: Type
+          description: Type of the form widget
+        fill:
+          type: boolean
+          title: Fill
+          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
+          default: true
+        value:
+          type:
+          - string
+          - 'null'
+          title: Value
+          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
+        font_size:
+          type:
+          - number
+          - 'null'
+          maximum: 72
+          minimum: 1
+          title: Font Size
+          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+      type: object
+      required:
+      - bbox
+      - description
+      - type
+      title: EditWidget
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
     AsyncEditConfig:
       properties:
         document_url:
@@ -155,85 +278,6 @@ components:
       - document_url
       - edit_instructions
       title: AsyncEditConfig
-    BoundingBox:
-      properties:
-        left:
-          type: number
-          title: Left
-        top:
-          type: number
-          title: Top
-        width:
-          type: number
-          title: Width
-        height:
-          type: number
-          title: Height
-        page:
-          type: integer
-          title: Page
-          description: The page number of the bounding box (1-indexed).
-        original_page:
-          type: integer
-          title: Original Page
-          description: The page number in the original document of the bounding box (1-indexed).
-      type: object
-      required:
-      - left
-      - top
-      - width
-      - height
-      - page
-      title: BoundingBox
-    WebhookConfigNew:
-      properties:
-        mode:
-          type: string
-          enum:
-          - disabled
-          - svix
-          - direct
-          title: Mode
-          description: The mode to use for webhook delivery. Defaults to 'disabled'. We recommend using 'svix' for production environments.
-          default: disabled
-        url:
-          type: string
-          title: Url
-          description: The URL to send the webhook to (if using direct webhoook).
-        metadata:
-          title: Metadata
-          description: JSON metadata included in webhook request body
-        channels:
-          items:
-            type: string
-          type: array
-          title: Channels
-          description: A list of Svix channels the message will be delivered down, omit to send to all channels.
-      type: object
-      title: WebhookConfigNew
-    UploadResponse:
-      properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
-      type: object
-      required:
-      - file_id
-      title: UploadResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     AsyncEditResponse:
       properties:
         job_id:
@@ -243,50 +287,6 @@ components:
       required:
       - job_id
       title: AsyncEditResponse
-    EditWidget:
-      properties:
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-          description: Bounding box coordinates of the widget
-        description:
-          type: string
-          title: Description
-          description: Description of the widget extracted from the document
-        type:
-          type: string
-          enum:
-          - text
-          - checkbox
-          - radio
-          - dropdown
-          - barcode
-          title: Type
-          description: Type of the form widget
-        fill:
-          type: boolean
-          title: Fill
-          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
-          default: true
-        value:
-          type:
-          - string
-          - 'null'
-          title: Value
-          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
-        font_size:
-          type:
-          - number
-          - 'null'
-          maximum: 72
-          minimum: 1
-          title: Font Size
-          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
-      type: object
-      required:
-      - bbox
-      - description
-      - type
-      title: EditWidget
   securitySchemes:
     BearerAuth:
       type: http

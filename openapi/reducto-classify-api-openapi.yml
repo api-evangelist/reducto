@@ -42,23 +42,6 @@ paths:
       - Classify
 components:
   schemas:
-    CriteriaConfidence:
-      properties:
-        criterion:
-          type: string
-          title: Criterion
-        confidence:
-          type: string
-          enum:
-          - high
-          - low
-          title: Confidence
-      type: object
-      required:
-      - criterion
-      - confidence
-      title: CriteriaConfidence
-      description: Confidence result for a single criterion.
     ClassifyResponseCategory:
       properties:
         category:
@@ -68,31 +51,6 @@ components:
       required:
       - category
       title: ClassifyResponseCategory
-    PageRange:
-      properties:
-        start:
-          type:
-          - integer
-          - 'null'
-          title: Start
-          description: The page number to start processing from (1-indexed).
-        end:
-          type:
-          - integer
-          - 'null'
-          title: End
-          description: The page number to stop processing at (1-indexed).
-      type: object
-      title: PageRange
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -119,18 +77,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ResponseConfidence:
-      properties:
-        categories:
-          items:
-            $ref: '#/components/schemas/CategoryConfidence'
-          type: array
-          title: Categories
-      type: object
-      required:
-      - categories
-      title: ResponseConfidence
-      description: Overall confidence breakdown for classification response.
     ClassificationCategory:
       properties:
         category:
@@ -149,44 +95,6 @@ components:
       - criteria
       title: ClassificationCategory
       description: A single classification category with its matching criteria.
-    ClassifyUsage:
-      properties:
-        num_pages:
-          type: integer
-          title: Num Pages
-        num_categories:
-          type: integer
-          title: Num Categories
-        credits:
-          type:
-          - number
-          - 'null'
-          title: Credits
-      type: object
-      required:
-      - num_pages
-      - num_categories
-      title: ClassifyUsage
-    CategoryConfidence:
-      properties:
-        category:
-          type: string
-          title: Category
-        confidence:
-          type: number
-          title: Confidence
-        criteria_confidence:
-          items:
-            $ref: '#/components/schemas/CriteriaConfidence'
-          type: array
-          title: Criteria Confidence
-      type: object
-      required:
-      - category
-      - confidence
-      - criteria_confidence
-      title: CategoryConfidence
-      description: Confidence result for a category.
     ClassifyConfig:
       properties:
         persist_results:
@@ -231,20 +139,32 @@ components:
       required:
       - input
       title: ClassifyConfig
-    UploadResponse:
+    HTTPValidationError:
       properties:
-        file_id:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CriteriaConfidence:
+      properties:
+        criterion:
           type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
+          title: Criterion
+        confidence:
+          type: string
+          enum:
+          - high
+          - low
+          title: Confidence
       type: object
       required:
-      - file_id
-      title: UploadResponse
+      - criterion
+      - confidence
+      title: CriteriaConfidence
+      description: Confidence result for a single criterion.
     ClassifyResponse:
       properties:
         response_type:
@@ -274,6 +194,86 @@ components:
       - result
       title: ClassifyResponse
       description: Response from classify job - returned when polling /job/{job_id}
+    ResponseConfidence:
+      properties:
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryConfidence'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - categories
+      title: ResponseConfidence
+      description: Overall confidence breakdown for classification response.
+    PageRange:
+      properties:
+        start:
+          type:
+          - integer
+          - 'null'
+          title: Start
+          description: The page number to start processing from (1-indexed).
+        end:
+          type:
+          - integer
+          - 'null'
+          title: End
+          description: The page number to stop processing at (1-indexed).
+      type: object
+      title: PageRange
+    CategoryConfidence:
+      properties:
+        category:
+          type: string
+          title: Category
+        confidence:
+          type: number
+          title: Confidence
+        criteria_confidence:
+          items:
+            $ref: '#/components/schemas/CriteriaConfidence'
+          type: array
+          title: Criteria Confidence
+      type: object
+      required:
+      - category
+      - confidence
+      - criteria_confidence
+      title: CategoryConfidence
+      description: Confidence result for a category.
+    ClassifyUsage:
+      properties:
+        num_pages:
+          type: integer
+          title: Num Pages
+        num_categories:
+          type: integer
+          title: Num Categories
+        credits:
+          type:
+          - number
+          - 'null'
+          title: Credits
+      type: object
+      required:
+      - num_pages
+      - num_categories
+      title: ClassifyUsage
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
   securitySchemes:
     BearerAuth:
       type: http
