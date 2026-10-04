@@ -53,20 +53,25 @@ paths:
       - Upload
 components:
   schemas:
-    UploadResponse:
+    HTTPValidationError:
       properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - file_id
-      title: UploadResponse
+      title: HTTPValidationError
+    Body_upload_upload_post:
+      properties:
+        file:
+          anyOf:
+          - type: string
+            format: binary
+          - type: string
+          title: File
+      type: object
+      title: Body_upload_upload_post
     ValidationError:
       properties:
         loc:
@@ -93,25 +98,20 @@ components:
       - msg
       - type
       title: ValidationError
-    Body_upload_upload_post:
+    UploadResponse:
       properties:
-        file:
-          anyOf:
-          - type: string
-            format: binary
-          - type: string
-          title: File
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
       type: object
-      title: Body_upload_upload_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      required:
+      - file_id
+      title: UploadResponse
   securitySchemes:
     BearerAuth:
       type: http

@@ -46,200 +46,35 @@ paths:
       - Job
 components:
   schemas:
-    DeepSplit:
+    ClassifyResponse:
       properties:
-        name:
+        response_type:
           type: string
-          title: Name
-        pages:
-          items:
-            $ref: '#/components/schemas/DeepSplitPageEvidence'
-          type: array
-          title: Pages
-        partitions:
-          items:
-            $ref: '#/components/schemas/DeepSplitPartition'
-          type:
-          - array
-          - 'null'
-          title: Partitions
-      type: object
-      required:
-      - name
-      - pages
-      title: DeepSplit
-    FullResult:
-      properties:
-        type:
-          type: string
-          title: Type
-          description: type = 'full'
+          title: Response Type
+          default: classify
           enum:
-          - full
-        chunks:
-          items:
-            $ref: '#/components/schemas/ParseChunk'
-          type: array
-          title: Chunks
-        ocr:
-          $ref: '#/components/schemas/OCRResult'
-        custom:
-          title: Custom
-      type: object
-      required:
-      - type
-      - chunks
-      title: FullResult
-    AsyncJobResponse:
-      properties:
-        status:
+          - classify
+        job_id:
           type: string
-          enum:
-          - Pending
-          - Completed
-          - Failed
-          - Idle
-          title: Status
+          title: Job Id
         result:
-          oneOf:
-          - $ref: '#/components/schemas/ParseResponse'
-          - $ref: '#/components/schemas/ExtractResponse'
-          - $ref: '#/components/schemas/SplitResponse'
-          - $ref: '#/components/schemas/EditResponse'
-          - $ref: '#/components/schemas/PipelineResponse'
-          - $ref: '#/components/schemas/V3ExtractResponse'
-          - $ref: '#/components/schemas/ClassifyResponse'
-          discriminator:
-            propertyName: response_type
-            mapping:
-              classify: '#/components/schemas/ClassifyResponse'
-              edit: '#/components/schemas/EditResponse'
-              extract: '#/components/schemas/ExtractResponse'
-              parse: '#/components/schemas/ParseResponse'
-              pipeline: '#/components/schemas/PipelineResponse'
-              split: '#/components/schemas/SplitResponse'
-              v3_extract: '#/components/schemas/V3ExtractResponse'
-          title: Result
-        progress:
+          $ref: '#/components/schemas/ClassifyResponseCategory'
+        response_confidence:
+          $ref: '#/components/schemas/ResponseConfidence'
+        usage:
+          $ref: '#/components/schemas/ClassifyUsage'
+        duration:
           type:
           - number
           - 'null'
-          title: Progress
-        reason:
-          type:
-          - string
-          - 'null'
-          title: Reason
+          title: Duration
+          description: The duration of the classify request in seconds.
       type: object
       required:
-      - status
-      title: AsyncJobResponse
-    DeepSplitResult:
-      properties:
-        splits:
-          items:
-            $ref: '#/components/schemas/DeepSplit'
-          type: array
-          title: Splits
-      type: object
-      required:
-      - splits
-      title: DeepSplitResult
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OCRWord:
-      properties:
-        text:
-          type: string
-          title: Text
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-        confidence:
-          type:
-          - number
-          - 'null'
-          title: Confidence
-          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
-        chunk_index:
-          type:
-          - integer
-          - 'null'
-          title: Chunk Index
-          description: The index of the chunk that the word belongs to.
-        rotation:
-          type:
-          - integer
-          - 'null'
-          title: Rotation
-          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
-      type: object
-      required:
-      - text
-      - bbox
-      title: OCRWord
-    OCRLine:
-      properties:
-        text:
-          type: string
-          title: Text
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-        confidence:
-          type:
-          - number
-          - 'null'
-          title: Confidence
-          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
-        chunk_index:
-          type:
-          - integer
-          - 'null'
-          title: Chunk Index
-          description: The index of the chunk that the line belongs to.
-        rotation:
-          type:
-          - integer
-          - 'null'
-          title: Rotation
-          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
-      type: object
-      required:
-      - text
-      - bbox
-      title: OCRLine
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - job_id
+      - result
+      title: ClassifyResponse
+      description: Response from classify job - returned when polling /job/{job_id}
     PipelineResult:
       properties:
         parse:
@@ -267,7 +102,60 @@ components:
       - extract
       - split
       title: PipelineResult
-    SplitPartition:
+    EditResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: edit
+          enum:
+          - edit
+        document_url:
+          type: string
+          title: Document Url
+          description: Presigned URL to download the edited document.
+        form_schema:
+          items:
+            $ref: '#/components/schemas/EditWidget'
+          type:
+          - array
+          - 'null'
+          title: Form Schema
+          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes.
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+          description: Usage information for the edit operation, including number of pages and credits charged.
+      type: object
+      required:
+      - document_url
+      title: EditResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Split:
       properties:
         name:
           type: string
@@ -284,194 +172,37 @@ components:
           - low
           title: Conf
           default: low
+        partitions:
+          items:
+            $ref: '#/components/schemas/SplitPartition'
+          type:
+          - array
+          - 'null'
+          title: Partitions
       type: object
       required:
       - name
       - pages
-      title: SplitPartition
-    GranularConfidence:
+      title: Split
+    ClassifyUsage:
       properties:
-        extract_confidence:
+        num_pages:
+          type: integer
+          title: Num Pages
+        num_categories:
+          type: integer
+          title: Num Categories
+        credits:
           type:
           - number
           - 'null'
-          title: Extract Confidence
-        parse_confidence:
-          type:
-          - number
-          - 'null'
-          title: Parse Confidence
-      type: object
-      title: GranularConfidence
-    ParseBlock:
-      properties:
-        type:
-          type: string
-          enum:
-          - Header
-          - Footer
-          - Title
-          - Section Header
-          - Page Number
-          - List Item
-          - Figure
-          - Table
-          - Key Value
-          - Text
-          - Comment
-          - Signature
-          title: Type
-          description: The type of block extracted from the document.
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-          description: The bounding box of the block extracted from the document.
-        content:
-          type: string
-          title: Content
-          description: The content of the block extracted from the document.
-        image_url:
-          type:
-          - string
-          - 'null'
-          title: Image Url
-          description: (Experimental) The URL of the image associated with the block.
-        chart_data:
-          items:
-            type: string
-          type:
-          - array
-          - 'null'
-          title: Chart Data
-          description: (Experimental) The URL/link to chart data JSON for figure blocks processed by chart agent.
-        confidence:
-          type:
-          - string
-          - 'null'
-          title: Confidence
-          description: The confidence for the block. It is either low or high and takes into account factors like OCR and table structure
-          default: low
-        granular_confidence:
-          $ref: '#/components/schemas/GranularConfidence'
-          description: Granular confidence scores for the block. It is a dictionary of confidence scores for the block. The confidence scores will not be None if the user has enabled numeric confidence scores.
-        extra:
-          additionalProperties: true
-          type:
-          - object
-          - 'null'
-          title: Extra
-          description: Extra metadata fields for the block. Fields like 'is_chart' will only appear when set to True.
+          title: Credits
       type: object
       required:
-      - type
-      - bbox
-      - content
-      title: ParseBlock
-    ResponseConfidence:
-      properties:
-        categories:
-          items:
-            $ref: '#/components/schemas/CategoryConfidence'
-          type: array
-          title: Categories
-      type: object
-      required:
-      - categories
-      title: ResponseConfidence
-      description: Overall confidence breakdown for classification response.
-    ExtractResponse:
-      additionalProperties: true
-      type: object
-    ExtractSplitResponse:
-      properties:
-        split_name:
-          type: string
-          title: Split Name
-        page_range:
-          items:
-            type: integer
-          type: array
-          title: Page Range
-        partition:
-          type:
-          - string
-          - 'null'
-          title: Partition
-        result:
-          anyOf:
-          - $ref: '#/components/schemas/ExtractResponse'
-          - $ref: '#/components/schemas/V3ExtractResponse'
-          title: Result
-      type: object
-      required:
-      - split_name
-      - page_range
-      - result
-      title: ExtractSplitResponse
-      description: This is the response format for Extract -> Split Pipelines
-    ParseChunk:
-      properties:
-        content:
-          type: string
-          title: Content
-          description: The content of the chunk extracted from the document.
-        embed:
-          type: string
-          title: Embed
-          description: Chunk content optimized for embedding and retrieval.
-        enriched:
-          type:
-          - string
-          - 'null'
-          title: Enriched
-          description: The enriched content of the chunk extracted from the document.
-        enrichment_success:
-          type: boolean
-          title: Enrichment Success
-          description: Whether the enrichment was successful.
-          default: false
-        blocks:
-          items:
-            $ref: '#/components/schemas/ParseBlock'
-          type: array
-          title: Blocks
-      type: object
-      required:
-      - content
-      - embed
-      - enriched
-      - blocks
-      title: ParseChunk
-    BoundingBox:
-      properties:
-        left:
-          type: number
-          title: Left
-        top:
-          type: number
-          title: Top
-        width:
-          type: number
-          title: Width
-        height:
-          type: number
-          title: Height
-        page:
-          type: integer
-          title: Page
-          description: The page number of the bounding box (1-indexed).
-        original_page:
-          type: integer
-          title: Original Page
-          description: The page number in the original document of the bounding box (1-indexed).
-      type: object
-      required:
-      - left
-      - top
-      - width
-      - height
-      - page
-      title: BoundingBox
-    DeepSplitPartition:
+      - num_pages
+      - num_categories
+      title: ClassifyUsage
+    DeepSplit:
       properties:
         name:
           type: string
@@ -481,11 +212,18 @@ components:
             $ref: '#/components/schemas/DeepSplitPageEvidence'
           type: array
           title: Pages
+        partitions:
+          items:
+            $ref: '#/components/schemas/DeepSplitPartition'
+          type:
+          - array
+          - 'null'
+          title: Partitions
       type: object
       required:
       - name
       - pages
-      title: DeepSplitPartition
+      title: DeepSplit
     EnhancedAsyncJobResponse:
       properties:
         status:
@@ -572,35 +310,263 @@ components:
       required:
       - status
       title: EnhancedAsyncJobResponse
-    ClassifyResponse:
+    PipelineResponse:
       properties:
         response_type:
           type: string
           title: Response Type
-          default: classify
+          default: pipeline
           enum:
-          - classify
+          - pipeline
         job_id:
           type: string
           title: Job Id
-        result:
-          $ref: '#/components/schemas/ClassifyResponseCategory'
-        response_confidence:
-          $ref: '#/components/schemas/ResponseConfidence'
         usage:
-          $ref: '#/components/schemas/ClassifyUsage'
-        duration:
-          type:
-          - number
-          - 'null'
-          title: Duration
-          description: The duration of the classify request in seconds.
+          $ref: '#/components/schemas/ParseUsage'
+        result:
+          $ref: '#/components/schemas/PipelineResult'
       type: object
       required:
       - job_id
+      - usage
       - result
-      title: ClassifyResponse
-      description: Response from classify job - returned when polling /job/{job_id}
+      title: PipelineResponse
+    V3ExtractResponse:
+      additionalProperties: true
+      type: object
+    OCRWord:
+      properties:
+        text:
+          type: string
+          title: Text
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+        confidence:
+          type:
+          - number
+          - 'null'
+          title: Confidence
+          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
+        chunk_index:
+          type:
+          - integer
+          - 'null'
+          title: Chunk Index
+          description: The index of the chunk that the word belongs to.
+        rotation:
+          type:
+          - integer
+          - 'null'
+          title: Rotation
+          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
+      type: object
+      required:
+      - text
+      - bbox
+      title: OCRWord
+    SplitPartition:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            type: integer
+          type: array
+          title: Pages
+        conf:
+          type: string
+          enum:
+          - high
+          - low
+          title: Conf
+          default: low
+      type: object
+      required:
+      - name
+      - pages
+      title: SplitPartition
+    EditWidget:
+      properties:
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: Bounding box coordinates of the widget
+        description:
+          type: string
+          title: Description
+          description: Description of the widget extracted from the document
+        type:
+          type: string
+          enum:
+          - text
+          - checkbox
+          - radio
+          - dropdown
+          - barcode
+          title: Type
+          description: Type of the form widget
+        fill:
+          type: boolean
+          title: Fill
+          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
+          default: true
+        value:
+          type:
+          - string
+          - 'null'
+          title: Value
+          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
+        font_size:
+          type:
+          - number
+          - 'null'
+          maximum: 72
+          minimum: 1
+          title: Font Size
+          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+      type: object
+      required:
+      - bbox
+      - description
+      - type
+      title: EditWidget
+    ResponseConfidence:
+      properties:
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryConfidence'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - categories
+      title: ResponseConfidence
+      description: Overall confidence breakdown for classification response.
+    DeepSplitResult:
+      properties:
+        splits:
+          items:
+            $ref: '#/components/schemas/DeepSplit'
+          type: array
+          title: Splits
+      type: object
+      required:
+      - splits
+      title: DeepSplitResult
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OCRResult:
+      properties:
+        words:
+          items:
+            $ref: '#/components/schemas/OCRWord'
+          type: array
+          title: Words
+        lines:
+          items:
+            $ref: '#/components/schemas/OCRLine'
+          type: array
+          title: Lines
+      type: object
+      required:
+      - words
+      - lines
+      title: OCRResult
+    DeepSplitPageEvidence:
+      properties:
+        page_number:
+          type: integer
+          title: Page Number
+        evidence:
+          type: string
+          title: Evidence
+        confidence:
+          type:
+          - string
+          - 'null'
+          enum:
+          - high
+          - medium
+          - low
+          title: Confidence
+      type: object
+      required:
+      - page_number
+      - evidence
+      title: DeepSplitPageEvidence
+    ExtractResponse:
+      additionalProperties: true
+      type: object
+    ParseChunk:
+      properties:
+        content:
+          type: string
+          title: Content
+          description: The content of the chunk extracted from the document.
+        embed:
+          type: string
+          title: Embed
+          description: Chunk content optimized for embedding and retrieval.
+        enriched:
+          type:
+          - string
+          - 'null'
+          title: Enriched
+          description: The enriched content of the chunk extracted from the document.
+        enrichment_success:
+          type: boolean
+          title: Enrichment Success
+          description: Whether the enrichment was successful.
+          default: false
+        blocks:
+          items:
+            $ref: '#/components/schemas/ParseBlock'
+          type: array
+          title: Blocks
+      type: object
+      required:
+      - content
+      - embed
+      - enriched
+      - blocks
+      title: ParseChunk
+    BoundingBox:
+      properties:
+        left:
+          type: number
+          title: Left
+        top:
+          type: number
+          title: Top
+        width:
+          type: number
+          title: Width
+        height:
+          type: number
+          title: Height
+        page:
+          type: integer
+          title: Page
+          description: The page number of the bounding box (1-indexed).
+        original_page:
+          type: integer
+          title: Original Page
+          description: The page number in the original document of the bounding box (1-indexed).
+      type: object
+      required:
+      - left
+      - top
+      - width
+      - height
+      - page
+      title: BoundingBox
     ParseResponse:
       properties:
         response_type:
@@ -652,50 +618,96 @@ components:
       - usage
       - result
       title: ParseResponse
-    EditWidget:
+    CriteriaConfidence:
       properties:
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-          description: Bounding box coordinates of the widget
-        description:
+        criterion:
           type: string
-          title: Description
-          description: Description of the widget extracted from the document
-        type:
+          title: Criterion
+        confidence:
           type: string
           enum:
-          - text
-          - checkbox
-          - radio
-          - dropdown
-          - barcode
-          title: Type
-          description: Type of the form widget
-        fill:
-          type: boolean
-          title: Fill
-          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
-          default: true
-        value:
-          type:
-          - string
-          - 'null'
-          title: Value
-          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
-        font_size:
+          - high
+          - low
+          title: Confidence
+      type: object
+      required:
+      - criterion
+      - confidence
+      title: CriteriaConfidence
+      description: Confidence result for a single criterion.
+    GranularConfidence:
+      properties:
+        extract_confidence:
           type:
           - number
           - 'null'
-          maximum: 72
-          minimum: 1
-          title: Font Size
-          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+          title: Extract Confidence
+        parse_confidence:
+          type:
+          - number
+          - 'null'
+          title: Parse Confidence
+      type: object
+      title: GranularConfidence
+    DeepSplitPartition:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            $ref: '#/components/schemas/DeepSplitPageEvidence'
+          type: array
+          title: Pages
       type: object
       required:
-      - bbox
-      - description
-      - type
-      title: EditWidget
+      - name
+      - pages
+      title: DeepSplitPartition
+    AsyncJobResponse:
+      properties:
+        status:
+          type: string
+          enum:
+          - Pending
+          - Completed
+          - Failed
+          - Idle
+          title: Status
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/ParseResponse'
+          - $ref: '#/components/schemas/ExtractResponse'
+          - $ref: '#/components/schemas/SplitResponse'
+          - $ref: '#/components/schemas/EditResponse'
+          - $ref: '#/components/schemas/PipelineResponse'
+          - $ref: '#/components/schemas/V3ExtractResponse'
+          - $ref: '#/components/schemas/ClassifyResponse'
+          discriminator:
+            propertyName: response_type
+            mapping:
+              classify: '#/components/schemas/ClassifyResponse'
+              edit: '#/components/schemas/EditResponse'
+              extract: '#/components/schemas/ExtractResponse'
+              parse: '#/components/schemas/ParseResponse'
+              pipeline: '#/components/schemas/PipelineResponse'
+              split: '#/components/schemas/SplitResponse'
+              v3_extract: '#/components/schemas/V3ExtractResponse'
+          title: Result
+        progress:
+          type:
+          - number
+          - 'null'
+          title: Progress
+        reason:
+          type:
+          - string
+          - 'null'
+          title: Reason
+      type: object
+      required:
+      - status
+      title: AsyncJobResponse
     UrlResult:
       properties:
         type:
@@ -716,163 +728,6 @@ components:
       - url
       - result_id
       title: UrlResult
-    SplitResult:
-      properties:
-        section_mapping:
-          additionalProperties:
-            items:
-              type: integer
-            type: array
-          type:
-          - object
-          - 'null'
-          title: Section Mapping
-        splits:
-          items:
-            $ref: '#/components/schemas/Split'
-          type: array
-          title: Splits
-      type: object
-      required:
-      - section_mapping
-      - splits
-      title: SplitResult
-    EditResponse:
-      properties:
-        response_type:
-          type: string
-          title: Response Type
-          default: edit
-          enum:
-          - edit
-        document_url:
-          type: string
-          title: Document Url
-          description: Presigned URL to download the edited document.
-        form_schema:
-          items:
-            $ref: '#/components/schemas/EditWidget'
-          type:
-          - array
-          - 'null'
-          title: Form Schema
-          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes.
-        usage:
-          $ref: '#/components/schemas/ParseUsage'
-          description: Usage information for the edit operation, including number of pages and credits charged.
-      type: object
-      required:
-      - document_url
-      title: EditResponse
-    V3ExtractResponse:
-      additionalProperties: true
-      type: object
-    OCRResult:
-      properties:
-        words:
-          items:
-            $ref: '#/components/schemas/OCRWord'
-          type: array
-          title: Words
-        lines:
-          items:
-            $ref: '#/components/schemas/OCRLine'
-          type: array
-          title: Lines
-      type: object
-      required:
-      - words
-      - lines
-      title: OCRResult
-    ClassifyResponseCategory:
-      properties:
-        category:
-          type: string
-          title: Category
-      type: object
-      required:
-      - category
-      title: ClassifyResponseCategory
-    PipelineResponse:
-      properties:
-        response_type:
-          type: string
-          title: Response Type
-          default: pipeline
-          enum:
-          - pipeline
-        job_id:
-          type: string
-          title: Job Id
-        usage:
-          $ref: '#/components/schemas/ParseUsage'
-        result:
-          $ref: '#/components/schemas/PipelineResult'
-      type: object
-      required:
-      - job_id
-      - usage
-      - result
-      title: PipelineResponse
-    DeepSplitPageEvidence:
-      properties:
-        page_number:
-          type: integer
-          title: Page Number
-        evidence:
-          type: string
-          title: Evidence
-        confidence:
-          type:
-          - string
-          - 'null'
-          enum:
-          - high
-          - medium
-          - low
-          title: Confidence
-      type: object
-      required:
-      - page_number
-      - evidence
-      title: DeepSplitPageEvidence
-    CriteriaConfidence:
-      properties:
-        criterion:
-          type: string
-          title: Criterion
-        confidence:
-          type: string
-          enum:
-          - high
-          - low
-          title: Confidence
-      type: object
-      required:
-      - criterion
-      - confidence
-      title: CriteriaConfidence
-      description: Confidence result for a single criterion.
-    CategoryConfidence:
-      properties:
-        category:
-          type: string
-          title: Category
-        confidence:
-          type: number
-          title: Confidence
-        criteria_confidence:
-          items:
-            $ref: '#/components/schemas/CriteriaConfidence'
-          type: array
-          title: Criteria Confidence
-      type: object
-      required:
-      - category
-      - confidence
-      - criteria_confidence
-      title: CategoryConfidence
-      description: Confidence result for a category.
     SplitResponse:
       properties:
         response_type:
@@ -894,53 +749,162 @@ components:
       - usage
       - result
       title: SplitResponse
-    ClassifyUsage:
+    ParseBlock:
       properties:
-        num_pages:
-          type: integer
-          title: Num Pages
-        num_categories:
-          type: integer
-          title: Num Categories
-        credits:
-          type:
-          - number
-          - 'null'
-          title: Credits
-      type: object
-      required:
-      - num_pages
-      - num_categories
-      title: ClassifyUsage
-    Split:
-      properties:
-        name:
-          type: string
-          title: Name
-        pages:
-          items:
-            type: integer
-          type: array
-          title: Pages
-        conf:
+        type:
           type: string
           enum:
-          - high
-          - low
-          title: Conf
-          default: low
-        partitions:
+          - Header
+          - Footer
+          - Title
+          - Section Header
+          - Page Number
+          - List Item
+          - Figure
+          - Table
+          - Key Value
+          - Text
+          - Comment
+          - Signature
+          title: Type
+          description: The type of block extracted from the document.
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: The bounding box of the block extracted from the document.
+        content:
+          type: string
+          title: Content
+          description: The content of the block extracted from the document.
+        image_url:
+          type:
+          - string
+          - 'null'
+          title: Image Url
+          description: (Experimental) The URL of the image associated with the block.
+        chart_data:
           items:
-            $ref: '#/components/schemas/SplitPartition'
+            type: string
           type:
           - array
           - 'null'
-          title: Partitions
+          title: Chart Data
+          description: (Experimental) The URL/link to chart data JSON for figure blocks processed by chart agent.
+        confidence:
+          type:
+          - string
+          - 'null'
+          title: Confidence
+          description: The confidence for the block. It is either low or high and takes into account factors like OCR and table structure
+          default: low
+        granular_confidence:
+          $ref: '#/components/schemas/GranularConfidence'
+          description: Granular confidence scores for the block. It is a dictionary of confidence scores for the block. The confidence scores will not be None if the user has enabled numeric confidence scores.
+        extra:
+          additionalProperties: true
+          type:
+          - object
+          - 'null'
+          title: Extra
+          description: Extra metadata fields for the block. Fields like 'is_chart' will only appear when set to True.
       type: object
       required:
-      - name
-      - pages
-      title: Split
+      - type
+      - bbox
+      - content
+      title: ParseBlock
+    OCRLine:
+      properties:
+        text:
+          type: string
+          title: Text
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+        confidence:
+          type:
+          - number
+          - 'null'
+          title: Confidence
+          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
+        chunk_index:
+          type:
+          - integer
+          - 'null'
+          title: Chunk Index
+          description: The index of the chunk that the line belongs to.
+        rotation:
+          type:
+          - integer
+          - 'null'
+          title: Rotation
+          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
+      type: object
+      required:
+      - text
+      - bbox
+      title: OCRLine
+    SplitResult:
+      properties:
+        section_mapping:
+          additionalProperties:
+            items:
+              type: integer
+            type: array
+          type:
+          - object
+          - 'null'
+          title: Section Mapping
+        splits:
+          items:
+            $ref: '#/components/schemas/Split'
+          type: array
+          title: Splits
+      type: object
+      required:
+      - section_mapping
+      - splits
+      title: SplitResult
+    CategoryConfidence:
+      properties:
+        category:
+          type: string
+          title: Category
+        confidence:
+          type: number
+          title: Confidence
+        criteria_confidence:
+          items:
+            $ref: '#/components/schemas/CriteriaConfidence'
+          type: array
+          title: Criteria Confidence
+      type: object
+      required:
+      - category
+      - confidence
+      - criteria_confidence
+      title: CategoryConfidence
+      description: Confidence result for a category.
+    FullResult:
+      properties:
+        type:
+          type: string
+          title: Type
+          description: type = 'full'
+          enum:
+          - full
+        chunks:
+          items:
+            $ref: '#/components/schemas/ParseChunk'
+          type: array
+          title: Chunks
+        ocr:
+          $ref: '#/components/schemas/OCRResult'
+        custom:
+          title: Custom
+      type: object
+      required:
+      - type
+      - chunks
+      title: FullResult
     ParseUsage:
       properties:
         num_pages:
@@ -1011,6 +975,42 @@ components:
       required:
       - num_pages
       title: ParseUsage
+    ExtractSplitResponse:
+      properties:
+        split_name:
+          type: string
+          title: Split Name
+        page_range:
+          items:
+            type: integer
+          type: array
+          title: Page Range
+        partition:
+          type:
+          - string
+          - 'null'
+          title: Partition
+        result:
+          anyOf:
+          - $ref: '#/components/schemas/ExtractResponse'
+          - $ref: '#/components/schemas/V3ExtractResponse'
+          title: Result
+      type: object
+      required:
+      - split_name
+      - page_range
+      - result
+      title: ExtractSplitResponse
+      description: This is the response format for Extract -> Split Pipelines
+    ClassifyResponseCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+      type: object
+      required:
+      - category
+      title: ClassifyResponseCategory
   securitySchemes:
     BearerAuth:
       type: http

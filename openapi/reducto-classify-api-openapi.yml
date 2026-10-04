@@ -42,59 +42,6 @@ paths:
       - Classify
 components:
   schemas:
-    ClassifyResponseCategory:
-      properties:
-        category:
-          type: string
-          title: Category
-      type: object
-      required:
-      - category
-      title: ClassifyResponseCategory
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ClassificationCategory:
-      properties:
-        category:
-          type: string
-          title: Category
-          description: The category name/label that documents will be classified into (e.g., 'invoice', 'contract', 'receipt').
-        criteria:
-          items:
-            type: string
-          type: array
-          title: Criteria
-          description: A list of criteria, keywords, or descriptions that define what characteristics a document must have to be classified into this category (e.g., ['contains billing information', 'has itemized charges']).
-      type: object
-      required:
-      - category
-      - criteria
-      title: ClassificationCategory
-      description: A single classification category with its matching criteria.
     ClassifyConfig:
       properties:
         persist_results:
@@ -139,32 +86,6 @@ components:
       required:
       - input
       title: ClassifyConfig
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CriteriaConfidence:
-      properties:
-        criterion:
-          type: string
-          title: Criterion
-        confidence:
-          type: string
-          enum:
-          - high
-          - low
-          title: Confidence
-      type: object
-      required:
-      - criterion
-      - confidence
-      title: CriteriaConfidence
-      description: Confidence result for a single criterion.
     ClassifyResponse:
       properties:
         response_type:
@@ -194,34 +115,15 @@ components:
       - result
       title: ClassifyResponse
       description: Response from classify job - returned when polling /job/{job_id}
-    ResponseConfidence:
+    HTTPValidationError:
       properties:
-        categories:
+        detail:
           items:
-            $ref: '#/components/schemas/CategoryConfidence'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Categories
+          title: Detail
       type: object
-      required:
-      - categories
-      title: ResponseConfidence
-      description: Overall confidence breakdown for classification response.
-    PageRange:
-      properties:
-        start:
-          type:
-          - integer
-          - 'null'
-          title: Start
-          description: The page number to start processing from (1-indexed).
-        end:
-          type:
-          - integer
-          - 'null'
-          title: End
-          description: The page number to stop processing at (1-indexed).
-      type: object
-      title: PageRange
+      title: HTTPValidationError
     CategoryConfidence:
       properties:
         category:
@@ -242,6 +144,50 @@ components:
       - criteria_confidence
       title: CategoryConfidence
       description: Confidence result for a category.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ClassificationCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+          description: The category name/label that documents will be classified into (e.g., 'invoice', 'contract', 'receipt').
+        criteria:
+          items:
+            type: string
+          type: array
+          title: Criteria
+          description: A list of criteria, keywords, or descriptions that define what characteristics a document must have to be classified into this category (e.g., ['contains billing information', 'has itemized charges']).
+      type: object
+      required:
+      - category
+      - criteria
+      title: ClassificationCategory
+      description: A single classification category with its matching criteria.
     ClassifyUsage:
       properties:
         num_pages:
@@ -274,6 +220,60 @@ components:
       required:
       - file_id
       title: UploadResponse
+    CriteriaConfidence:
+      properties:
+        criterion:
+          type: string
+          title: Criterion
+        confidence:
+          type: string
+          enum:
+          - high
+          - low
+          title: Confidence
+      type: object
+      required:
+      - criterion
+      - confidence
+      title: CriteriaConfidence
+      description: Confidence result for a single criterion.
+    PageRange:
+      properties:
+        start:
+          type:
+          - integer
+          - 'null'
+          title: Start
+          description: The page number to start processing from (1-indexed).
+        end:
+          type:
+          - integer
+          - 'null'
+          title: End
+          description: The page number to stop processing at (1-indexed).
+      type: object
+      title: PageRange
+    ClassifyResponseCategory:
+      properties:
+        category:
+          type: string
+          title: Category
+      type: object
+      required:
+      - category
+      title: ClassifyResponseCategory
+    ResponseConfidence:
+      properties:
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryConfidence'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - categories
+      title: ResponseConfidence
+      description: Overall confidence breakdown for classification response.
   securitySchemes:
     BearerAuth:
       type: http

@@ -42,15 +42,15 @@ paths:
       - Pipeline Async
 components:
   schemas:
-    AsyncPipelineResponse:
+    HTTPValidationError:
       properties:
-        job_id:
-          type: string
-          title: Job Id
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - job_id
-      title: AsyncPipelineResponse
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -77,15 +77,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     SvixWebhookConfig:
       properties:
         mode:
@@ -102,6 +93,33 @@ components:
           description: A list of Svix channels the message will be delivered down, omit to send to all channels.
       type: object
       title: SvixWebhookConfig
+    config__v3__AsyncConfig:
+      properties:
+        metadata:
+          title: Metadata
+          description: JSON metadata included in webhook request body. Defaults to None.
+        priority:
+          type: boolean
+          title: Priority
+          description: If True, attempts to process the job with priority if the user has priority processing budget available; by default, sync jobs are prioritized above async jobs.
+          default: false
+        webhook:
+          anyOf:
+          - $ref: '#/components/schemas/SvixWebhookConfig'
+          - $ref: '#/components/schemas/DirectWebhookConfig'
+          title: Webhook
+          description: The webhook configuration for the asynchronous processing.
+      type: object
+      title: AsyncConfig
+    AsyncPipelineResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+      type: object
+      required:
+      - job_id
+      title: AsyncPipelineResponse
     V3AsyncPipelineConfig:
       properties:
         async:
@@ -130,18 +148,6 @@ components:
       - input
       - pipeline_id
       title: V3AsyncPipelineConfig
-    PipelineSettings:
-      properties:
-        document_password:
-          type:
-          - string
-          - 'null'
-          title: Document Password
-          description: Password to decrypt password-protected documents.
-      additionalProperties: false
-      type: object
-      title: PipelineSettings
-      description: Settings for pipeline execution that override pipeline defaults.
     UploadResponse:
       properties:
         file_id:
@@ -171,24 +177,18 @@ components:
       required:
       - url
       title: DirectWebhookConfig
-    config__v3__AsyncConfig:
+    PipelineSettings:
       properties:
-        metadata:
-          title: Metadata
-          description: JSON metadata included in webhook request body. Defaults to None.
-        priority:
-          type: boolean
-          title: Priority
-          description: If True, attempts to process the job with priority if the user has priority processing budget available; by default, sync jobs are prioritized above async jobs.
-          default: false
-        webhook:
-          anyOf:
-          - $ref: '#/components/schemas/SvixWebhookConfig'
-          - $ref: '#/components/schemas/DirectWebhookConfig'
-          title: Webhook
-          description: The webhook configuration for the asynchronous processing.
+        document_password:
+          type:
+          - string
+          - 'null'
+          title: Document Password
+          description: Password to decrypt password-protected documents.
+      additionalProperties: false
       type: object
-      title: AsyncConfig
+      title: PipelineSettings
+      description: Settings for pipeline execution that override pipeline defaults.
   securitySchemes:
     BearerAuth:
       type: http

@@ -42,6 +42,97 @@ paths:
       - Edit
 components:
   schemas:
+    EditOptions:
+      properties:
+        color:
+          type: string
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Color
+          description: The color to use for edits, in hex format.
+          default: '#FF0000'
+        font_size:
+          type:
+          - number
+          - 'null'
+          maximum: 72
+          minimum: 1
+          title: Font Size
+          description: The font size (in points) to use for filled text fields. If not specified, font size is automatically calculated based on field dimensions.
+        llm_provider_preference:
+          type:
+          - string
+          - 'null'
+          enum:
+          - openai
+          - anthropic
+          - google
+          title: Llm Provider Preference
+          description: The LLM provider to use for edit processing. If not specified, defaults to 'google'
+        enable_overflow_pages:
+          type: boolean
+          title: Enable Overflow Pages
+          description: If True, creates overflow pages for text that doesn't fit in form fields. Defaults to False.
+          default: false
+        flatten:
+          type: boolean
+          title: Flatten
+          description: If True, flattens form fields after filling, converting them to static content. Defaults to False.
+          default: false
+      type: object
+      title: EditOptions
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EditConfig:
+      properties:
+        document_url:
+          anyOf:
+          - type: string
+          - $ref: '#/components/schemas/UploadResponse'
+          title: Document Url
+          description: 'The URL of the document to be processed. You can provide one of the following:
+
+            1. A publicly available URL
+
+            2. A presigned S3 URL
+
+            3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document
+
+            '
+        edit_instructions:
+          type: string
+          title: Edit Instructions
+          description: The instructions for the edit.
+        edit_options:
+          $ref: '#/components/schemas/EditOptions'
+          default:
+            color: '#FF0000'
+            enable_overflow_pages: false
+            flatten: false
+        form_schema:
+          items:
+            $ref: '#/components/schemas/EditWidget'
+          type:
+          - array
+          - 'null'
+          title: Form Schema
+          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes. Only works for PDFs.
+        priority:
+          type: boolean
+          title: Priority
+          description: If True, attempts to process the job with priority if the user has priority processing budget available; by default, sync jobs are prioritized above async jobs.
+          default: true
+      type: object
+      required:
+      - document_url
+      - edit_instructions
+      title: EditConfig
     EditResponse:
       properties:
         response_type:
@@ -95,185 +186,6 @@ components:
       - msg
       - type
       title: ValidationError
-    BoundingBox:
-      properties:
-        left:
-          type: number
-          title: Left
-        top:
-          type: number
-          title: Top
-        width:
-          type: number
-          title: Width
-        height:
-          type: number
-          title: Height
-        page:
-          type: integer
-          title: Page
-          description: The page number of the bounding box (1-indexed).
-        original_page:
-          type: integer
-          title: Original Page
-          description: The page number in the original document of the bounding box (1-indexed).
-      type: object
-      required:
-      - left
-      - top
-      - width
-      - height
-      - page
-      title: BoundingBox
-    EditConfig:
-      properties:
-        document_url:
-          anyOf:
-          - type: string
-          - $ref: '#/components/schemas/UploadResponse'
-          title: Document Url
-          description: 'The URL of the document to be processed. You can provide one of the following:
-
-            1. A publicly available URL
-
-            2. A presigned S3 URL
-
-            3. A reducto:// prefixed URL obtained from the /upload endpoint after directly uploading a document
-
-            '
-        edit_instructions:
-          type: string
-          title: Edit Instructions
-          description: The instructions for the edit.
-        edit_options:
-          $ref: '#/components/schemas/EditOptions'
-          default:
-            color: '#FF0000'
-            enable_overflow_pages: false
-            flatten: false
-        form_schema:
-          items:
-            $ref: '#/components/schemas/EditWidget'
-          type:
-          - array
-          - 'null'
-          title: Form Schema
-          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes. Only works for PDFs.
-        priority:
-          type: boolean
-          title: Priority
-          description: If True, attempts to process the job with priority if the user has priority processing budget available; by default, sync jobs are prioritized above async jobs.
-          default: true
-      type: object
-      required:
-      - document_url
-      - edit_instructions
-      title: EditConfig
-    EditOptions:
-      properties:
-        color:
-          type: string
-          pattern: ^#[0-9A-Fa-f]{6}$
-          title: Color
-          description: The color to use for edits, in hex format.
-          default: '#FF0000'
-        font_size:
-          type:
-          - number
-          - 'null'
-          maximum: 72
-          minimum: 1
-          title: Font Size
-          description: The font size (in points) to use for filled text fields. If not specified, font size is automatically calculated based on field dimensions.
-        llm_provider_preference:
-          type:
-          - string
-          - 'null'
-          enum:
-          - openai
-          - anthropic
-          - google
-          title: Llm Provider Preference
-          description: The LLM provider to use for edit processing. If not specified, defaults to 'google'
-        enable_overflow_pages:
-          type: boolean
-          title: Enable Overflow Pages
-          description: If True, creates overflow pages for text that doesn't fit in form fields. Defaults to False.
-          default: false
-        flatten:
-          type: boolean
-          title: Flatten
-          description: If True, flattens form fields after filling, converting them to static content. Defaults to False.
-          default: false
-      type: object
-      title: EditOptions
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    EditWidget:
-      properties:
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-          description: Bounding box coordinates of the widget
-        description:
-          type: string
-          title: Description
-          description: Description of the widget extracted from the document
-        type:
-          type: string
-          enum:
-          - text
-          - checkbox
-          - radio
-          - dropdown
-          - barcode
-          title: Type
-          description: Type of the form widget
-        fill:
-          type: boolean
-          title: Fill
-          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
-          default: true
-        value:
-          type:
-          - string
-          - 'null'
-          title: Value
-          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
-        font_size:
-          type:
-          - number
-          - 'null'
-          maximum: 72
-          minimum: 1
-          title: Font Size
-          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
-      type: object
-      required:
-      - bbox
-      - description
-      - type
-      title: EditWidget
-    UploadResponse:
-      properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
-      type: object
-      required:
-      - file_id
-      title: UploadResponse
     ParseUsage:
       properties:
         num_pages:
@@ -344,6 +256,94 @@ components:
       required:
       - num_pages
       title: ParseUsage
+    BoundingBox:
+      properties:
+        left:
+          type: number
+          title: Left
+        top:
+          type: number
+          title: Top
+        width:
+          type: number
+          title: Width
+        height:
+          type: number
+          title: Height
+        page:
+          type: integer
+          title: Page
+          description: The page number of the bounding box (1-indexed).
+        original_page:
+          type: integer
+          title: Original Page
+          description: The page number in the original document of the bounding box (1-indexed).
+      type: object
+      required:
+      - left
+      - top
+      - width
+      - height
+      - page
+      title: BoundingBox
+    UploadResponse:
+      properties:
+        file_id:
+          type: string
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
+      type: object
+      required:
+      - file_id
+      title: UploadResponse
+    EditWidget:
+      properties:
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: Bounding box coordinates of the widget
+        description:
+          type: string
+          title: Description
+          description: Description of the widget extracted from the document
+        type:
+          type: string
+          enum:
+          - text
+          - checkbox
+          - radio
+          - dropdown
+          - barcode
+          title: Type
+          description: Type of the form widget
+        fill:
+          type: boolean
+          title: Fill
+          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
+          default: true
+        value:
+          type:
+          - string
+          - 'null'
+          title: Value
+          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
+        font_size:
+          type:
+          - number
+          - 'null'
+          maximum: 72
+          minimum: 1
+          title: Font Size
+          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+      type: object
+      required:
+      - bbox
+      - description
+      - type
+      title: EditWidget
   securitySchemes:
     BearerAuth:
       type: http

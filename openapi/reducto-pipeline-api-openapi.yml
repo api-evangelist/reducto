@@ -42,6 +42,115 @@ paths:
       - Pipeline
 components:
   schemas:
+    PipelineResult:
+      properties:
+        parse:
+          anyOf:
+          - $ref: '#/components/schemas/ParseResponse'
+          - items:
+              $ref: '#/components/schemas/ParseResponse'
+            type: array
+          title: Parse
+        extract:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ExtractSplitResponse'
+            type: array
+          - $ref: '#/components/schemas/ExtractResponse'
+          - $ref: '#/components/schemas/V3ExtractResponse'
+          title: Extract
+        split:
+          $ref: '#/components/schemas/SplitResponse'
+        edit:
+          $ref: '#/components/schemas/EditResponse'
+      type: object
+      required:
+      - parse
+      - extract
+      - split
+      title: PipelineResult
+    EditResponse:
+      properties:
+        response_type:
+          type: string
+          title: Response Type
+          default: edit
+          enum:
+          - edit
+        document_url:
+          type: string
+          title: Document Url
+          description: Presigned URL to download the edited document.
+        form_schema:
+          items:
+            $ref: '#/components/schemas/EditWidget'
+          type:
+          - array
+          - 'null'
+          title: Form Schema
+          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes.
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+          description: Usage information for the edit operation, including number of pages and credits charged.
+      type: object
+      required:
+      - document_url
+      title: EditResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Split:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            type: integer
+          type: array
+          title: Pages
+        conf:
+          type: string
+          enum:
+          - high
+          - low
+          title: Conf
+          default: low
+        partitions:
+          items:
+            $ref: '#/components/schemas/SplitPartition'
+          type:
+          - array
+          - 'null'
+          title: Partitions
+      type: object
+      required:
+      - name
+      - pages
+      title: Split
     DeepSplit:
       properties:
         name:
@@ -64,60 +173,30 @@ components:
       - name
       - pages
       title: DeepSplit
-    FullResult:
+    PipelineResponse:
       properties:
-        type:
+        response_type:
           type: string
-          title: Type
-          description: type = 'full'
+          title: Response Type
+          default: pipeline
           enum:
-          - full
-        chunks:
-          items:
-            $ref: '#/components/schemas/ParseChunk'
-          type: array
-          title: Chunks
-        ocr:
-          $ref: '#/components/schemas/OCRResult'
-        custom:
-          title: Custom
+          - pipeline
+        job_id:
+          type: string
+          title: Job Id
+        usage:
+          $ref: '#/components/schemas/ParseUsage'
+        result:
+          $ref: '#/components/schemas/PipelineResult'
       type: object
       required:
-      - type
-      - chunks
-      title: FullResult
-    DeepSplitResult:
-      properties:
-        splits:
-          items:
-            $ref: '#/components/schemas/DeepSplit'
-          type: array
-          title: Splits
+      - job_id
+      - usage
+      - result
+      title: PipelineResponse
+    V3ExtractResponse:
+      additionalProperties: true
       type: object
-      required:
-      - splits
-      title: DeepSplitResult
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PipelineSettings:
-      properties:
-        document_password:
-          type:
-          - string
-          - 'null'
-          title: Document Password
-          description: Password to decrypt password-protected documents.
-      additionalProperties: false
-      type: object
-      title: PipelineSettings
-      description: Settings for pipeline execution that override pipeline defaults.
     OCRWord:
       properties:
         text:
@@ -148,62 +227,6 @@ components:
       - text
       - bbox
       title: OCRWord
-    OCRLine:
-      properties:
-        text:
-          type: string
-          title: Text
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-        confidence:
-          type:
-          - number
-          - 'null'
-          title: Confidence
-          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
-        chunk_index:
-          type:
-          - integer
-          - 'null'
-          title: Chunk Index
-          description: The index of the chunk that the line belongs to.
-        rotation:
-          type:
-          - integer
-          - 'null'
-          title: Rotation
-          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
-      type: object
-      required:
-      - text
-      - bbox
-      title: OCRLine
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     V3PipelineConfig:
       properties:
         input:
@@ -227,33 +250,6 @@ components:
       - input
       - pipeline_id
       title: V3PipelineConfig
-    PipelineResult:
-      properties:
-        parse:
-          anyOf:
-          - $ref: '#/components/schemas/ParseResponse'
-          - items:
-              $ref: '#/components/schemas/ParseResponse'
-            type: array
-          title: Parse
-        extract:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ExtractSplitResponse'
-            type: array
-          - $ref: '#/components/schemas/ExtractResponse'
-          - $ref: '#/components/schemas/V3ExtractResponse'
-          title: Extract
-        split:
-          $ref: '#/components/schemas/SplitResponse'
-        edit:
-          $ref: '#/components/schemas/EditResponse'
-      type: object
-      required:
-      - parse
-      - extract
-      - split
-      title: PipelineResult
     SplitPartition:
       properties:
         name:
@@ -276,113 +272,124 @@ components:
       - name
       - pages
       title: SplitPartition
-    GranularConfidence:
+    EditWidget:
       properties:
-        extract_confidence:
-          type:
-          - number
-          - 'null'
-          title: Extract Confidence
-        parse_confidence:
-          type:
-          - number
-          - 'null'
-          title: Parse Confidence
-      type: object
-      title: GranularConfidence
-    ParseBlock:
-      properties:
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: Bounding box coordinates of the widget
+        description:
+          type: string
+          title: Description
+          description: Description of the widget extracted from the document
         type:
           type: string
           enum:
-          - Header
-          - Footer
-          - Title
-          - Section Header
-          - Page Number
-          - List Item
-          - Figure
-          - Table
-          - Key Value
-          - Text
-          - Comment
-          - Signature
+          - text
+          - checkbox
+          - radio
+          - dropdown
+          - barcode
           title: Type
-          description: The type of block extracted from the document.
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-          description: The bounding box of the block extracted from the document.
-        content:
-          type: string
-          title: Content
-          description: The content of the block extracted from the document.
-        image_url:
+          description: Type of the form widget
+        fill:
+          type: boolean
+          title: Fill
+          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
+          default: true
+        value:
           type:
           - string
           - 'null'
-          title: Image Url
-          description: (Experimental) The URL of the image associated with the block.
-        chart_data:
-          items:
-            type: string
+          title: Value
+          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
+        font_size:
           type:
-          - array
+          - number
           - 'null'
-          title: Chart Data
-          description: (Experimental) The URL/link to chart data JSON for figure blocks processed by chart agent.
+          maximum: 72
+          minimum: 1
+          title: Font Size
+          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+      type: object
+      required:
+      - bbox
+      - description
+      - type
+      title: EditWidget
+    PipelineSettings:
+      properties:
+        document_password:
+          type:
+          - string
+          - 'null'
+          title: Document Password
+          description: Password to decrypt password-protected documents.
+      additionalProperties: false
+      type: object
+      title: PipelineSettings
+      description: Settings for pipeline execution that override pipeline defaults.
+    DeepSplitResult:
+      properties:
+        splits:
+          items:
+            $ref: '#/components/schemas/DeepSplit'
+          type: array
+          title: Splits
+      type: object
+      required:
+      - splits
+      title: DeepSplitResult
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OCRResult:
+      properties:
+        words:
+          items:
+            $ref: '#/components/schemas/OCRWord'
+          type: array
+          title: Words
+        lines:
+          items:
+            $ref: '#/components/schemas/OCRLine'
+          type: array
+          title: Lines
+      type: object
+      required:
+      - words
+      - lines
+      title: OCRResult
+    DeepSplitPageEvidence:
+      properties:
+        page_number:
+          type: integer
+          title: Page Number
+        evidence:
+          type: string
+          title: Evidence
         confidence:
           type:
           - string
           - 'null'
+          enum:
+          - high
+          - medium
+          - low
           title: Confidence
-          description: The confidence for the block. It is either low or high and takes into account factors like OCR and table structure
-          default: low
-        granular_confidence:
-          $ref: '#/components/schemas/GranularConfidence'
-          description: Granular confidence scores for the block. It is a dictionary of confidence scores for the block. The confidence scores will not be None if the user has enabled numeric confidence scores.
-        extra:
-          additionalProperties: true
-          type:
-          - object
-          - 'null'
-          title: Extra
-          description: Extra metadata fields for the block. Fields like 'is_chart' will only appear when set to True.
       type: object
       required:
-      - type
-      - bbox
-      - content
-      title: ParseBlock
+      - page_number
+      - evidence
+      title: DeepSplitPageEvidence
     ExtractResponse:
       additionalProperties: true
       type: object
-    ExtractSplitResponse:
-      properties:
-        split_name:
-          type: string
-          title: Split Name
-        page_range:
-          items:
-            type: integer
-          type: array
-          title: Page Range
-        partition:
-          type:
-          - string
-          - 'null'
-          title: Partition
-        result:
-          anyOf:
-          - $ref: '#/components/schemas/ExtractResponse'
-          - $ref: '#/components/schemas/V3ExtractResponse'
-          title: Result
-      type: object
-      required:
-      - split_name
-      - page_range
-      - result
-      title: ExtractSplitResponse
-      description: This is the response format for Extract -> Split Pipelines
     ParseChunk:
       properties:
         content:
@@ -446,21 +453,20 @@ components:
       - height
       - page
       title: BoundingBox
-    DeepSplitPartition:
+    UploadResponse:
       properties:
-        name:
+        file_id:
           type: string
-          title: Name
-        pages:
-          items:
-            $ref: '#/components/schemas/DeepSplitPageEvidence'
-          type: array
-          title: Pages
+          title: File Id
+        presigned_url:
+          type:
+          - string
+          - 'null'
+          title: Presigned Url
       type: object
       required:
-      - name
-      - pages
-      title: DeepSplitPartition
+      - file_id
+      title: UploadResponse
     ParseResponse:
       properties:
         response_type:
@@ -512,50 +518,35 @@ components:
       - usage
       - result
       title: ParseResponse
-    EditWidget:
+    GranularConfidence:
       properties:
-        bbox:
-          $ref: '#/components/schemas/BoundingBox'
-          description: Bounding box coordinates of the widget
-        description:
-          type: string
-          title: Description
-          description: Description of the widget extracted from the document
-        type:
-          type: string
-          enum:
-          - text
-          - checkbox
-          - radio
-          - dropdown
-          - barcode
-          title: Type
-          description: Type of the form widget
-        fill:
-          type: boolean
-          title: Fill
-          description: If True (default), the system will attempt to fill this widget. If False, the widget will be created but intentionally left unfilled.
-          default: true
-        value:
-          type:
-          - string
-          - 'null'
-          title: Value
-          description: If provided, this value will be used directly instead of attempting to intelligently determine the field value.
-        font_size:
+        extract_confidence:
           type:
           - number
           - 'null'
-          maximum: 72
-          minimum: 1
-          title: Font Size
-          description: Font size in points for this specific field. Takes priority over the global font_size in EditOptions. If not set, falls back to the global font_size, then to auto-calculated sizing.
+          title: Extract Confidence
+        parse_confidence:
+          type:
+          - number
+          - 'null'
+          title: Parse Confidence
+      type: object
+      title: GranularConfidence
+    DeepSplitPartition:
+      properties:
+        name:
+          type: string
+          title: Name
+        pages:
+          items:
+            $ref: '#/components/schemas/DeepSplitPageEvidence'
+          type: array
+          title: Pages
       type: object
       required:
-      - bbox
-      - description
-      - type
-      title: EditWidget
+      - name
+      - pages
+      title: DeepSplitPartition
     UrlResult:
       properties:
         type:
@@ -576,131 +567,6 @@ components:
       - url
       - result_id
       title: UrlResult
-    UploadResponse:
-      properties:
-        file_id:
-          type: string
-          title: File Id
-        presigned_url:
-          type:
-          - string
-          - 'null'
-          title: Presigned Url
-      type: object
-      required:
-      - file_id
-      title: UploadResponse
-    SplitResult:
-      properties:
-        section_mapping:
-          additionalProperties:
-            items:
-              type: integer
-            type: array
-          type:
-          - object
-          - 'null'
-          title: Section Mapping
-        splits:
-          items:
-            $ref: '#/components/schemas/Split'
-          type: array
-          title: Splits
-      type: object
-      required:
-      - section_mapping
-      - splits
-      title: SplitResult
-    EditResponse:
-      properties:
-        response_type:
-          type: string
-          title: Response Type
-          default: edit
-          enum:
-          - edit
-        document_url:
-          type: string
-          title: Document Url
-          description: Presigned URL to download the edited document.
-        form_schema:
-          items:
-            $ref: '#/components/schemas/EditWidget'
-          type:
-          - array
-          - 'null'
-          title: Form Schema
-          description: Form schema for PDF forms. List of widgets with their types, descriptions, and bounding boxes.
-        usage:
-          $ref: '#/components/schemas/ParseUsage'
-          description: Usage information for the edit operation, including number of pages and credits charged.
-      type: object
-      required:
-      - document_url
-      title: EditResponse
-    V3ExtractResponse:
-      additionalProperties: true
-      type: object
-    PipelineResponse:
-      properties:
-        response_type:
-          type: string
-          title: Response Type
-          default: pipeline
-          enum:
-          - pipeline
-        job_id:
-          type: string
-          title: Job Id
-        usage:
-          $ref: '#/components/schemas/ParseUsage'
-        result:
-          $ref: '#/components/schemas/PipelineResult'
-      type: object
-      required:
-      - job_id
-      - usage
-      - result
-      title: PipelineResponse
-    OCRResult:
-      properties:
-        words:
-          items:
-            $ref: '#/components/schemas/OCRWord'
-          type: array
-          title: Words
-        lines:
-          items:
-            $ref: '#/components/schemas/OCRLine'
-          type: array
-          title: Lines
-      type: object
-      required:
-      - words
-      - lines
-      title: OCRResult
-    DeepSplitPageEvidence:
-      properties:
-        page_number:
-          type: integer
-          title: Page Number
-        evidence:
-          type: string
-          title: Evidence
-        confidence:
-          type:
-          - string
-          - 'null'
-          enum:
-          - high
-          - medium
-          - low
-          title: Confidence
-      type: object
-      required:
-      - page_number
-      - evidence
-      title: DeepSplitPageEvidence
     SplitResponse:
       properties:
         response_type:
@@ -722,35 +588,142 @@ components:
       - usage
       - result
       title: SplitResponse
-    Split:
+    ParseBlock:
       properties:
-        name:
-          type: string
-          title: Name
-        pages:
-          items:
-            type: integer
-          type: array
-          title: Pages
-        conf:
+        type:
           type: string
           enum:
-          - high
-          - low
-          title: Conf
-          default: low
-        partitions:
+          - Header
+          - Footer
+          - Title
+          - Section Header
+          - Page Number
+          - List Item
+          - Figure
+          - Table
+          - Key Value
+          - Text
+          - Comment
+          - Signature
+          title: Type
+          description: The type of block extracted from the document.
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+          description: The bounding box of the block extracted from the document.
+        content:
+          type: string
+          title: Content
+          description: The content of the block extracted from the document.
+        image_url:
+          type:
+          - string
+          - 'null'
+          title: Image Url
+          description: (Experimental) The URL of the image associated with the block.
+        chart_data:
           items:
-            $ref: '#/components/schemas/SplitPartition'
+            type: string
           type:
           - array
           - 'null'
-          title: Partitions
+          title: Chart Data
+          description: (Experimental) The URL/link to chart data JSON for figure blocks processed by chart agent.
+        confidence:
+          type:
+          - string
+          - 'null'
+          title: Confidence
+          description: The confidence for the block. It is either low or high and takes into account factors like OCR and table structure
+          default: low
+        granular_confidence:
+          $ref: '#/components/schemas/GranularConfidence'
+          description: Granular confidence scores for the block. It is a dictionary of confidence scores for the block. The confidence scores will not be None if the user has enabled numeric confidence scores.
+        extra:
+          additionalProperties: true
+          type:
+          - object
+          - 'null'
+          title: Extra
+          description: Extra metadata fields for the block. Fields like 'is_chart' will only appear when set to True.
       type: object
       required:
-      - name
-      - pages
-      title: Split
+      - type
+      - bbox
+      - content
+      title: ParseBlock
+    OCRLine:
+      properties:
+        text:
+          type: string
+          title: Text
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
+        confidence:
+          type:
+          - number
+          - 'null'
+          title: Confidence
+          description: OCR confidence score between 0 and 1, where 1 indicates highest confidence
+        chunk_index:
+          type:
+          - integer
+          - 'null'
+          title: Chunk Index
+          description: The index of the chunk that the line belongs to.
+        rotation:
+          type:
+          - integer
+          - 'null'
+          title: Rotation
+          description: The rotation angle in degrees, from 0 to 360, counterclockwise.
+      type: object
+      required:
+      - text
+      - bbox
+      title: OCRLine
+    SplitResult:
+      properties:
+        section_mapping:
+          additionalProperties:
+            items:
+              type: integer
+            type: array
+          type:
+          - object
+          - 'null'
+          title: Section Mapping
+        splits:
+          items:
+            $ref: '#/components/schemas/Split'
+          type: array
+          title: Splits
+      type: object
+      required:
+      - section_mapping
+      - splits
+      title: SplitResult
+    FullResult:
+      properties:
+        type:
+          type: string
+          title: Type
+          description: type = 'full'
+          enum:
+          - full
+        chunks:
+          items:
+            $ref: '#/components/schemas/ParseChunk'
+          type: array
+          title: Chunks
+        ocr:
+          $ref: '#/components/schemas/OCRResult'
+        custom:
+          title: Custom
+      type: object
+      required:
+      - type
+      - chunks
+      title: FullResult
     ParseUsage:
       properties:
         num_pages:
@@ -821,6 +794,33 @@ components:
       required:
       - num_pages
       title: ParseUsage
+    ExtractSplitResponse:
+      properties:
+        split_name:
+          type: string
+          title: Split Name
+        page_range:
+          items:
+            type: integer
+          type: array
+          title: Page Range
+        partition:
+          type:
+          - string
+          - 'null'
+          title: Partition
+        result:
+          anyOf:
+          - $ref: '#/components/schemas/ExtractResponse'
+          - $ref: '#/components/schemas/V3ExtractResponse'
+          title: Result
+      type: object
+      required:
+      - split_name
+      - page_range
+      - result
+      title: ExtractSplitResponse
+      description: This is the response format for Extract -> Split Pipelines
   securitySchemes:
     BearerAuth:
       type: http
